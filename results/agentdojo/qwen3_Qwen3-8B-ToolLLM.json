@@ -1,0 +1,20 @@
+{
+    "slack": {
+        "injection_utility": 0.8,
+        "task_utility": 0.33,
+        "attack_utility": 0.3,
+        "asr": 0.18
+    },
+    "banking": {
+        "injection_utility": 0.56,
+        "task_utility": 0.5,
+        "attack_utility": 0.37,
+        "asr": 0.1
+    },
+    "travel": {
+        "injection_utility": 0.71,
+        "task_utility": 0.2,
+        "attack_utility": 0.14,
+        "asr": 0.01
+    }
+}

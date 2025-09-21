@@ -1,0 +1,31 @@
+{
+  "train_micro_batch_size_per_gpu": "auto",
+  "gradient_accumulation_steps": "auto",
+  "gradient_clipping": "auto",
+  "bf16": {
+    "enabled": true
+  },
+  "zero_optimization": {
+    "stage": 3,
+    "offload_optimizer": {
+      "device": "cpu",
+      "pin_memory": true
+    },
+    "offload_param": {
+      "device": "cpu",
+      "pin_memory": true
+    },
+    "overlap_comm": true,
+    "contiguous_gradients": true
+  },
+  "steps_per_print": 100,
+  "logging": {
+    "enabled": true,
+    "verbose": false
+  },
+  "activation_checkpointing": {
+    "partition_activations": true,
+    "contiguous_memory_optimization": true,
+    "cpu_checkpointing": true
+  }
+}

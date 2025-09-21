@@ -1,0 +1,35 @@
+ 12%|█▎        | 1/8 [00:42<05:00, 42.90s/it]
+[2025-09-21 18:30:56,783] [WARNING] [stage3.py:2150:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+***** Running Evaluation *****
+  Num examples = 583
+  Batch size = 8
+ 12%|█▎        | 1/8 [02:11<05:00, 42.90s/it]   stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1
+{'eval_loss': 0.69140625, 'eval_runtime': 88.916, 'eval_samples_per_second': 6.557, 'eval_steps_per_second': 0.112, 'eval_rewards/chosen': 0.0, 'eval_rewards/rejected': 0.0, 'eval_rewards/accuracies': 0.0, 'eval_rewards/margins': 0.0, 'eval_logps/chosen': -101.5, 'eval_logps/rejected': -157.0, 'eval_logits/chosen': -1.9453125, 'eval_logits/rejected': -0.875, 'epoch': 0.12}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/special_tokens_map.json
+[2025-09-21 18:32:25,947] [INFO] [logging.py:107:log_dist] [Rank 0] [Torch] Checkpoint global_step1 is about to be saved!
+[2025-09-21 18:32:25,954] [INFO] [logging.py:107:log_dist] [Rank 0] Saving model checkpoint: /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/zero_pp_rank_0_mp_rank_00_model_states.pt
+[2025-09-21 18:32:25,955] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/zero_pp_rank_0_mp_rank_00_model_states.pt...
+[2025-09-21 18:32:26,187] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/zero_pp_rank_0_mp_rank_00_model_states.pt.
+[2025-09-21 18:32:26,236] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt...
+[2025-09-21 18:33:55,102] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt.
+[2025-09-21 18:33:55,172] [INFO] [engine.py:3710:_save_zero_checkpoint] zero checkpoint saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt
+[2025-09-21 18:34:01,734] [INFO] [torch_checkpoint_engine.py:33:commit] [Torch] Checkpoint global_step1 is ready now!
+[2025-09-21 18:34:01,751] [INFO] [logging.py:107:log_dist] [Rank 0] [Torch] Checkpoint global_step1 is about to be saved!
+[2025-09-21 18:34:01,758] [INFO] [logging.py:107:log_dist] [Rank 0] Saving model checkpoint: /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/zero_pp_rank_0_mp_rank_00_model_states.pt
+[2025-09-21 18:34:01,759] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/zero_pp_rank_0_mp_rank_00_model_states.pt...
+[2025-09-21 18:34:02,031] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/zero_pp_rank_0_mp_rank_00_model_states.pt.
+[2025-09-21 18:34:02,043] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt...
+[2025-09-21 18:35:34,476] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt.
+[2025-09-21 18:35:34,535] [INFO] [engine.py:3710:_save_zero_checkpoint] zero checkpoint saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-1/global_step1/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt
+[2025-09-21 18:35:37,287] [INFO] [torch_checkpoint_engine.py:33:commit] [Torch] Checkpoint global_step1 is ready now!
+[2025-09-21 18:36:17,318] [WARNING] [stage3.py:2150:step] 4 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 25%|██▌       | 2/8 [06:03<20:37, 206.21s/it]
+***** Running Evaluation *****
+  Num examples = 583
+  Batch size = 8

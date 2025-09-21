@@ -1,0 +1,15 @@
+{"time":"2025-09-18T09:40:37.931091077+08:00","level":"INFO","msg":"stream: starting","core version":"0.20.1","symlink path":"/export/home2/weijie210/ipi_huawei/aside/wandb/run-20250918_094037-561ew03l/logs/debug-core.log"}
+{"time":"2025-09-18T09:40:38.488578783+08:00","level":"INFO","msg":"stream: created new stream","id":"561ew03l"}
+{"time":"2025-09-18T09:40:38.488618273+08:00","level":"INFO","msg":"stream: started","id":"561ew03l"}
+{"time":"2025-09-18T09:40:38.488662053+08:00","level":"INFO","msg":"writer: Do: started","stream_id":"561ew03l"}
+{"time":"2025-09-18T09:40:38.488713573+08:00","level":"INFO","msg":"handler: started","stream_id":"561ew03l"}
+{"time":"2025-09-18T09:40:38.488798943+08:00","level":"INFO","msg":"sender: started","stream_id":"561ew03l"}
+{"time":"2025-09-18T09:40:38.83465197+08:00","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-09-18T11:02:06.682028716+08:00","level":"INFO","msg":"stream: closing","id":"561ew03l"}
+{"time":"2025-09-18T11:02:06.682149017+08:00","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-09-18T11:02:06.682371381+08:00","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-09-18T11:02:08.058717843+08:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-18T11:02:08.31508951+08:00","level":"INFO","msg":"handler: closed","stream_id":"561ew03l"}
+{"time":"2025-09-18T11:02:08.315140021+08:00","level":"INFO","msg":"writer: Close: closed","stream_id":"561ew03l"}
+{"time":"2025-09-18T11:02:08.315156531+08:00","level":"INFO","msg":"sender: closed","stream_id":"561ew03l"}
+{"time":"2025-09-18T11:02:08.31581082+08:00","level":"INFO","msg":"stream: closed","id":"561ew03l"}

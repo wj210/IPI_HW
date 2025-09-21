@@ -1,0 +1,92 @@
+  0%|          | 0/313 [00:00<?, ?it/s]
+FULL PROMPT: <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "get_champion_details_for_league_of_legends_api", "description": "This is the subfunction for tool \"league_of_legends_api\", you can use this tool.The description of this function is: \"Getting detail from champion name you give, translate by the language you give\"", "parameters": {"type": "object", "properties": {"champion": {"type": "string", "description": "", "example_value": "Volibear"}, "lang": {"type": "string", "description": ""}}, "required": ["champion"], "optional": ["lang"]}}
+{"name": "get_queue_for_league_of_legends_api", "description": "This is the subfunction for tool \"league_of_legends_api\", you can use this tool.The description of this function is: \"Returns the list of people in division, tier and according to the type of queue\"", "parameters": {"type": "object", "properties": {"region": {"type": "string", "description": ""}, "queue": {"type": "string", "description": ""}, "division": {"type": "string", "description": ""}, "tier": {"type": "string", "description": ""}}, "required": ["region", "queue", "division", "tier"], "optional": []}}
+{"name": "get_champions_for_league_of_legends_api", "description": "This is the subfunction for tool \"league_of_legends_api\", you can use this tool.The description of this function is: \"Get list of all champions by default give you in english\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getallgames_for_unigamer_api", "description": "This is the subfunction for tool \"unigamer_api\", you can use this tool.", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getgamesbycategory_for_unigamer_api", "description": "This is the subfunction for tool \"unigamer_api\", you can use this tool.", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getgamesbyid_for_unigamer_api", "description": "This is the subfunction for tool \"unigamer_api\", you can use this tool.", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "api_test_for_scott", "description": "This is the subfunction for tool \"scott\", you can use this tool.The description of this function is: \"test\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_stats_for_world_of_tanks_stats", "description": "This is the subfunction for tool \"world_of_tanks_stats\", you can use this tool.The description of this function is: \"Get WN8, WN7, battles, victories, defeats, kills, draws, avereageTier, tanksSpotted, battlesSurvived\"", "parameters": {"type": "object", "properties": {"name": {"type": "string", "description": "", "example_value": "PasiHD"}}, "required": ["name"], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+
+I'm organizing a gaming competition for charity and I need some assistance. Can you suggest some popular champions from League of Legends that can be used in the competition? Additionally, recommend some adventure games from Unigamer API that can be included in the event.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "get_champions_for_league_of_legends_api", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "Timeout error...HTTPConnectionPool(host='172.19.0.1', port=7890): Read timed out. (read timeout=30)", "response": ""}
+</tool_response><|im_end|>
+<|im_start|>user
+This is not the first time you try this task, all previous trails failed.
+Before you generate my thought for this state, I will first show you your previous actions for this state, and then you must generate actions that is different from all of them. Here are some previous actions candidates:
+[
+  {
+    "name": "getallgames_for_unigamer_api",
+    "arguments": "{}",
+    "function_output": "{\"error\": \"\", \"response\": \"{'status': 'success', 'data': [{'_id': '60b3dad01b94340794adbbb1', 'legacyId': 11000131, 'name': 'Star Wars: Racer Revenge', 'description': \\\"It has been eight years since the first spectacular Podracing showdown between Sebulba and the young Anakin Skywalker. Seeking payback for his humiliating loss, Sebulba has a new beefed-up Podracer and lust for revenge. But it's not going to be easy: Anakin has grown into a boldly skilled Podracer pilot. Thus the stage is set for Star Wars: Racer Revenge, bringing newer, faster, and even more dangerous Podracing to the galaxy-taking you on a one-way ride to ultimate victory. Jockey for position with a tangle of Podracing opponents or leave the pack behind at intense, nerve-jangling, planet-scorching simulated speeds of up to 600 mph. Crash and bash competitors into oblivion as you take them out of the race for good.\\\", 'consoles': 'ps4', 'publisher': 'LucasArts', 'genre': ['racing'], 'releaseDate': '2002-02-12T00:00:00.000Z', 'pegiUrl': 'https...",
+    "mento-carlo-action-value": 0.0
+  }
+]
+again, your former observation: {"error": "Timeout error...HTTPConnectionPool(host='172.19.0.1', port=7890): Read timed out. (read timeout=30)", "response": ""}
+
+Remember you are now in the intermediate state of a trail, you will first analyze the now state and previous action candidates, then make actions that is different from all the previous.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "get_champion_details_for_league_of_legends_api", "arguments": {"champion": "Zed"}}
+</tool_call><|im_end|>
+<|im_end|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|en
+SEGMENTED:
+{"error": "Timeout error...HTTPConnectionPool(host='172.19.0.1', port=7890): Read timed out. (read timeout=30)", "response": ""}
+</tool_response>
+[2025-09-21 18:41:53,808] [WARNING] [stage3.py:2150:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-21 18:42:32,898] [WARNING] [stage3.py:2150:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-21 18:43:07,823] [WARNING] [stage3.py:2150:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-21 18:43:45,438] [WARNING] [stage3.py:2150:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-21 18:44:28,365] [WARNING] [stage3.py:2150:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 2.775, 'grad_norm': 183.78916931152344, 'learning_rate': 1.40625e-07, 'rewards/chosen': 0.004608154296875, 'rewards/rejected': 0.0035247802734375, 'rewards/accuracies': 0.375, 'rewards/margins': 0.0010833740234375, 'logps/chosen': -107.0, 'logps/rejected': -69.5, 'logits/chosen': -1.765625, 'logits/rejected': -2.09375, 'epoch': 0.03}
+[2025-09-21 18:49:07,510] [WARNING] [stage3.py:2150:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-21 18:54:22,338] [WARNING] [stage3.py:2150:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 2.6628, 'grad_norm': 138.94700622558594, 'learning_rate': 2.9687499999999996e-07, 'rewards/chosen': 0.08740234375, 'rewards/rejected': 0.02880859375, 'rewards/accuracies': 0.6312500238418579, 'rewards/margins': 0.058837890625, 'logps/chosen': -80.5, 'logps/rejected': -68.5, 'logits/chosen': -2.140625, 'logits/rejected': -2.15625, 'epoch': 0.06}
+{'loss': 2.199, 'grad_norm': 76.25709533691406, 'learning_rate': 4.53125e-07, 'rewards/chosen': 0.6015625, 'rewards/rejected': 0.20703125, 'rewards/accuracies': 0.8125, 'rewards/margins': 0.39453125, 'logps/chosen': -89.0, 'logps/rejected': -63.75, 'logits/chosen': -1.4765625, 'logits/rejected': -1.8359375, 'epoch': 0.1}
+[2025-09-21 19:03:45,105] [WARNING] [stage3.py:2150:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 1.5896, 'grad_norm': 36.17430114746094, 'learning_rate': 4.992348060495989e-07, 'rewards/chosen': 1.5546875, 'rewards/rejected': 0.4296875, 'rewards/accuracies': 0.893750011920929, 'rewards/margins': 1.125, 'logps/chosen': -74.5, 'logps/rejected': -70.5, 'logits/chosen': -1.203125, 'logits/rejected': -1.3359375, 'epoch': 0.13}
+{'loss': 1.214, 'grad_norm': 24.078285217285156, 'learning_rate': 4.95498189298845e-07, 'rewards/chosen': 1.828125, 'rewards/rejected': 0.3046875, 'rewards/accuracies': 0.893750011920929, 'rewards/margins': 1.5234375, 'logps/chosen': -66.0, 'logps/rejected': -65.0, 'logits/chosen': -0.8125, 'logits/rejected': -0.8125, 'epoch': 0.16}
+{'loss': 0.965, 'grad_norm': 26.455202102661133, 'learning_rate': 4.886962019640244e-07, 'rewards/chosen': 1.90625, 'rewards/rejected': -0.4609375, 'rewards/accuracies': 0.90625, 'rewards/margins': 2.359375, 'logps/chosen': -80.5, 'logps/rejected': -86.0, 'logits/chosen': -0.39453125, 'logits/rejected': -0.1279296875, 'epoch': 0.19}
+***** Running Evaluation *****
+  Num examples = 583
+  Batch size = 8
+ 20%|█▉        | 62/313 [42:28<2:45:34, 39.58s/ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62
+{'eval_loss': 1.8253276348114014, 'eval_runtime': 89.8504, 'eval_samples_per_second': 6.489, 'eval_steps_per_second': 0.111, 'eval_rewards/chosen': 1.90625, 'eval_rewards/rejected': 2.25, 'eval_rewards/accuracies': 0.4375, 'eval_rewards/margins': -0.34765625, 'eval_logps/chosen': -82.5, 'eval_logps/rejected': -135.0, 'eval_logits/chosen': -0.15625, 'eval_logits/rejected': 0.6875, 'epoch': 0.2}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/special_tokens_map.json
+[2025-09-21 19:23:39,822] [INFO] [logging.py:107:log_dist] [Rank 0] [Torch] Checkpoint global_step62 is about to be saved!
+[2025-09-21 19:23:39,830] [INFO] [logging.py:107:log_dist] [Rank 0] Saving model checkpoint: /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/global_step62/zero_pp_rank_0_mp_rank_00_model_states.pt
+[2025-09-21 19:23:39,830] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/global_step62/zero_pp_rank_0_mp_rank_00_model_states.pt...
+[2025-09-21 19:23:40,097] [INFO] [torch_checkpoint_engine.py:23:save] [Torch] Saved /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/global_step62/zero_pp_rank_0_mp_rank_00_model_states.pt.
+[2025-09-21 19:23:40,115] [INFO] [torch_checkpoint_engine.py:21:save] [Torch] Saving /dataset/common/huggingface/model/qwen3_8b_ASIDE_DPO/checkpoint-62/global_step62/bf16_zero_pp_rank_0_mp_rank_00_optim_states.pt...

@@ -1,0 +1,99 @@
+{
+  "desc": "Using isoclinic pi/2 embedding, alpaca shuffled",
+  "train_dataset_path": "./data/train_data/alpaca_52k_shuffled_train.json",
+  "eval_dataset_path": "./data/train_data/alpaca_52k_shuffled_eval.json",
+  "eval_input_path": "n/a, set in code",
+  "prompt_templates_path": "./data/prompt_templates.json",
+  "output_base_path": "./model_outputs/",
+  "train_logs_path": "./model_outputs/train_logs/",
+  "training_version": "SFTv110",
+  "tokenizer_path": "meta-llama/Llama-3.1-8B-Instruct",
+  "models": {
+    "double_emb": {
+      "pure_models": [
+        {
+          "desc": "meta-llama/Llama-3.1-8B-Instruct, instr + instr embeddings, not trained.",
+          "name": "ii_pure",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/ii_pure",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B-Instruct",
+          "data_model_path": "meta-llama/Llama-3.1-8B-Instruct",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        },
+        {
+          "desc": "meta-llama/Llama-3.1-8B, instr + instr embeddings, not trained.",
+          "name": "dd_pure",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/dd_pure",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B",
+          "data_model_path": "meta-llama/Llama-3.1-8B",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        }
+      ],
+      "trained_checkpoints": []
+    },
+    "ise": {
+      "pure_models": [
+        {
+          "desc": "meta-llama/Llama-3.1-8B-Instruct, vanilla, instr-trained.",
+          "name": "ise_from_instr",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/ise",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B-Instruct",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        },
+        {
+          "desc": "meta-llama/Llama-3.1-8B, vanilla, pre-trained.",
+          "name": "ise",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/ise",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        }
+      ],
+      "trained_checkpoints": []
+    },
+    "forward_rot": {
+      "pure_models": [
+        {
+          "desc": "meta-llama/Llama-3.1-8B-Instruct, vanilla, instr-trained.",
+          "name": "forward_rot_from_instr",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/forward_rot_inst",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B-Instruct",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        },
+        {
+          "desc": "meta-llama/Llama-3.1-8B, vanilla, pre-trained.",
+          "name": "forward_rot",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/forward_rot",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        }
+      ],
+      "trained_checkpoints": []
+    },
+    "single_emb": {
+      "pure_models": [
+        {
+          "desc": "meta-llama/Llama-3.1-8B-Instruct, vanilla, instr-trained.",
+          "name": "instr_vanilla",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/instr_vanilla",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B-Instruct",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        },
+        {
+          "desc": "meta-llama/Llama-3.1-8B, vanilla, pre-trained.",
+          "name": "pretrained_vanilla",
+          "checkpoint_to_load_to": "./models/llama_3.1_8b/pretrained_vanilla",
+          "instruct_model_path": "meta-llama/Llama-3.1-8B",
+          "chat_template_path": null,
+          "checkpoint_to_load_from": null
+        }
+      ],
+      "trained_checkpoints": []
+    }
+  }
+}
