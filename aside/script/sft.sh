@@ -11,7 +11,7 @@ fi
 
 output_dir="/dataset/common/huggingface/model" # change to place to store large models
 export WANDB_API_KEY="4d0cfb6b964e4092b544eaa50ffa07ae36cc5249"
-export WANDB_PROJECT="Toolace_NEW"
+export WANDB_PROJECT="Toolace_CHECK"
 
 
 deepspeed --master_port=29509 fine-tune.py \
@@ -19,7 +19,7 @@ deepspeed --master_port=29509 fine-tune.py \
 --train_version SFTv70_Toolace \
 --emb_type single_emb \
 --model_ix 0 \
---run_number InstructToolace \
+--run_number Toolace_Vanilla \
 --train_type full \
 --num_train_epochs 3 \
 --per_device_train_batch_size 4 \
@@ -51,7 +51,7 @@ deepspeed --master_port=29509 fine-tune.py \
 --train_version SFTv70_Toolace \
 --emb_type forward_rot \
 --model_ix 0 \
---run_number InstructToolace_ASIDE \
+--run_number Toolace_ASIDE \
 --train_type full \
 --num_train_epochs 3 \
 --per_device_train_batch_size 4 \

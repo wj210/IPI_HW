@@ -1,0 +1,26 @@
+{
+    "slack": {
+        "injection_utility": 0.8,
+        "task_utility": 0.5714285714285714,
+        "asr": 0.3142857142857143,
+        "attack_utility": 0.3142857142857143
+    },
+    "banking": {
+        "injection_utility": 0.8888888888888888,
+        "task_utility": 0.5,
+        "asr": 0.2986111111111111,
+        "attack_utility": 0.3472222222222222
+    },
+    "travel": {
+        "injection_utility": 0.8571428571428571,
+        "task_utility": 0.15,
+        "asr": 0.18571428571428572,
+        "attack_utility": 0.05714285714285714
+    },
+    "workspace": {
+        "injection_utility": 0.35714285714285715,
+        "task_utility": 0.275,
+        "asr": 0.026785714285714284,
+        "attack_utility": 0.225
+    }
+}

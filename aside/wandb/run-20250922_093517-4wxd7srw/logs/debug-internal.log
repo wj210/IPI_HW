@@ -1,0 +1,7 @@
+{"time":"2025-09-22T09:35:17.952960268+08:00","level":"INFO","msg":"stream: starting","core version":"0.20.1","symlink path":"/export/home2/weijie210/ipi_huawei/aside/wandb/run-20250922_093517-4wxd7srw/logs/debug-core.log"}
+{"time":"2025-09-22T09:35:18.43632567+08:00","level":"INFO","msg":"stream: created new stream","id":"4wxd7srw"}
+{"time":"2025-09-22T09:35:18.436541794+08:00","level":"INFO","msg":"stream: started","id":"4wxd7srw"}
+{"time":"2025-09-22T09:35:18.436596574+08:00","level":"INFO","msg":"writer: Do: started","stream_id":"4wxd7srw"}
+{"time":"2025-09-22T09:35:18.436678133+08:00","level":"INFO","msg":"sender: started","stream_id":"4wxd7srw"}
+{"time":"2025-09-22T09:35:18.436736127+08:00","level":"INFO","msg":"handler: started","stream_id":"4wxd7srw"}
+{"time":"2025-09-22T09:35:18.840510511+08:00","level":"INFO","msg":"Starting system monitor"}

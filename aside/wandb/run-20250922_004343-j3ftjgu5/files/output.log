@@ -1,0 +1,66 @@
+  0%|          | 0/625 [00:00<?, ?it/s]
+FULL PROMPT: <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "v1_render_renderid_for_inkit", "description": "This is the subfunction for tool \"inkit\", you can use this tool.", "parameters": {"type": "object", "properties": {"renderid": {"type": "string", "description": "Your Render Id. You receive this in the response of a Render create call"}}, "required": ["renderid"], "optional": []}}
+{"name": "v1_render_renderid_pdf_for_inkit", "description": "This is the subfunction for tool \"inkit\", you can use this tool.", "parameters": {"type": "object", "properties": {"renderid": {"type": "string", "description": "Your Render Id. You receive this in the response of a Render create call"}, "page": {"type": "integer", "description": "", "example_value": 1}}, "required": ["renderid"], "optional": ["page"]}}
+{"name": "v1_render_for_inkit", "description": "This is the subfunction for tool \"inkit\", you can use this tool.", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+
+I'm a freelance graphic designer and I need a tool that can generate documents and provide PDF versions. Can you suggest an API that allows me to create renders, retrieve the PDFs, and get the dimensions of the rendered documents?
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "v1_render_for_inkit", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "Message error...", "response": "{'error': 'must provide token unless calling an authentication endpoint'}"}
+</tool_response><|im_end|>
+<|im_start|>user
+This is not the first time you try this task, all previous trails failed.
+Before you generate my thought for this state, I will first show you your previous actions for this state, and then you must generate actions that is different from all of them. Here are some previous actions candidates:
+[
+  {
+    "name": "v1_render_for_inkit",
+    "arguments": "{}",
+    "function_output": "{\"error\": \"Message error...\", \"response\": \"{'error': 'must provide token unless calling an authentication endpoint'}\"}",
+    "mento-carlo-action-value": 0.0
+  }
+]
+again, your former observation: {"error": "Message error...", "response": "{'error': 'must provide token unless calling an authentication endpoint'}"}
+
+Remember you are now in the intermediate state of a trail, you will first analyze the now state and previous action candidates, then make actions that is different from all the previous.<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "v1_render_for_inkit", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "Message error...", "response": "{'error': 'must provide token unless calling an authentication endpoint'}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "v1_render_renderid_for_inkit", "arguments": {"renderid": "12345"}}
+</tool_call><|im_end|>
+<|im_end|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|endoftext|><|en
+SEGMENTED:
+{"error": "Message error...", "response": "{'error': 'must provide token unless calling an authentication endpoint'}"}
+</tool_response>
+{"error": "Message error...", "response": "{'error': 'must provide token unless calling an authentication endpoint'}"}
+</tool_response>

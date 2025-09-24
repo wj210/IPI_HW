@@ -244,9 +244,9 @@ class ToolDataset(Dataset):
                   of instructions (0) or data (1).
         """
         data_point = self.data[idx]
-        # if 'system' in data_point:
-        #     sys = data_point['system']
-        #     conv = [{'role':'system','content':sys}]
+        if 'system' in data_point:
+            sys = data_point['system']
+            conv = [{'role':'system','content':sys}]
         # else:
         conv = []
         for x in data_point['conversations']:
@@ -281,7 +281,6 @@ class ToolDataset(Dataset):
                     while j <= len(input_ids) - len(end_ids):
                         if torch.equal(input_ids[j:j+len(end_ids)], torch.tensor(end_ids)):
                             spans.append((i+len(start_ids), j+len(end_ids))) # span is between start and end
-                            # mask[j - (j - (i + len(start_ids))):j+len(end_ids)] = True  # i+len(start_ids) .. j-1
                             found_end = True
                             i = j + len(end_ids)
                             break

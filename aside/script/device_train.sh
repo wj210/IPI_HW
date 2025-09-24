@@ -2,16 +2,16 @@
 
 ## setup the code parameters
 
-module load cuda12.1/toolkit
-module load cuda12.1/blas
+module load cuda12.8/toolkit
+module load cuda12.8/blas
 
 export OMP_NUM_THREADS=8
 # The required free memory in MiB
-REQUIRED_MEMORY=70000  # For example, 70 GB
+REQUIRED_MEMORY=79000  # For example, 70 GB
 REQUIRED_GPUS=4   # Number of GPUs needed
 
-p=NA100q
-w=node01
+p=PH100q
+w=node06
 c=24 # num cpus
 
 # This array will hold the PIDs of the Python sub-scripts
