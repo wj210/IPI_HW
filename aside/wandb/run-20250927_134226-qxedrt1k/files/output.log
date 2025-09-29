@@ -1,0 +1,694 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/2246 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "jobs_for_jobsapi", "description": "This is the subfunction for tool \"jobsapi\", you can use this tool.The description of this function is: \"get's jobs\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "albums_for_march4", "description": "This is the subfunction for tool \"march4\", you can use this tool.The description of this function is: \"njnj\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_anything_for_httpbin", "description": "This is the subfunction for tool \"httpbin\", you can use this tool.The description of this function is: \"Forward to httpbin get_anything_for_httpbin endpoint\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getinventory_for_privatepublicapi", "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"Returns a map of status codes to quantities\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getorderbyid_for_privatepublicapi", "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions\"", "parameters": {"type": "object", "properties": {"orderid": {"type": "integer", "description": "ID of pet that needs to be fetched", "example_value": 0}}, "required": ["orderid"], "optional": []}}
+{"name": "logoutuser_for_privatepublicapi", "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"Logs out current logged in user session\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I am passionate about photography and I want to improve my skills. Can you suggest some photography courses or workshops in my area and provide information about their curriculum and instructors? Additionally, it would be helpful to know if any of these courses offer hands-on practice and feedback.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "{'message': \"Endpoint '/api/job' does not exist\"}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|im_end|>
+
+Rotated chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|im_end|>
+Rotated chunk 1: <|im_start|>user
+<tool_response>
+{"error": "", "response": "{'message': \"Endpoint '/api/job' does not exist\"}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|im_end|>
+[2025-09-27 13:42:50,328] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+  0%|          | 10/2246 [03:00<10:46:58, 17.36s/it]2025-09-27 13:45:29,385 - INFO - Step 10: Train Loss = 23.5714
+[2025-09-27 13:43:09,304] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-27 13:43:27,425] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-27 13:43:46,178] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-27 13:44:55,320] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 23.5714, 'grad_norm': 365.6686096191406, 'learning_rate': 2.0000000000000003e-06, 'epoch': 0.0}
+  1%|          | 20/2246 [05:48<10:22:09, 16.77s/it]2025-09-27 13:48:17,531 - INFO - Step 20: Train Loss = 10.4853
+[2025-09-27 13:47:26,626] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-27 13:48:02,074] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 10.4853, 'grad_norm': 34.98786544799805, 'learning_rate': 4.222222222222223e-06, 'epoch': 0.01}
+  1%|▏         | 30/2246 [08:42<11:02:14, 17.93s/it]2025-09-27 13:51:11,524 - INFO - Step 30: Train Loss = 4.0134
+{'loss': 4.0134, 'grad_norm': 12.619148254394531, 'learning_rate': 6.444444444444445e-06, 'epoch': 0.01}
+  2%|▏         | 40/2246 [11:33<10:25:35, 17.02s/it]2025-09-27 13:54:02,003 - INFO - Step 40: Train Loss = 1.8324
+{'loss': 1.8324, 'grad_norm': 8.801246643066406, 'learning_rate': 8.666666666666668e-06, 'epoch': 0.02}
+  2%|▏         | 50/2246 [14:29<10:51:27, 17.80s/it]2025-09-27 13:56:57,926 - INFO - Step 50: Train Loss = 1.0773
+{'loss': 1.0773, 'grad_norm': 6.449648380279541, 'learning_rate': 1.088888888888889e-05, 'epoch': 0.02}
+  3%|▎         | 60/2246 [17:21<10:35:41, 17.45s/it]2025-09-27 13:59:50,554 - INFO - Step 60: Train Loss = 0.9893
+{'loss': 0.9893, 'grad_norm': 3.814441204071045, 'learning_rate': 1.3111111111111113e-05, 'epoch': 0.03}
+  3%|▎         | 70/2246 [20:06<10:02:34, 16.62s/it]2025-09-27 14:02:35,325 - INFO - Step 70: Train Loss = 0.8445
+{'loss': 0.8445, 'grad_norm': 3.4109904766082764, 'learning_rate': 1.5333333333333334e-05, 'epoch': 0.03}
+  4%|▎         | 80/2246 [22:54<9:50:18, 16.35s/it]2025-09-27 14:05:23,601 - INFO - Step 80: Train Loss = 0.5815
+{'loss': 0.5815, 'grad_norm': 3.1970112323760986, 'learning_rate': 1.7555555555555556e-05, 'epoch': 0.04}
+  4%|▍         | 90/2246 [25:41<9:54:15, 16.54s/it]2025-09-27 14:08:10,295 - INFO - Step 90: Train Loss = 0.5645
+{'loss': 0.5645, 'grad_norm': 2.6863245964050293, 'learning_rate': 1.977777777777778e-05, 'epoch': 0.04}
+  4%|▍         | 100/2246 [28:35<10:27:08, 17.53s/it]2025-09-27 14:11:04,092 - INFO - Step 100: Train Loss = 0.4828
+{'loss': 0.4828, 'grad_norm': 2.5272634029388428, 'learning_rate': 1.9999140093897013e-05, 'epoch': 0.04}
+  5%|▍         | 110/2246 [31:27<10:27:49, 17.64s/it]2025-09-27 14:13:56,579 - INFO - Step 110: Train Loss = 0.4596
+{'loss': 0.4596, 'grad_norm': 2.0201351642608643, 'learning_rate': 1.9996167768838074e-05, 'epoch': 0.05}
+  5%|▌         | 120/2246 [34:17<10:00:28, 16.95s/it]2025-09-27 14:16:46,361 - INFO - Step 120: Train Loss = 0.4820
+{'loss': 0.482, 'grad_norm': 2.3514435291290283, 'learning_rate': 1.999107303963754e-05, 'epoch': 0.05}
+  6%|▌         | 130/2246 [37:01<9:30:04, 16.16s/it]2025-09-27 14:19:30,358 - INFO - Step 130: Train Loss = 0.4430
+{'loss': 0.443, 'grad_norm': 2.9117517471313477, 'learning_rate': 1.9983856988017383e-05, 'epoch': 0.06}
+  6%|▌         | 140/2246 [39:51<9:55:19, 16.96s/it]2025-09-27 14:22:20,448 - INFO - Step 140: Train Loss = 0.3698
+{'loss': 0.3698, 'grad_norm': 2.3482770919799805, 'learning_rate': 1.9974521146102535e-05, 'epoch': 0.06}
+  7%|▋         | 150/2246 [42:36<9:44:35, 16.73s/it]2025-09-27 14:25:05,713 - INFO - Step 150: Train Loss = 0.3531
+{'loss': 0.3531, 'grad_norm': 1.9853562116622925, 'learning_rate': 1.9963067496095578e-05, 'epoch': 0.07}
+  7%|▋         | 160/2246 [45:24<9:44:43, 16.82s/it]2025-09-27 14:27:53,474 - INFO - Step 160: Train Loss = 0.4406
+{'loss': 0.4406, 'grad_norm': 1.489173173904419, 'learning_rate': 1.9949498469855878e-05, 'epoch': 0.07}
+  8%|▊         | 170/2246 [48:09<9:32:52, 16.56s/it]2025-09-27 14:30:38,616 - INFO - Step 170: Train Loss = 0.3770
+{'loss': 0.377, 'grad_norm': 1.3556047677993774, 'learning_rate': 1.993381694838324e-05, 'epoch': 0.08}
+  8%|▊         | 180/2246 [50:53<9:14:35, 16.11s/it]2025-09-27 14:33:22,645 - INFO - Step 180: Train Loss = 0.3389
+{'loss': 0.3389, 'grad_norm': 1.3237286806106567, 'learning_rate': 1.9916026261206243e-05, 'epoch': 0.08}
+  8%|▊         | 190/2246 [53:46<9:36:15, 16.82s/it]2025-09-27 14:36:15,669 - INFO - Step 190: Train Loss = 0.3722
+{'loss': 0.3722, 'grad_norm': 1.6788395643234253, 'learning_rate': 1.9896130185675263e-05, 'epoch': 0.08}
+  9%|▉         | 200/2246 [56:32<9:21:33, 16.47s/it]2025-09-27 14:39:01,323 - INFO - Step 200: Train Loss = 0.2969
+{'loss': 0.2969, 'grad_norm': 3.2328503131866455, 'learning_rate': 1.9874132946160482e-05, 'epoch': 0.09}
+  9%|▉         | 210/2246 [59:27<10:00:06, 17.68s/it]2025-09-27 14:41:56,011 - INFO - Step 210: Train Loss = 0.3000
+{'loss': 0.3, 'grad_norm': 1.7922778129577637, 'learning_rate': 1.9850039213154972e-05, 'epoch': 0.09}
+ 10%|▉         | 220/2246 [1:02:13<9:19:25, 16.57s/it]2025-09-27 14:44:42,026 - INFO - Step 220: Train Loss = 0.2746
+{'loss': 0.2746, 'grad_norm': 1.729644536972046, 'learning_rate': 1.982385410228303e-05, 'epoch': 0.1}
+ 10%|█         | 230/2246 [1:05:07<9:39:56, 17.26s/it]2025-09-27 14:47:36,680 - INFO - Step 230: Train Loss = 0.2697
+{'loss': 0.2697, 'grad_norm': 1.2391918897628784, 'learning_rate': 1.979558317321402e-05, 'epoch': 0.1}
+ 11%|█         | 240/2246 [1:07:56<9:31:03, 17.08s/it]2025-09-27 14:50:24,935 - INFO - Step 240: Train Loss = 0.2675
+{'loss': 0.2675, 'grad_norm': 1.8484712839126587, 'learning_rate': 1.9765232428481956e-05, 'epoch': 0.11}
+ 11%|█         | 250/2246 [1:10:46<9:18:45, 16.80s/it]2025-09-27 14:53:15,136 - INFO - Step 250: Train Loss = 0.2353
+{'loss': 0.2353, 'grad_norm': 1.1850740909576416, 'learning_rate': 1.9732808312211e-05, 'epoch': 0.11}
+ 12%|█▏        | 260/2246 [1:13:37<9:39:03, 17.49s/it]2025-09-27 14:56:06,625 - INFO - Step 260: Train Loss = 0.2546
+{'loss': 0.2546, 'grad_norm': 1.938467264175415, 'learning_rate': 1.9698317708747267e-05, 'epoch': 0.12}
+ 12%|█▏        | 270/2246 [1:16:27<9:11:39, 16.75s/it]2025-09-27 14:58:55,932 - INFO - Step 270: Train Loss = 0.2186
+{'loss': 0.2186, 'grad_norm': 1.3839656114578247, 'learning_rate': 1.966176794119709e-05, 'epoch': 0.12}
+ 12%|█▏        | 280/2246 [1:19:12<9:08:44, 16.75s/it]2025-09-27 15:01:41,435 - INFO - Step 280: Train Loss = 0.2387
+{'loss': 0.2387, 'grad_norm': 1.23659348487854, 'learning_rate': 1.9623166769872216e-05, 'epoch': 0.12}
+ 13%|█▎        | 290/2246 [1:22:03<9:19:28, 17.16s/it]2025-09-27 15:04:32,335 - INFO - Step 290: Train Loss = 0.2235
+{'loss': 0.2235, 'grad_norm': 1.1482499837875366, 'learning_rate': 1.9582522390642072e-05, 'epoch': 0.13}
+ 13%|█▎        | 300/2246 [1:24:51<9:10:55, 16.99s/it]2025-09-27 15:07:20,587 - INFO - Step 300: Train Loss = 0.2272
+{'loss': 0.2272, 'grad_norm': 1.4583312273025513, 'learning_rate': 1.953984343319364e-05, 'epoch': 0.13}
+ 14%|█▍        | 310/2246 [1:27:38<8:56:39, 16.63s/it]2025-09-27 15:10:07,041 - INFO - Step 310: Train Loss = 0.2576
+{'loss': 0.2576, 'grad_norm': 1.5095065832138062, 'learning_rate': 1.9495138959199164e-05, 'epoch': 0.14}
+ 14%|█▍        | 320/2246 [1:30:23<8:46:51, 16.41s/it]2025-09-27 15:12:52,511 - INFO - Step 320: Train Loss = 0.1951
+{'loss': 0.1951, 'grad_norm': 1.4206840991973877, 'learning_rate': 1.9448418460392172e-05, 'epoch': 0.14}
+ 15%|█▍        | 330/2246 [1:33:15<9:01:06, 16.94s/it]2025-09-27 15:15:44,578 - INFO - Step 330: Train Loss = 0.2069
+{'loss': 0.2069, 'grad_norm': 1.1759135723114014, 'learning_rate': 1.939969185655217e-05, 'epoch': 0.15}
+ 15%|█▌        | 340/2246 [1:36:07<9:13:22, 17.42s/it]2025-09-27 15:18:36,421 - INFO - Step 340: Train Loss = 0.2613
+{'loss': 0.2613, 'grad_norm': 1.317336082458496, 'learning_rate': 1.9348969493398456e-05, 'epoch': 0.15}
+ 16%|█▌        | 350/2246 [1:38:59<9:03:43, 17.21s/it]2025-09-27 15:21:27,797 - INFO - Step 350: Train Loss = 0.2304
+{'loss': 0.2304, 'grad_norm': 1.638634204864502, 'learning_rate': 1.9296262140393498e-05, 'epoch': 0.16}
+ 16%|█▌        | 360/2246 [1:41:48<8:58:16, 17.12s/it]2025-09-27 15:24:17,106 - INFO - Step 360: Train Loss = 0.2244
+{'loss': 0.2244, 'grad_norm': 4.368001937866211, 'learning_rate': 1.9241580988456347e-05, 'epoch': 0.16}
+ 16%|█▋        | 370/2246 [1:44:35<8:32:23, 16.39s/it]2025-09-27 15:27:04,119 - INFO - Step 370: Train Loss = 0.1848
+{'loss': 0.1848, 'grad_norm': 1.3339606523513794, 'learning_rate': 1.918493764758656e-05, 'epoch': 0.16}
+ 17%|█▋        | 380/2246 [1:47:23<8:43:01, 16.82s/it]2025-09-27 15:29:51,773 - INFO - Step 380: Train Loss = 0.1875
+{'loss': 0.1875, 'grad_norm': 1.478031039237976, 'learning_rate': 1.9126344144399135e-05, 'epoch': 0.17}
+ 17%|█▋        | 390/2246 [1:50:13<8:49:21, 17.11s/it]2025-09-27 15:32:42,690 - INFO - Step 390: Train Loss = 0.1812
+{'loss': 0.1812, 'grad_norm': 0.9455580115318298, 'learning_rate': 1.906581291957101e-05, 'epoch': 0.17}
+ 18%|█▊        | 400/2246 [1:52:59<8:31:49, 16.64s/it]2025-09-27 15:35:28,117 - INFO - Step 400: Train Loss = 0.1975
+{'loss': 0.1975, 'grad_norm': 7.553866386413574, 'learning_rate': 1.900335682519964e-05, 'epoch': 0.18}
+ 18%|█▊        | 410/2246 [1:55:48<8:45:25, 17.17s/it]2025-09-27 15:38:16,780 - INFO - Step 410: Train Loss = 0.2033
+{'loss': 0.2033, 'grad_norm': 1.1024364233016968, 'learning_rate': 1.8938989122074195e-05, 'epoch': 0.18}
+ 19%|█▊        | 420/2246 [1:58:38<8:28:17, 16.70s/it]2025-09-27 15:41:07,347 - INFO - Step 420: Train Loss = 0.2119
+{'loss': 0.2119, 'grad_norm': 2.0063860416412354, 'learning_rate': 1.8872723476860033e-05, 'epoch': 0.19}
+ 19%|█▉        | 430/2246 [2:01:31<8:44:17, 17.32s/it]2025-09-27 15:43:59,936 - INFO - Step 430: Train Loss = 0.1655
+{'loss': 0.1655, 'grad_norm': 1.2411808967590332, 'learning_rate': 1.8804573959196944e-05, 'epoch': 0.19}
+ 20%|█▉        | 440/2246 [2:04:18<8:30:34, 16.96s/it]2025-09-27 15:46:47,228 - INFO - Step 440: Train Loss = 0.2033
+{'loss': 0.2033, 'grad_norm': 1.2606176137924194, 'learning_rate': 1.873455503871188e-05, 'epoch': 0.2}
+ 20%|█▉        | 449/2246 [2:06:51<8:33:42, 17.15s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "racecards_for_greyhound_racing_uk", "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"**Get races list.**\n\n- By default current day.\n- Or by date, setting it by parameter\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "race_detail_info_for_greyhound_racing_uk", "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"**Get race detailed info by ID {id_race}.**\n\nYou can get the \"id_race\" from Results or Racecards endpoints\"", "parameters": {"type": "object", "properties": {"id_race": {"type": "string", "description": "", "example_value": "53128"}}, "required": ["id_race"], "optional": []}}
+{"name": "results_for_greyhound_racing_uk", "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"Get results races by date\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I'm a sports enthusiast and I'm interested in attending a greyhound race. Can you give me the race schedule for this week? I would like to know the dates, timings, and locations of the races. Additionally, I'm curious to learn more about a specific race with ID 53128, including the participating greyhounds and their details.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "racecards_for_greyhound_racing_uk", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "[]"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "race_detail_info_for_greyhound_racing_uk", "arguments": {"id_race": "53128"}}
+</tool_call><|im_end|>
+
+Rotated chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "racecards_for_greyhound_racing_uk", "arguments": {}}
+</tool_call><|im_end|>
+Rotated chunk 1: <|im_start|>user
+<tool_response>
+{"error": "", "response": "[]"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "race_detail_info_for_greyhound_racing_uk", "arguments": {"id_race": "53128"}}
+</tool_call><|im_end|>
+ 20%|█▉        | 449/2246 [2:07:24<8:33:42, 17.2025-09-27 15:49:53,294 - INFO - Step 449: Eval Loss = 0.1813
+100%|██████████| 37/37 [00:32<00:00,  1.25it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.18134784698486328, 'eval_runtime': 33.436, 'eval_samples_per_second': 17.347, 'eval_steps_per_second': 1.107, 'epoch': 0.2}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 20%|██        | 450/2246 [2:11:39<49:04:29, 98.37s/it]2025-09-27 15:54:07,722 - INFO - Step 450: Train Loss = 0.1654
+{'loss': 0.1654, 'grad_norm': 1.8381330966949463, 'learning_rate': 1.866268158194673e-05, 'epoch': 0.2}
+ 20%|██        | 460/2246 [2:14:28<9:29:28, 19.13s/it]2025-09-27 15:56:56,963 - INFO - Step 460: Train Loss = 0.1814
+{'loss': 0.1814, 'grad_norm': 0.963699996471405, 'learning_rate': 1.8588968849201813e-05, 'epoch': 0.2}
+ 21%|██        | 470/2246 [2:17:17<8:27:19, 17.14s/it]2025-09-27 15:59:46,306 - INFO - Step 470: Train Loss = 0.1777
+{'loss': 0.1777, 'grad_norm': 0.6981084942817688, 'learning_rate': 1.8513432491295825e-05, 'epoch': 0.21}
+ 21%|██▏       | 480/2246 [2:20:04<8:16:18, 16.86s/it]2025-09-27 16:02:32,932 - INFO - Step 480: Train Loss = 0.1695
+{'loss': 0.1695, 'grad_norm': 1.347264289855957, 'learning_rate': 1.843608854624278e-05, 'epoch': 0.21}
+ 22%|██▏       | 490/2246 [2:22:55<8:28:40, 17.38s/it]2025-09-27 16:05:23,766 - INFO - Step 490: Train Loss = 0.1924
+{'loss': 0.1924, 'grad_norm': 1.413672924041748, 'learning_rate': 1.835695343584683e-05, 'epoch': 0.22}
+ 22%|██▏       | 500/2246 [2:25:43<8:09:23, 16.82s/it]2025-09-27 16:08:11,975 - INFO - Step 500: Train Loss = 0.1851
+{'loss': 0.1851, 'grad_norm': 1.3271046876907349, 'learning_rate': 1.8276043962215533e-05, 'epoch': 0.22}
+ 23%|██▎       | 510/2246 [2:28:31<7:51:59, 16.31s/it]2025-09-27 16:10:59,983 - INFO - Step 510: Train Loss = 0.1593
+{'loss': 0.1593, 'grad_norm': 0.814879834651947, 'learning_rate': 1.8193377304192413e-05, 'epoch': 0.23}
+ 23%|██▎       | 520/2246 [2:31:18<7:55:34, 16.53s/it]2025-09-27 16:13:47,310 - INFO - Step 520: Train Loss = 0.1685
+{'loss': 0.1685, 'grad_norm': 1.3085910081863403, 'learning_rate': 1.8108971013709512e-05, 'epoch': 0.23}
+ 24%|██▎       | 530/2246 [2:34:01<7:47:45, 16.36s/it]2025-09-27 16:16:30,563 - INFO - Step 530: Train Loss = 0.1570
+{'loss': 0.157, 'grad_norm': 1.42835533618927, 'learning_rate': 1.8022843012060733e-05, 'epoch': 0.24}
+ 24%|██▍       | 540/2246 [2:36:50<7:53:01, 16.64s/it]2025-09-27 16:19:18,920 - INFO - Step 540: Train Loss = 0.1592
+{'loss': 0.1592, 'grad_norm': 0.8282384872436523, 'learning_rate': 1.793501158609676e-05, 'epoch': 0.24}
+ 24%|██▍       | 550/2246 [2:39:39<7:56:41, 16.86s/it]2025-09-27 16:22:08,687 - INFO - Step 550: Train Loss = 0.2125
+{'loss': 0.2125, 'grad_norm': 1.2172887325286865, 'learning_rate': 1.7845495384342362e-05, 'epoch': 0.24}
+ 25%|██▍       | 560/2246 [2:42:22<7:42:22, 16.45s/it]2025-09-27 16:24:51,657 - INFO - Step 560: Train Loss = 0.1568
+{'loss': 0.1568, 'grad_norm': 0.9514577388763428, 'learning_rate': 1.7754313413036907e-05, 'epoch': 0.25}
+ 25%|██▌       | 570/2246 [2:45:12<7:56:29, 17.06s/it]2025-09-27 16:27:40,876 - INFO - Step 570: Train Loss = 0.2149
+{'loss': 0.2149, 'grad_norm': 2.8281028270721436, 'learning_rate': 1.766148503209891e-05, 'epoch': 0.25}
+ 26%|██▌       | 580/2246 [2:47:58<7:54:07, 17.08s/it]2025-09-27 16:30:27,204 - INFO - Step 580: Train Loss = 0.1683
+{'loss': 0.1683, 'grad_norm': 0.9218477606773376, 'learning_rate': 1.7567029951015527e-05, 'epoch': 0.26}
+ 26%|██▋       | 590/2246 [2:50:47<7:41:49, 16.73s/it]2025-09-27 16:33:16,519 - INFO - Step 590: Train Loss = 0.1531
+{'loss': 0.1531, 'grad_norm': 0.9905612468719482, 'learning_rate': 1.747096822465777e-05, 'epoch': 0.26}
+ 27%|██▋       | 600/2246 [2:53:37<7:54:24, 17.29s/it]2025-09-27 16:36:05,973 - INFO - Step 600: Train Loss = 0.1657
+{'loss': 0.1657, 'grad_norm': 0.9944999814033508, 'learning_rate': 1.737332024902245e-05, 'epoch': 0.27}
+ 27%|██▋       | 610/2246 [2:56:22<7:22:28, 16.23s/it]2025-09-27 16:38:51,680 - INFO - Step 610: Train Loss = 0.1831
+{'loss': 0.1831, 'grad_norm': 1.3286303281784058, 'learning_rate': 1.7274106756901633e-05, 'epoch': 0.27}
+ 28%|██▊       | 620/2246 [2:59:10<7:28:19, 16.54s/it]2025-09-27 16:41:39,217 - INFO - Step 620: Train Loss = 0.1443
+{'loss': 0.1443, 'grad_norm': 1.1335399150848389, 'learning_rate': 1.717334881348065e-05, 'epoch': 0.28}
+ 28%|██▊       | 630/2246 [3:02:00<7:50:43, 17.48s/it]2025-09-27 16:44:29,292 - INFO - Step 630: Train Loss = 0.1564
+{'loss': 0.1564, 'grad_norm': 1.3883854150772095, 'learning_rate': 1.7071067811865477e-05, 'epoch': 0.28}
+ 28%|██▊       | 640/2246 [3:04:50<7:22:40, 16.54s/it]2025-09-27 16:47:19,077 - INFO - Step 640: Train Loss = 0.1560
+{'loss': 0.156, 'grad_norm': 0.6224546432495117, 'learning_rate': 1.696728546854051e-05, 'epoch': 0.29}
+ 29%|██▉       | 650/2246 [3:07:41<7:38:21, 17.23s/it]2025-09-27 16:50:10,365 - INFO - Step 650: Train Loss = 0.1509
+{'loss': 0.1509, 'grad_norm': 0.9037265777587891, 'learning_rate': 1.6862023818757702e-05, 'epoch': 0.29}
+ 29%|██▉       | 660/2246 [3:10:35<7:41:14, 17.45s/it]2025-09-27 16:53:04,089 - INFO - Step 660: Train Loss = 0.1416
+{'loss': 0.1416, 'grad_norm': 1.101792812347412, 'learning_rate': 1.675530521185798e-05, 'epoch': 0.29}
+ 30%|██▉       | 670/2246 [3:13:27<7:44:34, 17.69s/it]2025-09-27 16:55:56,476 - INFO - Step 670: Train Loss = 0.1448
+{'loss': 0.1448, 'grad_norm': 0.8247798085212708, 'learning_rate': 1.6647152306526005e-05, 'epoch': 0.3}
+ 30%|███       | 680/2246 [3:16:17<7:07:36, 16.38s/it]2025-09-27 16:58:46,659 - INFO - Step 680: Train Loss = 0.1832
+{'loss': 0.1832, 'grad_norm': 2.2555503845214844, 'learning_rate': 1.6537588065979228e-05, 'epoch': 0.3}
+ 31%|███       | 690/2246 [3:19:09<7:23:38, 17.11s/it]2025-09-27 17:01:38,124 - INFO - Step 690: Train Loss = 0.1720
+{'loss': 0.172, 'grad_norm': 0.9652585387229919, 'learning_rate': 1.6426635753092313e-05, 'epoch': 0.31}
+ 31%|███       | 700/2246 [3:21:56<7:08:13, 16.62s/it]2025-09-27 17:04:25,141 - INFO - Step 700: Train Loss = 0.1678
+{'loss': 0.1678, 'grad_norm': 1.3263250589370728, 'learning_rate': 1.631431892545791e-05, 'epoch': 0.31}
+ 32%|███▏      | 710/2246 [3:24:44<7:10:50, 16.83s/it]2025-09-27 17:07:13,592 - INFO - Step 710: Train Loss = 0.1498
+{'loss': 0.1498, 'grad_norm': 0.9343300461769104, 'learning_rate': 1.6200661430384886e-05, 'epoch': 0.32}
+ 32%|███▏      | 720/2246 [3:27:35<7:07:45, 16.82s/it]2025-09-27 17:10:04,272 - INFO - Step 720: Train Loss = 0.1280
+{'loss': 0.128, 'grad_norm': 0.9750598669052124, 'learning_rate': 1.608568739983498e-05, 'epoch': 0.32}
+ 33%|███▎      | 730/2246 [3:30:23<7:01:48, 16.69s/it]2025-09-27 17:12:52,012 - INFO - Step 730: Train Loss = 0.1485
+{'loss': 0.1485, 'grad_norm': 0.5332959294319153, 'learning_rate': 1.5969421245299106e-05, 'epoch': 0.33}
+ 33%|███▎      | 740/2246 [3:33:13<7:06:29, 16.99s/it]2025-09-27 17:15:42,280 - INFO - Step 740: Train Loss = 0.1473
+{'loss': 0.1473, 'grad_norm': 0.679088294506073, 'learning_rate': 1.5851887652614238e-05, 'epoch': 0.33}
+ 33%|███▎      | 750/2246 [3:36:01<6:47:29, 16.34s/it]2025-09-27 17:18:30,049 - INFO - Step 750: Train Loss = 0.1533
+{'loss': 0.1533, 'grad_norm': 0.9700083136558533, 'learning_rate': 1.5733111576722078e-05, 'epoch': 0.33}
+ 34%|███▍      | 760/2246 [3:38:51<7:08:19, 17.29s/it]2025-09-27 17:21:20,577 - INFO - Step 760: Train Loss = 0.1565
+{'loss': 0.1565, 'grad_norm': 0.6998593211174011, 'learning_rate': 1.561311823637057e-05, 'epoch': 0.34}
+ 34%|███▍      | 770/2246 [3:41:39<6:48:35, 16.61s/it]2025-09-27 17:24:07,744 - INFO - Step 770: Train Loss = 0.1587
+{'loss': 0.1587, 'grad_norm': 0.7087106108665466, 'learning_rate': 1.5491933108759417e-05, 'epoch': 0.34}
+ 35%|███▍      | 780/2246 [3:44:28<6:52:38, 16.89s/it]2025-09-27 17:26:57,226 - INFO - Step 780: Train Loss = 0.1483
+{'loss': 0.1483, 'grad_norm': 1.1224662065505981, 'learning_rate': 1.5369581924130724e-05, 'epoch': 0.35}
+ 35%|███▌      | 790/2246 [3:47:16<7:00:10, 17.32s/it]2025-09-27 17:29:45,580 - INFO - Step 790: Train Loss = 0.1442
+{'loss': 0.1442, 'grad_norm': 0.56572425365448, 'learning_rate': 1.5246090660305883e-05, 'epoch': 0.35}
+ 36%|███▌      | 800/2246 [3:50:10<6:59:15, 17.40s/it]2025-09-27 17:32:39,222 - INFO - Step 800: Train Loss = 0.1870
+{'loss': 0.187, 'grad_norm': 1.0798410177230835, 'learning_rate': 1.5121485537169945e-05, 'epoch': 0.36}
+ 36%|███▌      | 810/2246 [3:53:00<6:46:07, 16.97s/it]2025-09-27 17:35:28,924 - INFO - Step 810: Train Loss = 0.1384
+{'loss': 0.1384, 'grad_norm': 1.0733308792114258, 'learning_rate': 1.4995793011104543e-05, 'epoch': 0.36}
+ 37%|███▋      | 820/2246 [3:55:49<6:39:45, 16.82s/it]2025-09-27 17:38:17,908 - INFO - Step 820: Train Loss = 0.1679
+{'loss': 0.1679, 'grad_norm': 1.2413299083709717, 'learning_rate': 1.4869039769370646e-05, 'epoch': 0.37}
+ 37%|███▋      | 830/2246 [3:58:37<6:37:19, 16.84s/it]2025-09-27 17:41:06,408 - INFO - Step 830: Train Loss = 0.1349
+{'loss': 0.1349, 'grad_norm': 0.8026068806648254, 'learning_rate': 1.4741252724442253e-05, 'epoch': 0.37}
+ 37%|███▋      | 840/2246 [4:01:26<6:29:31, 16.62s/it]2025-09-27 17:43:55,232 - INFO - Step 840: Train Loss = 0.1597
+{'loss': 0.1597, 'grad_norm': 0.936832070350647, 'learning_rate': 1.4612459008292307e-05, 'epoch': 0.37}
+ 38%|███▊      | 850/2246 [4:04:16<6:29:12, 16.73s/it]2025-09-27 17:46:44,792 - INFO - Step 850: Train Loss = 0.1697
+{'loss': 0.1697, 'grad_norm': 0.5376207232475281, 'learning_rate': 1.448268596663197e-05, 'epoch': 0.38}
+ 38%|███▊      | 860/2246 [4:07:05<6:35:06, 17.10s/it]2025-09-27 17:49:34,712 - INFO - Step 860: Train Loss = 0.1326
+{'loss': 0.1326, 'grad_norm': 0.5428687930107117, 'learning_rate': 1.435196115310455e-05, 'epoch': 0.38}
+ 39%|███▊      | 870/2246 [4:09:55<6:32:17, 17.11s/it]2025-09-27 17:52:23,719 - INFO - Step 870: Train Loss = 0.1080
+{'loss': 0.108, 'grad_norm': 0.9628810286521912, 'learning_rate': 1.4220312323435241e-05, 'epoch': 0.39}
+ 39%|███▉      | 880/2246 [4:12:48<6:38:41, 17.51s/it]2025-09-27 17:55:17,150 - INFO - Step 880: Train Loss = 0.1528
+{'loss': 0.1528, 'grad_norm': 1.0172518491744995, 'learning_rate': 1.4087767429537996e-05, 'epoch': 0.39}
+ 40%|███▉      | 890/2246 [4:15:37<6:22:59, 16.95s/it]2025-09-27 17:58:06,028 - INFO - Step 890: Train Loss = 0.1800
+{'loss': 0.18, 'grad_norm': 1.3374253511428833, 'learning_rate': 1.395435461358072e-05, 'epoch': 0.4}
+ 40%|███▉      | 898/2246 [4:17:50<6:17:20, 16.80s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 40%|███▉      | 898/2246 [4:18:23<6:17:20, 16.2025-09-27 18:00:52,448 - INFO - Step 898: Eval Loss = 0.1554
+100%|██████████| 37/37 [00:32<00:00,  1.24it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.15544258058071136, 'eval_runtime': 33.2234, 'eval_samples_per_second': 17.458, 'eval_steps_per_second': 1.114, 'epoch': 0.4}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-449] due to args.save_total_limit
+ 40%|████      | 900/2246 [4:22:56<27:40:26, 74.02s/it]2025-09-27 18:05:25,255 - INFO - Step 900: Train Loss = 0.1413
+{'loss': 0.1413, 'grad_norm': 0.8430224657058716, 'learning_rate': 1.3820102202010079e-05, 'epoch': 0.4}
+ 41%|████      | 910/2246 [4:25:44<6:53:51, 18.59s/it]2025-09-27 18:08:12,793 - INFO - Step 910: Train Loss = 0.1434
+{'loss': 0.1434, 'grad_norm': 0.68641597032547, 'learning_rate': 1.3685038699537165e-05, 'epoch': 0.41}
+ 41%|████      | 920/2246 [4:28:27<6:04:13, 16.48s/it]2025-09-27 18:10:56,177 - INFO - Step 920: Train Loss = 0.1332
+{'loss': 0.1332, 'grad_norm': 0.5624315142631531, 'learning_rate': 1.3549192783085343e-05, 'epoch': 0.41}
+ 41%|████▏     | 930/2246 [4:31:14<6:04:52, 16.64s/it]2025-09-27 18:13:42,891 - INFO - Step 930: Train Loss = 0.1502
+{'loss': 0.1502, 'grad_norm': 0.7081876993179321, 'learning_rate': 1.3412593295701506e-05, 'epoch': 0.41}
+ 42%|████▏     | 940/2246 [4:33:59<5:50:57, 16.12s/it]2025-09-27 18:16:28,240 - INFO - Step 940: Train Loss = 0.1388
+{'loss': 0.1388, 'grad_norm': 0.48039618134498596, 'learning_rate': 1.3275269240432067e-05, 'epoch': 0.42}
+ 42%|████▏     | 950/2246 [4:36:51<6:03:21, 16.82s/it]2025-09-27 18:19:19,762 - INFO - Step 950: Train Loss = 0.1519
+{'loss': 0.1519, 'grad_norm': 0.6492702960968018, 'learning_rate': 1.3137249774164986e-05, 'epoch': 0.42}
+ 43%|████▎     | 960/2246 [4:39:39<5:55:42, 16.60s/it]2025-09-27 18:22:08,052 - INFO - Step 960: Train Loss = 0.1247
+{'loss': 0.1247, 'grad_norm': 0.6538493633270264, 'learning_rate': 1.2998564201439117e-05, 'epoch': 0.43}
+ 43%|████▎     | 970/2246 [4:42:26<5:55:03, 16.70s/it]2025-09-27 18:24:55,132 - INFO - Step 970: Train Loss = 0.1319
+{'loss': 0.1319, 'grad_norm': 0.5427093505859375, 'learning_rate': 1.2859241968222236e-05, 'epoch': 0.43}
+ 44%|████▎     | 980/2246 [4:45:15<5:52:34, 16.71s/it]2025-09-27 18:27:44,016 - INFO - Step 980: Train Loss = 0.1385
+{'loss': 0.1385, 'grad_norm': 0.6008091568946838, 'learning_rate': 1.2719312655658995e-05, 'epoch': 0.44}
+ 44%|████▍     | 990/2246 [4:48:01<5:47:54, 16.62s/it]2025-09-27 18:30:29,892 - INFO - Step 990: Train Loss = 0.1358
+{'loss': 0.1358, 'grad_norm': 0.8788986802101135, 'learning_rate': 1.2578805973790224e-05, 'epoch': 0.44}
+ 45%|████▍     | 1000/2246 [4:50:47<5:50:31, 16.88s/it]2025-09-27 18:33:16,476 - INFO - Step 1000: Train Loss = 0.1369
+{'loss': 0.1369, 'grad_norm': 1.0344640016555786, 'learning_rate': 1.2437751755244827e-05, 'epoch': 0.45}
+ 45%|████▍     | 1010/2246 [4:53:30<5:30:19, 16.04s/it]2025-09-27 18:35:59,508 - INFO - Step 1010: Train Loss = 0.1351
+{'loss': 0.1351, 'grad_norm': 0.7471268773078918, 'learning_rate': 1.2296179948905671e-05, 'epoch': 0.45}
+ 45%|████▌     | 1020/2246 [4:56:19<5:43:49, 16.83s/it]2025-09-27 18:38:48,610 - INFO - Step 1020: Train Loss = 0.1437
+{'loss': 0.1437, 'grad_norm': 0.809029757976532, 'learning_rate': 1.2154120613550786e-05, 'epoch': 0.45}
+ 46%|████▌     | 1030/2246 [4:59:07<5:40:58, 16.82s/it]2025-09-27 18:41:36,242 - INFO - Step 1030: Train Loss = 0.1440
+{'loss': 0.144, 'grad_norm': 0.48636284470558167, 'learning_rate': 1.2011603911471228e-05, 'epoch': 0.46}
+ 46%|████▋     | 1040/2246 [5:01:51<5:35:37, 16.70s/it]2025-09-27 18:44:20,230 - INFO - Step 1040: Train Loss = 0.1147
+{'loss': 0.1147, 'grad_norm': 0.6473410129547119, 'learning_rate': 1.1868660102066973e-05, 'epoch': 0.46}
+ 47%|████▋     | 1050/2246 [5:04:44<5:41:04, 17.11s/it]2025-09-27 18:47:13,643 - INFO - Step 1050: Train Loss = 0.1865
+{'loss': 0.1865, 'grad_norm': 0.645801305770874, 'learning_rate': 1.1725319535422189e-05, 'epoch': 0.47}
+ 47%|████▋     | 1060/2246 [5:07:29<5:24:51, 16.44s/it]2025-09-27 18:49:57,958 - INFO - Step 1060: Train Loss = 0.1380
+{'loss': 0.138, 'grad_norm': 1.29079008102417, 'learning_rate': 1.1581612645861235e-05, 'epoch': 0.47}
+ 48%|████▊     | 1070/2246 [5:10:17<5:29:57, 16.83s/it]2025-09-27 18:52:46,577 - INFO - Step 1070: Train Loss = 0.1248
+{'loss': 0.1248, 'grad_norm': 1.0456874370574951, 'learning_rate': 1.143756994548682e-05, 'epoch': 0.48}
+ 48%|████▊     | 1080/2246 [5:13:05<5:22:44, 16.61s/it]2025-09-27 18:55:34,176 - INFO - Step 1080: Train Loss = 0.1410
+{'loss': 0.141, 'grad_norm': 0.48293036222457886, 'learning_rate': 1.129322201770159e-05, 'epoch': 0.48}
+ 49%|████▊     | 1090/2246 [5:15:56<5:32:50, 17.28s/it]2025-09-27 18:58:24,752 - INFO - Step 1090: Train Loss = 0.1404
+{'loss': 0.1404, 'grad_norm': 0.9879944324493408, 'learning_rate': 1.1148599510714623e-05, 'epoch': 0.49}
+ 49%|████▉     | 1100/2246 [5:18:45<5:24:09, 16.97s/it]2025-09-27 19:01:14,713 - INFO - Step 1100: Train Loss = 0.1306
+{'loss': 0.1306, 'grad_norm': 8.842872619628906, 'learning_rate': 1.1003733131034147e-05, 'epoch': 0.49}
+ 49%|████▉     | 1110/2246 [5:21:35<5:23:36, 17.09s/it]2025-09-27 19:04:04,069 - INFO - Step 1110: Train Loss = 0.1394
+{'loss': 0.1394, 'grad_norm': 0.7011876702308655, 'learning_rate': 1.085865363694787e-05, 'epoch': 0.49}
+ 50%|████▉     | 1120/2246 [5:24:25<5:06:53, 16.35s/it]2025-09-27 19:06:53,740 - INFO - Step 1120: Train Loss = 0.1481
+{'loss': 0.1481, 'grad_norm': 0.5884599685668945, 'learning_rate': 1.0713391831992324e-05, 'epoch': 0.5}
+ 50%|█████     | 1130/2246 [5:27:15<5:17:02, 17.04s/it]2025-09-27 19:09:43,744 - INFO - Step 1130: Train Loss = 0.1285
+{'loss': 0.1285, 'grad_norm': 0.7872176766395569, 'learning_rate': 1.0567978558412621e-05, 'epoch': 0.5}
+ 51%|█████     | 1140/2246 [5:30:03<5:05:11, 16.56s/it]2025-09-27 19:12:31,995 - INFO - Step 1140: Train Loss = 0.1373
+{'loss': 0.1373, 'grad_norm': 1.3085482120513916, 'learning_rate': 1.0422444690613955e-05, 'epoch': 0.51}
+ 51%|█████     | 1150/2246 [5:32:50<5:04:40, 16.68s/it]2025-09-27 19:15:18,830 - INFO - Step 1150: Train Loss = 0.1271
+{'loss': 0.1271, 'grad_norm': 0.5864449143409729, 'learning_rate': 1.02768211286063e-05, 'epoch': 0.51}
+ 52%|█████▏    | 1160/2246 [5:35:38<5:02:32, 16.71s/it]2025-09-27 19:18:07,135 - INFO - Step 1160: Train Loss = 0.1339
+{'loss': 0.1339, 'grad_norm': 0.5493103861808777, 'learning_rate': 1.0131138791443662e-05, 'epoch': 0.52}
+ 52%|█████▏    | 1170/2246 [5:38:26<4:57:48, 16.61s/it]2025-09-27 19:20:54,785 - INFO - Step 1170: Train Loss = 0.1299
+{'loss': 0.1299, 'grad_norm': 0.6662110090255737, 'learning_rate': 9.985428610659295e-06, 'epoch': 0.52}
+ 53%|█████▎    | 1180/2246 [5:41:15<5:02:15, 17.01s/it]2025-09-27 19:23:43,845 - INFO - Step 1180: Train Loss = 0.1284
+{'loss': 0.1284, 'grad_norm': 0.8292595148086548, 'learning_rate': 9.839721523698265e-06, 'epoch': 0.53}
+ 53%|█████▎    | 1190/2246 [5:44:07<5:07:05, 17.45s/it]2025-09-27 19:26:36,077 - INFO - Step 1190: Train Loss = 0.1612
+{'loss': 0.1612, 'grad_norm': 0.7789509296417236, 'learning_rate': 9.69404846734874e-06, 'epoch': 0.53}
+ 53%|█████▎    | 1200/2246 [5:46:59<5:04:45, 17.48s/it]2025-09-27 19:29:28,069 - INFO - Step 1200: Train Loss = 0.1296
+{'loss': 0.1296, 'grad_norm': 0.5844010710716248, 'learning_rate': 9.54844037117346e-06, 'epoch': 0.53}
+ 54%|█████▍    | 1210/2246 [5:49:45<4:46:40, 16.60s/it]2025-09-27 19:32:14,629 - INFO - Step 1210: Train Loss = 0.1466
+{'loss': 0.1466, 'grad_norm': 0.6976734399795532, 'learning_rate': 9.402928150942694e-06, 'epoch': 0.54}
+ 54%|█████▍    | 1220/2246 [5:52:32<4:41:41, 16.47s/it]2025-09-27 19:35:00,860 - INFO - Step 1220: Train Loss = 0.1179
+{'loss': 0.1179, 'grad_norm': 0.674224853515625, 'learning_rate': 9.257542702070174e-06, 'epoch': 0.54}
+ 55%|█████▍    | 1230/2246 [5:55:22<4:51:29, 17.21s/it]2025-09-27 19:37:50,902 - INFO - Step 1230: Train Loss = 0.1409
+{'loss': 0.1409, 'grad_norm': 0.6420808434486389, 'learning_rate': 9.1123148930533e-06, 'epoch': 0.55}
+ 55%|█████▌    | 1240/2246 [5:58:09<4:46:46, 17.10s/it]2025-09-27 19:40:38,515 - INFO - Step 1240: Train Loss = 0.1753
+{'loss': 0.1753, 'grad_norm': 0.5750681757926941, 'learning_rate': 8.967275558919096e-06, 'epoch': 0.55}
+ 56%|█████▌    | 1250/2246 [6:01:00<4:41:20, 16.95s/it]2025-09-27 19:43:29,366 - INFO - Step 1250: Train Loss = 0.1294
+{'loss': 0.1294, 'grad_norm': 0.4977315664291382, 'learning_rate': 8.822455494677274e-06, 'epoch': 0.56}
+ 56%|█████▌    | 1260/2246 [6:03:46<4:37:12, 16.87s/it]2025-09-27 19:46:15,613 - INFO - Step 1260: Train Loss = 0.1269
+{'loss': 0.1269, 'grad_norm': 0.7449968457221985, 'learning_rate': 8.67788544878176e-06, 'epoch': 0.56}
+ 57%|█████▋    | 1270/2246 [6:06:38<4:31:13, 16.67s/it]2025-09-27 19:49:07,574 - INFO - Step 1270: Train Loss = 0.1086
+{'loss': 0.1086, 'grad_norm': 0.48061060905456543, 'learning_rate': 8.533596116602156e-06, 'epoch': 0.57}
+ 57%|█████▋    | 1280/2246 [6:09:28<4:38:50, 17.32s/it]2025-09-27 19:51:57,588 - INFO - Step 1280: Train Loss = 0.1179
+{'loss': 0.1179, 'grad_norm': 0.7364252805709839, 'learning_rate': 8.389618133906401e-06, 'epoch': 0.57}
+ 57%|█████▋    | 1290/2246 [6:12:18<4:28:32, 16.85s/it]2025-09-27 19:54:46,844 - INFO - Step 1290: Train Loss = 0.1172
+{'loss': 0.1172, 'grad_norm': 0.5865957140922546, 'learning_rate': 8.245982070356186e-06, 'epoch': 0.57}
+ 58%|█████▊    | 1300/2246 [6:15:07<4:24:37, 16.78s/it]2025-09-27 19:57:36,378 - INFO - Step 1300: Train Loss = 0.1304
+{'loss': 0.1304, 'grad_norm': 1.096891164779663, 'learning_rate': 8.102718423016298e-06, 'epoch': 0.58}
+ 58%|█████▊    | 1310/2246 [6:17:59<4:29:46, 17.29s/it]2025-09-27 20:00:28,423 - INFO - Step 1310: Train Loss = 0.1436
+{'loss': 0.1436, 'grad_norm': 0.5227088928222656, 'learning_rate': 7.959857609879472e-06, 'epoch': 0.58}
+ 59%|█████▉    | 1320/2246 [6:20:50<4:21:56, 16.97s/it]2025-09-27 20:03:19,470 - INFO - Step 1320: Train Loss = 0.1225
+{'loss': 0.1225, 'grad_norm': 0.6524396538734436, 'learning_rate': 7.817429963407946e-06, 'epoch': 0.59}
+ 59%|█████▉    | 1330/2246 [6:23:42<4:25:42, 17.40s/it]2025-09-27 20:06:11,431 - INFO - Step 1330: Train Loss = 0.1256
+{'loss': 0.1256, 'grad_norm': 0.5746493935585022, 'learning_rate': 7.675465724093254e-06, 'epoch': 0.59}
+ 60%|█████▉    | 1340/2246 [6:26:37<4:19:12, 17.17s/it]2025-09-27 20:09:05,744 - INFO - Step 1340: Train Loss = 0.1369
+{'loss': 0.1369, 'grad_norm': 0.6901116371154785, 'learning_rate': 7.533995034035491e-06, 'epoch': 0.6}
+ 60%|█████▉    | 1347/2246 [6:28:36<4:15:13, 17.03s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 60%|█████▉    | 1347/2246 [6:29:09<4:15:13, 172025-09-27 20:11:38,708 - INFO - Step 1347: Eval Loss = 0.1384
+100%|██████████| 37/37 [00:33<00:00,  1.24it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.13837040960788727, 'eval_runtime': 33.9702, 'eval_samples_per_second': 17.074, 'eval_steps_per_second': 1.089, 'epoch': 0.6}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-898] due to args.save_total_limit
+ 60%|██████    | 1350/2246 [6:34:00<14:13:07, 57.13s/it]2025-09-27 20:16:29,682 - INFO - Step 1350: Train Loss = 0.1249
+{'loss': 0.1249, 'grad_norm': 0.7129737138748169, 'learning_rate': 7.393047930543502e-06, 'epoch': 0.6}
+ 61%|██████    | 1360/2246 [6:36:43<4:13:03, 17.14s/it]2025-09-27 20:19:12,081 - INFO - Step 1360: Train Loss = 0.1303
+{'loss': 0.1303, 'grad_norm': 0.7380155324935913, 'learning_rate': 7.252654339757297e-06, 'epoch': 0.61}
+ 61%|██████    | 1370/2246 [6:39:26<3:56:39, 16.21s/it]2025-09-27 20:21:55,497 - INFO - Step 1370: Train Loss = 0.1080
+{'loss': 0.108, 'grad_norm': 0.5249155759811401, 'learning_rate': 7.11284407029407e-06, 'epoch': 0.61}
+ 61%|██████▏   | 1380/2246 [6:42:09<3:58:02, 16.49s/it]2025-09-27 20:24:38,680 - INFO - Step 1380: Train Loss = 0.1288
+{'loss': 0.1288, 'grad_norm': 0.6632986664772034, 'learning_rate': 6.973646806919214e-06, 'epoch': 0.61}
+ 62%|██████▏   | 1390/2246 [6:44:57<3:57:02, 16.62s/it]2025-09-27 20:27:26,185 - INFO - Step 1390: Train Loss = 0.1482
+{'loss': 0.1482, 'grad_norm': 0.8959377408027649, 'learning_rate': 6.835092104243566e-06, 'epoch': 0.62}
+ 62%|██████▏   | 1400/2246 [6:47:38<3:40:51, 15.66s/it]2025-09-27 20:30:07,606 - INFO - Step 1400: Train Loss = 0.1349
+{'loss': 0.1349, 'grad_norm': 0.49398162961006165, 'learning_rate': 6.697209380448333e-06, 'epoch': 0.62}
+ 63%|██████▎   | 1410/2246 [6:50:26<3:52:18, 16.67s/it]2025-09-27 20:32:55,240 - INFO - Step 1410: Train Loss = 0.1129
+{'loss': 0.1129, 'grad_norm': 0.6897046566009521, 'learning_rate': 6.560027911038962e-06, 'epoch': 0.63}
+ 63%|██████▎   | 1420/2246 [6:53:13<3:52:35, 16.90s/it]2025-09-27 20:35:41,760 - INFO - Step 1420: Train Loss = 0.1148
+{'loss': 0.1148, 'grad_norm': 0.5953502655029297, 'learning_rate': 6.423576822629337e-06, 'epoch': 0.63}
+ 64%|██████▎   | 1430/2246 [6:56:03<3:51:59, 17.06s/it]2025-09-27 20:38:32,048 - INFO - Step 1430: Train Loss = 0.0988
+{'loss': 0.0988, 'grad_norm': 0.5555019378662109, 'learning_rate': 6.28788508675753e-06, 'epoch': 0.64}
+ 64%|██████▍   | 1440/2246 [6:58:47<3:47:01, 16.90s/it]2025-09-27 20:41:16,639 - INFO - Step 1440: Train Loss = 0.1352
+{'loss': 0.1352, 'grad_norm': 0.8174091577529907, 'learning_rate': 6.152981513734545e-06, 'epoch': 0.64}
+ 65%|██████▍   | 1450/2246 [7:01:31<3:34:35, 16.17s/it]2025-09-27 20:44:00,374 - INFO - Step 1450: Train Loss = 0.1118
+{'loss': 0.1118, 'grad_norm': 0.8602805137634277, 'learning_rate': 6.018894746527236e-06, 'epoch': 0.65}
+ 65%|██████▌   | 1460/2246 [7:04:11<3:25:18, 15.67s/it]2025-09-27 20:46:40,312 - INFO - Step 1460: Train Loss = 0.1248
+{'loss': 0.1248, 'grad_norm': 0.646154522895813, 'learning_rate': 5.885653254676793e-06, 'epoch': 0.65}
+ 65%|██████▌   | 1470/2246 [7:06:56<3:38:45, 16.91s/it]2025-09-27 20:49:25,224 - INFO - Step 1470: Train Loss = 0.1252
+{'loss': 0.1252, 'grad_norm': 0.7207592129707336, 'learning_rate': 5.753285328254039e-06, 'epoch': 0.65}
+ 66%|██████▌   | 1480/2246 [7:09:40<3:32:22, 16.64s/it]2025-09-27 20:52:09,240 - INFO - Step 1480: Train Loss = 0.1214
+{'loss': 0.1214, 'grad_norm': 0.5215727686882019, 'learning_rate': 5.621819071852826e-06, 'epoch': 0.66}
+ 66%|██████▋   | 1490/2246 [7:12:25<3:30:26, 16.70s/it]2025-09-27 20:54:54,456 - INFO - Step 1490: Train Loss = 0.1173
+{'loss': 0.1173, 'grad_norm': 0.7553316950798035, 'learning_rate': 5.491282398622837e-06, 'epoch': 0.66}
+ 67%|██████▋   | 1500/2246 [7:15:12<3:23:21, 16.36s/it]2025-09-27 20:57:40,780 - INFO - Step 1500: Train Loss = 0.1321
+{'loss': 0.1321, 'grad_norm': 0.4967122972011566, 'learning_rate': 5.361703024342978e-06, 'epoch': 0.67}
+ 67%|██████▋   | 1510/2246 [7:18:01<3:31:44, 17.26s/it]2025-09-27 21:00:29,810 - INFO - Step 1510: Train Loss = 0.1319
+{'loss': 0.1319, 'grad_norm': 0.5567761063575745, 'learning_rate': 5.233108461536749e-06, 'epoch': 0.67}
+ 68%|██████▊   | 1520/2246 [7:20:48<3:20:11, 16.54s/it]2025-09-27 21:03:17,250 - INFO - Step 1520: Train Loss = 0.1234
+{'loss': 0.1234, 'grad_norm': 0.6143680810928345, 'learning_rate': 5.105526013630721e-06, 'epoch': 0.68}
+ 68%|██████▊   | 1530/2246 [7:23:35<3:17:08, 16.52s/it]2025-09-27 21:06:04,662 - INFO - Step 1530: Train Loss = 0.1203
+{'loss': 0.1203, 'grad_norm': 0.573143482208252, 'learning_rate': 4.978982769157439e-06, 'epoch': 0.68}
+ 69%|██████▊   | 1540/2246 [7:26:22<3:18:45, 16.89s/it]2025-09-27 21:08:51,571 - INFO - Step 1540: Train Loss = 0.1113
+{'loss': 0.1113, 'grad_norm': 0.6707868576049805, 'learning_rate': 4.8535055960039046e-06, 'epoch': 0.69}
+ 69%|██████▉   | 1550/2246 [7:29:10<3:10:41, 16.44s/it]2025-09-27 21:11:39,259 - INFO - Step 1550: Train Loss = 0.1275
+{'loss': 0.1275, 'grad_norm': 0.6106908917427063, 'learning_rate': 4.729121135706967e-06, 'epoch': 0.69}
+ 69%|██████▉   | 1560/2246 [7:31:58<3:06:21, 16.30s/it]2025-09-27 21:14:26,731 - INFO - Step 1560: Train Loss = 0.1141
+{'loss': 0.1141, 'grad_norm': 0.5579461455345154, 'learning_rate': 4.605855797796745e-06, 'epoch': 0.69}
+ 70%|██████▉   | 1570/2246 [7:34:39<2:59:05, 15.90s/it]2025-09-27 21:17:08,060 - INFO - Step 1570: Train Loss = 0.1159
+{'loss': 0.1159, 'grad_norm': 0.6837334632873535, 'learning_rate': 4.483735754189289e-06, 'epoch': 0.7}
+ 70%|███████   | 1580/2246 [7:37:25<3:02:55, 16.48s/it]2025-09-27 21:19:53,717 - INFO - Step 1580: Train Loss = 0.1401
+{'loss': 0.1401, 'grad_norm': 0.5019082427024841, 'learning_rate': 4.362786933629728e-06, 'epoch': 0.7}
+ 71%|███████   | 1590/2246 [7:40:10<2:58:48, 16.35s/it]2025-09-27 21:22:38,740 - INFO - Step 1590: Train Loss = 0.1135
+{'loss': 0.1135, 'grad_norm': 0.5474997162818909, 'learning_rate': 4.2430350161870145e-06, 'epoch': 0.71}
+ 71%|███████   | 1600/2246 [7:42:55<3:01:08, 16.82s/it]2025-09-27 21:25:24,177 - INFO - Step 1600: Train Loss = 0.1216
+{'loss': 0.1216, 'grad_norm': 0.7581780552864075, 'learning_rate': 4.124505427801524e-06, 'epoch': 0.71}
+ 72%|███████▏  | 1610/2246 [7:45:40<2:52:30, 16.27s/it]2025-09-27 21:28:08,876 - INFO - Step 1610: Train Loss = 0.0975
+{'loss': 0.0975, 'grad_norm': 0.48997989296913147, 'learning_rate': 4.007223334886531e-06, 'epoch': 0.72}
+ 72%|███████▏  | 1620/2246 [7:48:26<2:54:37, 16.74s/it]2025-09-27 21:30:54,758 - INFO - Step 1620: Train Loss = 0.1160
+{'loss': 0.116, 'grad_norm': 0.8690016865730286, 'learning_rate': 3.891213638984858e-06, 'epoch': 0.72}
+ 73%|███████▎  | 1630/2246 [7:51:14<2:53:33, 16.91s/it]2025-09-27 21:33:42,930 - INFO - Step 1630: Train Loss = 0.1258
+{'loss': 0.1258, 'grad_norm': 0.5118547677993774, 'learning_rate': 3.7765009714817246e-06, 'epoch': 0.73}
+ 73%|███████▎  | 1640/2246 [7:54:04<2:54:29, 17.28s/it]2025-09-27 21:36:33,260 - INFO - Step 1640: Train Loss = 0.1399
+{'loss': 0.1399, 'grad_norm': 0.8491219878196716, 'learning_rate': 3.6631096883749727e-06, 'epoch': 0.73}
+ 73%|███████▎  | 1650/2246 [7:56:51<2:45:18, 16.64s/it]2025-09-27 21:39:20,522 - INFO - Step 1650: Train Loss = 0.1162
+{'loss': 0.1162, 'grad_norm': 0.4655008614063263, 'learning_rate': 3.5510638651037567e-06, 'epoch': 0.73}
+ 74%|███████▍  | 1660/2246 [7:59:34<2:36:12, 15.99s/it]2025-09-27 21:42:02,859 - INFO - Step 1660: Train Loss = 0.1106
+{'loss': 0.1106, 'grad_norm': 0.5474153161048889, 'learning_rate': 3.440387291436802e-06, 'epoch': 0.74}
+ 74%|███████▍  | 1670/2246 [8:02:22<2:39:23, 16.60s/it]2025-09-27 21:44:51,200 - INFO - Step 1670: Train Loss = 0.1015
+{'loss': 0.1015, 'grad_norm': 0.5804286599159241, 'learning_rate': 3.331103466421317e-06, 'epoch': 0.74}
+ 75%|███████▍  | 1680/2246 [8:05:06<2:32:47, 16.20s/it]2025-09-27 21:47:34,786 - INFO - Step 1680: Train Loss = 0.1411
+{'loss': 0.1411, 'grad_norm': 0.7022547721862793, 'learning_rate': 3.223235593393642e-06, 'epoch': 0.75}
+ 75%|███████▌  | 1690/2246 [8:07:53<2:35:43, 16.80s/it]2025-09-27 21:50:22,456 - INFO - Step 1690: Train Loss = 0.0998
+{'loss': 0.0998, 'grad_norm': 0.520829439163208, 'learning_rate': 3.1168065750526645e-06, 'epoch': 0.75}
+ 76%|███████▌  | 1700/2246 [8:10:40<2:30:35, 16.55s/it]2025-09-27 21:53:09,223 - INFO - Step 1700: Train Loss = 0.1127
+{'loss': 0.1127, 'grad_norm': 0.49741095304489136, 'learning_rate': 3.011839008597086e-06, 'epoch': 0.76}
+ 76%|███████▌  | 1710/2246 [8:13:27<2:28:56, 16.67s/it]2025-09-27 21:55:56,602 - INFO - Step 1710: Train Loss = 0.1106
+{'loss': 0.1106, 'grad_norm': 0.4156533479690552, 'learning_rate': 2.9083551809275388e-06, 'epoch': 0.76}
+ 77%|███████▋  | 1720/2246 [8:16:16<2:26:50, 16.75s/it]2025-09-27 21:58:45,517 - INFO - Step 1720: Train Loss = 0.1022
+{'loss': 0.1022, 'grad_norm': 0.6626045107841492, 'learning_rate': 2.8063770639145947e-06, 'epoch': 0.77}
+ 77%|███████▋  | 1730/2246 [8:18:58<2:18:42, 16.13s/it]2025-09-27 22:01:27,206 - INFO - Step 1730: Train Loss = 0.1085
+{'loss': 0.1085, 'grad_norm': 0.5760002732276917, 'learning_rate': 2.7059263097336595e-06, 'epoch': 0.77}
+ 77%|███████▋  | 1740/2246 [8:21:42<2:17:34, 16.31s/it]2025-09-27 22:04:10,839 - INFO - Step 1740: Train Loss = 0.1223
+{'loss': 0.1223, 'grad_norm': 0.9162394404411316, 'learning_rate': 2.6070242462677376e-06, 'epoch': 0.77}
+ 78%|███████▊  | 1750/2246 [8:24:25<2:15:56, 16.44s/it]2025-09-27 22:06:54,620 - INFO - Step 1750: Train Loss = 0.0997
+{'loss': 0.0997, 'grad_norm': 0.5248154401779175, 'learning_rate': 2.5096918725790754e-06, 'epoch': 0.78}
+ 78%|███████▊  | 1760/2246 [8:27:09<2:16:24, 16.84s/it]2025-09-27 22:09:38,645 - INFO - Step 1760: Train Loss = 0.1014
+{'loss': 0.1014, 'grad_norm': 0.4201747477054596, 'learning_rate': 2.4139498544505712e-06, 'epoch': 0.78}
+ 79%|███████▉  | 1770/2246 [8:29:52<2:06:12, 15.91s/it]2025-09-27 22:12:20,855 - INFO - Step 1770: Train Loss = 0.1205
+{'loss': 0.1205, 'grad_norm': 0.7569869160652161, 'learning_rate': 2.319818519998013e-06, 'epoch': 0.79}
+ 79%|███████▉  | 1780/2246 [8:32:42<2:09:22, 16.66s/it]2025-09-27 22:15:10,742 - INFO - Step 1780: Train Loss = 0.0995
+{'loss': 0.0995, 'grad_norm': 0.6939945816993713, 'learning_rate': 2.2273178553539542e-06, 'epoch': 0.79}
+ 80%|███████▉  | 1790/2246 [8:35:25<2:08:00, 16.84s/it]2025-09-27 22:17:54,076 - INFO - Step 1790: Train Loss = 0.1203
+{'loss': 0.1203, 'grad_norm': 0.4336685836315155, 'learning_rate': 2.136467500424243e-06, 'epoch': 0.8}
+ 80%|███████▉  | 1796/2246 [8:37:05<2:01:34, 16.21s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 80%|███████▉  | 1796/2246 [8:37:38<2:01:34, 162025-09-27 22:20:07,280 - INFO - Step 1796: Eval Loss = 0.1316
+100%|██████████| 37/37 [00:32<00:00,  1.24it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.13157837092876434, 'eval_runtime': 33.3441, 'eval_samples_per_second': 17.394, 'eval_steps_per_second': 1.11, 'epoch': 0.8}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1347] due to args.save_total_limit
+ 80%|████████  | 1800/2246 [8:42:49<5:35:21, 45.12s/it]2025-09-27 22:25:18,050 - INFO - Step 1800: Train Loss = 0.0986
+{'loss': 0.0986, 'grad_norm': 0.728756308555603, 'learning_rate': 2.04728674471802e-06, 'epoch': 0.8}
+ 81%|████████  | 1810/2246 [8:45:35<2:06:40, 17.43s/it]2025-09-27 22:28:04,234 - INFO - Step 1810: Train Loss = 0.1110
+{'loss': 0.111, 'grad_norm': 0.858950674533844, 'learning_rate': 1.959794523252141e-06, 'epoch': 0.81}
+ 81%|████████  | 1820/2246 [8:48:21<1:57:22, 16.53s/it]2025-09-27 22:30:50,379 - INFO - Step 1820: Train Loss = 0.1107
+{'loss': 0.1107, 'grad_norm': 0.5555981397628784, 'learning_rate': 1.8740094125308773e-06, 'epoch': 0.81}
+ 81%|████████▏ | 1830/2246 [8:51:10<1:55:22, 16.64s/it]2025-09-27 22:33:39,470 - INFO - Step 1830: Train Loss = 0.1057
+{'loss': 0.1057, 'grad_norm': 0.48119112849235535, 'learning_rate': 1.7899496266017003e-06, 'epoch': 0.82}
+ 82%|████████▏ | 1840/2246 [8:53:58<1:54:15, 16.89s/it]2025-09-27 22:36:27,314 - INFO - Step 1840: Train Loss = 0.1165
+{'loss': 0.1165, 'grad_norm': 0.7312708497047424, 'learning_rate': 1.7076330131880525e-06, 'epoch': 0.82}
+ 82%|████████▏ | 1850/2246 [8:56:42<1:45:30, 15.98s/it]2025-09-27 22:39:10,829 - INFO - Step 1850: Train Loss = 0.1191
+{'loss': 0.1191, 'grad_norm': 0.48705118894577026, 'learning_rate': 1.6270770498998723e-06, 'epoch': 0.82}
+ 83%|████████▎ | 1860/2246 [8:59:27<1:47:42, 16.74s/it]2025-09-27 22:41:55,981 - INFO - Step 1860: Train Loss = 0.1298
+{'loss': 0.1298, 'grad_norm': 0.5835655331611633, 'learning_rate': 1.548298840522746e-06, 'epoch': 0.83}
+ 83%|████████▎ | 1870/2246 [9:02:15<1:45:06, 16.77s/it]2025-09-27 22:44:44,426 - INFO - Step 1870: Train Loss = 0.1263
+{'loss': 0.1263, 'grad_norm': 0.6025564074516296, 'learning_rate': 1.471315111386371e-06, 'epoch': 0.83}
+ 84%|████████▎ | 1880/2246 [9:05:03<1:42:34, 16.82s/it]2025-09-27 22:47:31,764 - INFO - Step 1880: Train Loss = 0.1056
+{'loss': 0.1056, 'grad_norm': 0.8837511539459229, 'learning_rate': 1.3961422078132113e-06, 'epoch': 0.84}
+ 84%|████████▍ | 1890/2246 [9:07:49<1:42:40, 17.30s/it]2025-09-27 22:50:18,622 - INFO - Step 1890: Train Loss = 0.1063
+{'loss': 0.1063, 'grad_norm': 0.8103788495063782, 'learning_rate': 1.322796090648013e-06, 'epoch': 0.84}
+ 85%|████████▍ | 1900/2246 [9:10:36<1:35:31, 16.56s/it]2025-09-27 22:53:04,947 - INFO - Step 1900: Train Loss = 0.1074
+{'loss': 0.1074, 'grad_norm': 0.5147777795791626, 'learning_rate': 1.251292332868992e-06, 'epoch': 0.85}
+ 85%|████████▌ | 1910/2246 [9:13:23<1:33:42, 16.73s/it]2025-09-27 22:55:52,103 - INFO - Step 1910: Train Loss = 0.1174
+{'loss': 0.1174, 'grad_norm': 0.5497256517410278, 'learning_rate': 1.1816461162813287e-06, 'epoch': 0.85}
+ 85%|████████▌ | 1920/2246 [9:16:02<1:26:42, 15.96s/it]2025-09-27 22:58:30,921 - INFO - Step 1920: Train Loss = 0.1283
+{'loss': 0.1283, 'grad_norm': 0.5522827506065369, 'learning_rate': 1.113872228293754e-06, 'epoch': 0.86}
+ 86%|████████▌ | 1930/2246 [9:18:46<1:26:52, 16.50s/it]2025-09-27 23:01:15,429 - INFO - Step 1930: Train Loss = 0.0978
+{'loss': 0.0978, 'grad_norm': 0.643095850944519, 'learning_rate': 1.0479850587788565e-06, 'epoch': 0.86}
+ 86%|████████▋ | 1940/2246 [9:21:33<1:26:59, 17.06s/it]2025-09-27 23:04:02,669 - INFO - Step 1940: Train Loss = 0.1033
+{'loss': 0.1033, 'grad_norm': 0.68211829662323, 'learning_rate': 9.839985970177956e-07, 'epoch': 0.86}
+ 87%|████████▋ | 1950/2246 [9:24:17<1:21:22, 16.50s/it]2025-09-27 23:06:46,433 - INFO - Step 1950: Train Loss = 0.1155
+{'loss': 0.1155, 'grad_norm': 0.6686010360717773, 'learning_rate': 9.2192642873008e-07, 'epoch': 0.87}
+ 87%|████████▋ | 1960/2246 [9:27:03<1:18:21, 16.44s/it]2025-09-27 23:09:32,340 - INFO - Step 1960: Train Loss = 0.1052
+{'loss': 0.1052, 'grad_norm': 0.6651125550270081, 'learning_rate': 8.617817331890155e-07, 'epoch': 0.87}
+ 88%|████████▊ | 1970/2246 [9:29:50<1:17:36, 16.87s/it]2025-09-27 23:12:18,774 - INFO - Step 1970: Train Loss = 0.1218
+{'loss': 0.1218, 'grad_norm': 1.5401411056518555, 'learning_rate': 8.035772804234632e-07, 'epoch': 0.88}
+ 88%|████████▊ | 1980/2246 [9:32:33<1:12:40, 16.39s/it]2025-09-27 23:15:02,425 - INFO - Step 1980: Train Loss = 0.0981
+{'loss': 0.0981, 'grad_norm': 0.6089488863945007, 'learning_rate': 7.473254285064857e-07, 'epoch': 0.88}
+ 89%|████████▊ | 1990/2246 [9:35:21<1:10:30, 16.52s/it]2025-09-27 23:17:50,453 - INFO - Step 1990: Train Loss = 0.1083
+[2025-09-27 23:16:27,603] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1083, 'grad_norm': 0.6025575399398804, 'learning_rate': 6.930381209314508e-07, 'epoch': 0.89}
+ 89%|████████▉ | 2000/2246 [9:38:10<1:08:44, 16.77s/it]2025-09-27 23:20:39,160 - INFO - Step 2000: Train Loss = 0.1050
+{'loss': 0.105, 'grad_norm': 0.5695028901100159, 'learning_rate': 6.407268840761771e-07, 'epoch': 0.89}
+ 89%|████████▉ | 2010/2246 [9:40:54<1:04:35, 16.42s/it]2025-09-27 23:23:23,089 - INFO - Step 2010: Train Loss = 0.1088
+{'loss': 0.1088, 'grad_norm': 0.6037166118621826, 'learning_rate': 5.904028247556303e-07, 'epoch': 0.9}
+ 90%|████████▉ | 2020/2246 [9:43:39<1:02:29, 16.59s/it]2025-09-27 23:26:08,323 - INFO - Step 2020: Train Loss = 0.1171
+{'loss': 0.1171, 'grad_norm': 0.6613475680351257, 'learning_rate': 5.420766278637013e-07, 'epoch': 0.9}
+ 90%|█████████ | 2030/2246 [9:46:25<59:05, 16.42s/it]2025-09-27 23:28:54,101 - INFO - Step 2030: Train Loss = 0.1172
+{'loss': 0.1172, 'grad_norm': 0.5234799981117249, 'learning_rate': 4.957585541045684e-07, 'epoch': 0.9}
+ 91%|█████████ | 2040/2246 [9:49:08<55:10, 16.07s/it]2025-09-27 23:31:36,950 - INFO - Step 2040: Train Loss = 0.1196
+{'loss': 0.1196, 'grad_norm': 0.6257016658782959, 'learning_rate': 4.5145843781413513e-07, 'epoch': 0.91}
+ 91%|█████████▏| 2050/2246 [9:51:53<53:45, 16.46s/it]2025-09-27 23:34:22,154 - INFO - Step 2050: Train Loss = 0.1102
+{'loss': 0.1102, 'grad_norm': 0.8387407660484314, 'learning_rate': 4.091856848719844e-07, 'epoch': 0.91}
+ 92%|█████████▏| 2060/2246 [9:54:38<50:45, 16.37s/it]2025-09-27 23:37:07,349 - INFO - Step 2060: Train Loss = 0.1206
+{'loss': 0.1206, 'grad_norm': 0.5274228453636169, 'learning_rate': 3.6894927070429744e-07, 'epoch': 0.92}
+ 92%|█████████▏| 2070/2246 [9:57:23<49:33, 16.90s/it]2025-09-27 23:39:52,591 - INFO - Step 2070: Train Loss = 0.1064
+{'loss': 0.1064, 'grad_norm': 1.0020979642868042, 'learning_rate': 3.30757738378179e-07, 'epoch': 0.92}
+ 93%|█████████▎| 2080/2246 [10:00:07<45:32, 16.46s/it]2025-09-27 23:42:36,189 - INFO - Step 2080: Train Loss = 0.1180
+{'loss': 0.118, 'grad_norm': 0.6438172459602356, 'learning_rate': 2.946191967877865e-07, 'epoch': 0.93}
+ 93%|█████████▎| 2090/2246 [10:02:50<41:58, 16.15s/it]2025-09-27 23:45:18,737 - INFO - Step 2090: Train Loss = 0.1183
+{'loss': 0.1183, 'grad_norm': 0.6267462968826294, 'learning_rate': 2.6054131893262557e-07, 'epoch': 0.93}
+ 93%|█████████▎| 2100/2246 [10:05:34<40:07, 16.49s/it]2025-09-27 23:48:03,099 - INFO - Step 2100: Train Loss = 0.1181
+{'loss': 0.1181, 'grad_norm': 0.5906540155410767, 'learning_rate': 2.2853134028840594e-07, 'epoch': 0.94}
+ 94%|█████████▍| 2110/2246 [10:08:15<35:45, 15.78s/it]2025-09-27 23:50:44,219 - INFO - Step 2110: Train Loss = 0.1114
+{'loss': 0.1114, 'grad_norm': 0.5929514169692993, 'learning_rate': 1.9859605727079456e-07, 'epoch': 0.94}
+ 94%|█████████▍| 2120/2246 [10:10:59<33:22, 15.89s/it]2025-09-27 23:53:28,655 - INFO - Step 2120: Train Loss = 0.1242
+{'loss': 0.1242, 'grad_norm': 0.4563843905925751, 'learning_rate': 1.7074182579239097e-07, 'epoch': 0.94}
+ 95%|█████████▍| 2130/2246 [10:13:47<32:01, 16.56s/it]2025-09-27 23:56:16,494 - INFO - Step 2130: Train Loss = 0.0958
+{'loss': 0.0958, 'grad_norm': 0.5498427748680115, 'learning_rate': 1.4497455991322574e-07, 'epoch': 0.95}
+ 95%|█████████▌| 2140/2246 [10:16:35<28:51, 16.34s/it]2025-09-27 23:59:04,496 - INFO - Step 2140: Train Loss = 0.1092
+{'loss': 0.1092, 'grad_norm': 0.4953506290912628, 'learning_rate': 1.2129973058507605e-07, 'epoch': 0.95}
+ 96%|█████████▌| 2150/2246 [10:19:22<25:59, 16.24s/it]2025-09-28 00:01:50,982 - INFO - Step 2150: Train Loss = 0.1251
+{'loss': 0.1251, 'grad_norm': 0.8550230860710144, 'learning_rate': 9.972236448986261e-08, 'epoch': 0.96}
+ 96%|█████████▌| 2160/2246 [10:22:08<23:30, 16.40s/it]2025-09-28 00:04:37,144 - INFO - Step 2160: Train Loss = 0.1266
+{'loss': 0.1266, 'grad_norm': 0.6966635584831238, 'learning_rate': 8.024704297238006e-08, 'epoch': 0.96}
+ 97%|█████████▋| 2170/2246 [10:24:55<21:18, 16.82s/it]2025-09-28 00:07:23,813 - INFO - Step 2170: Train Loss = 0.1111
+{'loss': 0.1111, 'grad_norm': 0.6574088335037231, 'learning_rate': 6.287790106757396e-08, 'epoch': 0.97}
+ 97%|█████████▋| 2180/2246 [10:27:44<19:00, 17.28s/it]2025-09-28 00:10:13,376 - INFO - Step 2180: Train Loss = 0.1152
+{'loss': 0.1152, 'grad_norm': 0.6583188772201538, 'learning_rate': 4.761862662258532e-08, 'epoch': 0.97}
+ 98%|█████████▊| 2190/2246 [10:30:29<15:42, 16.82s/it]2025-09-28 00:12:58,338 - INFO - Step 2190: Train Loss = 0.1130
+{'loss': 0.113, 'grad_norm': 0.48650220036506653, 'learning_rate': 3.447245951373579e-08, 'epoch': 0.98}
+ 98%|█████████▊| 2200/2246 [10:33:19<13:00, 16.97s/it]2025-09-28 00:15:47,899 - INFO - Step 2200: Train Loss = 0.1078
+{'loss': 0.1078, 'grad_norm': 0.7165403962135315, 'learning_rate': 2.3442190958636867e-08, 'epoch': 0.98}
+ 98%|█████████▊| 2210/2246 [10:36:10<10:11, 16.99s/it]2025-09-28 00:18:39,401 - INFO - Step 2210: Train Loss = 0.1131
+{'loss': 0.1131, 'grad_norm': 0.6990517377853394, 'learning_rate': 1.4530162923551694e-08, 'epoch': 0.98}
+ 99%|█████████▉| 2220/2246 [10:38:55<07:02, 16.26s/it]2025-09-28 00:21:24,413 - INFO - Step 2220: Train Loss = 0.1038
+{'loss': 0.1038, 'grad_norm': 0.6350867748260498, 'learning_rate': 7.738267626141715e-09, 'epoch': 0.99}
+ 99%|█████████▉| 2230/2246 [10:41:43<04:30, 16.89s/it]2025-09-28 00:24:11,903 - INFO - Step 2230: Train Loss = 0.1114
+{'loss': 0.1114, 'grad_norm': 0.5300964713096619, 'learning_rate': 3.067947133711391e-09, 'epoch': 0.99}
+100%|█████████▉| 2240/2246 [10:44:29<01:39, 16.56s/it]2025-09-28 00:26:57,757 - INFO - Step 2240: Train Loss = 0.1181
+{'loss': 0.1181, 'grad_norm': 0.6178554892539978, 'learning_rate': 5.201930570242209e-10, 'epoch': 1.0}
+100%|█████████▉| 2245/2246 [10:45:54<00:17, 17.06s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+100%|█████████▉| 2245/2246 [10:46:28<00:17, 17.2025-09-28 00:28:57,142 - INFO - Step 2245: Eval Loss = 0.1306
+100%|██████████| 37/37 [00:32<00:00,  1.24it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.13063567876815796, 'eval_runtime': 33.7033, 'eval_samples_per_second': 17.209, 'eval_steps_per_second': 1.098, 'epoch': 1.0}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-1796] due to args.save_total_limit
+100%|██████████| 2246/2246 [10:50:39<00:00, 97.40s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245 (score: 0.13063567876815796).
+Attempting to resume from /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2245
+100%|██████████| 2246/2246 [10:57:39<00:00, 97.40s/it]Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-2246] due to args.save_total_limit
+{'train_runtime': 39462.9243, 'train_samples_per_second': 3.641, 'train_steps_per_second': 0.057, 'train_loss': 0.3457191342078249, 'epoch': 1.0}
+100%|██████████| 2246/2246 [10:57:45<00:00, 17.57s/it]
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/special_tokens_map.json
+Processing zero checkpoint '/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/global_step2245'
+Loading checkpoint shards: 100%|██████████| 2/2 [00:05<00:00,  2.52s/it]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 2
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|██████████| 399/399 [00:00<00:00, 1177710.98it/s]
+Reconstructed Trainable fp32 state dict with 399 params 8190735360 elements
+Saving checkpoint shards: 100%|██████████| 7/7 [01:50<00:00, 15.75s/it]
+Saved merged FP32 checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k

@@ -1,0 +1,229 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/477 [00:00<?, ?it/s]/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:326: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+Prompt : <|im_start|>system
+You are an expert in composing functions. You are given a question and a set of possible functions.
+Based on the question, you will need to make one or more function/tool calls to achieve the purpose.
+If none of the function can be used, point it out. If the given question lacks the parameters required by the function,
+also point it out.
+Here is a list of functions in JSON format that you can invoke:
+[{"name": "LogEntryManager.processLogEntries", "description": "Processes and stores log entries into the database with optional timestamp formatting.", "parameters": {"type": "dict", "properties": {"logEntries": {"description": "List of log entries to be processed.", "type": "array", "items": {"type": "dict", "properties": {"entryID": {"description": "Unique identifier for the log entry.", "type": "string"}, "entryMessage": {"description": "The message content of the log entry.", "type": "string"}, "entryTimestamp": {"description": "Timestamp of the log entry. Format must match '%Y-%m-%d %H:%M:%S'.", "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"}}, "required": ["entryID", "entryMessage", "entryTimestamp"]}}, "databaseTable": {"description": "The database table where log entries will be stored.", "type": "string"}}, "required": ["logEntries", "databaseTable"]}, "required": null}, {"name": "DatabaseLogger.initializeConnection", "description": "Establishes a secure connection to the specified database for logging purposes, with configurable timeout and retry options.", "parameters": {"type": "dict", "properties": {"connectionDetails": {"description": "Details of the database connection.", "type": "dict", "properties": {"databaseURL": {"description": "The URL of the database to connect to.", "type": "string"}, "username": {"description": "The username for database authentication.", "type": "string"}, "password": {"description": "The password for database authentication.", "type": "string"}}, "required": ["databaseURL", "username", "password"]}, "timeout": {"description": "Connection timeout in seconds.", "type": "int"}, "retryOptions": {"description": "Options for connection retry.", "type": "dict", "properties": {"maxRetries": {"description": "Maximum number of retry attempts.", "type": "int"}, "retryDelay": {"description": "Delay between retries in seconds.", "type": "int"}}, "required": ["maxRetries", "retryDelay"]}}, "required": ["connectionDetails"]}, "required": null}].<|im_end|>
+<|im_start|>user
+I need to process a batch of log entries into the 'app_logs' table. The entries are as follows: [{"entryID": "001", "entryMessage": "System startup", "entryTimestamp": "2023-09-01 12:00:00"}, {"entryID": "002", "entryMessage": "User login successful", "entryTimestamp": "2023-09-01 12:30:00"}]. Can you help with this?<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "LogEntryManager.processLogEntries", "arguments": {"logEntries": [{"entryID": "001", "entryMessage": "System startup", "entryTimestamp": "2023-09-01 12:00:00"}, {"entryID": "002", "entryMessage": "User login successful", "entryTimestamp": "2023-09-01 12:30:00"}], "databaseTable": "app_logs"}}
+</tool_call><|im_end|>
+`loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+  2%|▏         | 10/477 [02:01<1:30:07, 11.58s/it]2025-09-24 23:00:25,243 - INFO - Step 10: Train Loss = 1.1221
+
+{'loss': 1.1221, 'grad_norm': 24.681747436523438, 'learning_rate': 4.5e-07, 'epoch': 0.06}
+  4%|▍         | 20/477 [03:57<1:27:39, 11.51s/it]2025-09-24 23:02:20,558 - INFO - Step 20: Train Loss = 1.0455
+{'loss': 1.0455, 'grad_norm': 10.590907096862793, 'learning_rate': 9.499999999999999e-07, 'epoch': 0.13}
+  6%|▋         | 30/477 [05:52<1:26:33, 11.62s/it]2025-09-24 23:04:16,441 - INFO - Step 30: Train Loss = 0.7188
+[2025-09-24 23:03:18,655] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.7188, 'grad_norm': 5.715629577636719, 'learning_rate': 9.990433483284527e-07, 'epoch': 0.19}
+  8%|▊         | 40/477 [07:49<1:24:50, 11.65s/it]2025-09-24 23:06:13,134 - INFO - Step 40: Train Loss = 0.4160
+{'loss': 0.416, 'grad_norm': 2.2212767601013184, 'learning_rate': 9.957411038289047e-07, 'epoch': 0.25}
+ 10%|█         | 50/477 [09:46<1:22:52, 11.65s/it]2025-09-24 23:08:10,263 - INFO - Step 50: Train Loss = 0.3443
+{'loss': 0.3443, 'grad_norm': 1.3128618001937866, 'learning_rate': 9.900970515805562e-07, 'epoch': 0.32}
+ 13%|█▎        | 60/477 [11:43<1:21:12, 11.68s/it]2025-09-24 23:10:06,804 - INFO - Step 60: Train Loss = 0.3018
+{'loss': 0.3018, 'grad_norm': 1.3590569496154785, 'learning_rate': 9.821378532525478e-07, 'epoch': 0.38}
+ 15%|█▍        | 70/477 [13:41<1:19:10, 11.67s/it]2025-09-24 23:12:05,227 - INFO - Step 70: Train Loss = 0.2948
+{'loss': 0.2948, 'grad_norm': 1.2858328819274902, 'learning_rate': 9.719011069221315e-07, 'epoch': 0.44}
+ 17%|█▋        | 80/477 [15:38<1:18:16, 11.83s/it]2025-09-24 23:14:02,264 - INFO - Step 80: Train Loss = 0.2859
+{'loss': 0.2859, 'grad_norm': 1.1381685733795166, 'learning_rate': 9.594351694669069e-07, 'epoch': 0.5}
+ 19%|█▉        | 90/477 [17:33<1:14:08, 11.49s/it]2025-09-24 23:15:57,485 - INFO - Step 90: Train Loss = 0.3040
+{'loss': 0.304, 'grad_norm': 0.7854575514793396, 'learning_rate': 9.447989281340752e-07, 'epoch': 0.57}
+ 21%|██        | 100/477 [19:30<1:12:05, 11.47s/it]2025-09-24 23:17:53,811 - INFO - Step 100: Train Loss = 0.3022
+{'loss': 0.3022, 'grad_norm': 1.3417012691497803, 'learning_rate': 9.280615223657801e-07, 'epoch': 0.63}
+ 23%|██▎       | 110/477 [21:27<1:11:05, 11.62s/it]2025-09-24 23:19:51,193 - INFO - Step 110: Train Loss = 0.3632
+{'loss': 0.3632, 'grad_norm': 1.1947890520095825, 'learning_rate': 9.093020171945964e-07, 'epoch': 0.69}
+ 25%|██▌       | 120/477 [23:23<1:08:14, 11.47s/it]2025-09-24 23:21:46,791 - INFO - Step 120: Train Loss = 0.3898
+{'loss': 0.3898, 'grad_norm': 1.3279551267623901, 'learning_rate': 8.886090297519955e-07, 'epoch': 0.76}
+ 27%|██▋       | 130/477 [25:21<1:07:53, 11.74s/it]2025-09-24 23:23:44,547 - INFO - Step 130: Train Loss = 0.2891
+[2025-09-24 23:22:46,322] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.2891, 'grad_norm': 1.6106384992599487, 'learning_rate': 8.660803106541042e-07, 'epoch': 0.82}
+ 29%|██▉       | 140/477 [27:16<1:05:50, 11.72s/it]2025-09-24 23:25:40,083 - INFO - Step 140: Train Loss = 0.3634
+{'loss': 0.3634, 'grad_norm': 1.0122684240341187, 'learning_rate': 8.418222822422348e-07, 'epoch': 0.88}
+ 31%|███▏      | 150/477 [29:11<1:03:14, 11.60s/it]2025-09-24 23:27:34,690 - INFO - Step 150: Train Loss = 0.3338
+{'loss': 0.3338, 'grad_norm': 1.063132643699646, 'learning_rate': 8.159495358594627e-07, 'epoch': 0.95}
+ 33%|███▎      | 159/477 [30:49<53:50, 10.16s/it]  
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+Prompt : <|im_start|>system
+You are an expert in composing functions. You are given a question and a set of possible functions.
+Based on the question, you will need to make one or more function/tool calls to achieve the purpose.
+If none of the function can be used, point it out. If the given question lacks the parameters required by the function,
+also point it out.
+The current time is 2021-09-18 20:21:56.Here is a list of functions in JSON format that you can invoke:
+[{"name": "Get Greet", "description": "Generates a personalized greeting message based on the provided name and cringe level.", "parameters": {"type": "dict", "properties": {"name": {"description": "The name of the person to be greeted.", "type": "string"}, "cringeLevel": {"description": "The level of cringe to include in the greeting message.", "type": "int"}}, "required": ["name", "cringeLevel"]}, "required": null}, {"name": "Twitter Auto Complete", "description": "Auto complete search queries on Twitter", "parameters": {"type": "dict", "properties": {"q": {"description": "Search query", "type": "string"}}, "required": ["q"]}, "required": null}].<|im_end|>
+<|im_start|>user
+Can you create personalized greetings for four of my friends? Their names are Alex, Jamie, Taylor, and Jordan. I want different levels of cringe for each: 1 for Alex, 2 for Jamie, 3 for Taylor, and 4 for Jordan.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Alex", "cringeLevel": 1}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jamie", "cringeLevel": 2}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Taylor", "cringeLevel": 3}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jordan", "cringeLevel": 4}}
+</tool_call><|im_end|>
+ 33%|███▎      | 159/477 [31:04<53:50, 10.16s/i2025-09-24 23:29:28,100 - INFO - Step 159: Eval Loss = 0.2545
+100%|██████████| 15/15 [00:14<00:00,  1.01it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+
+{'eval_loss': 0.25448474287986755, 'eval_runtime': 14.9468, 'eval_samples_per_second': 31.378, 'eval_steps_per_second': 1.004, 'epoch': 1.0}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:326: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+ 34%|███▎      | 160/477 [34:45<6:51:41, 77.92s/it]2025-09-24 23:33:09,190 - INFO - Step 160: Train Loss = 0.2725
+{'loss': 0.2725, 'grad_norm': 1.0358924865722656, 'learning_rate': 7.885842905380489e-07, 'epoch': 1.01}
+ 36%|███▌      | 170/477 [36:40<1:07:38, 13.22s/it]2025-09-24 23:35:03,738 - INFO - Step 170: Train Loss = 0.3142
+{'loss': 0.3142, 'grad_norm': 1.183002233505249, 'learning_rate': 7.59855815654784e-07, 'epoch': 1.07}
+ 38%|███▊      | 180/477 [38:35<56:45, 11.47s/it]2025-09-24 23:36:59,375 - INFO - Step 180: Train Loss = 0.2801
+{'loss': 0.2801, 'grad_norm': 1.1040934324264526, 'learning_rate': 7.298998202815473e-07, 'epoch': 1.13}
+ 40%|███▉      | 190/477 [40:32<55:23, 11.58s/it]2025-09-24 23:38:55,571 - INFO - Step 190: Train Loss = 0.2822
+{'loss': 0.2822, 'grad_norm': 1.2807819843292236, 'learning_rate': 6.988578121156955e-07, 'epoch': 1.2}
+ 42%|████▏     | 200/477 [42:27<54:02, 11.70s/it]2025-09-24 23:40:50,771 - INFO - Step 200: Train Loss = 0.3088
+{'loss': 0.3088, 'grad_norm': 1.2274614572525024, 'learning_rate': 6.668764290186039e-07, 'epoch': 1.26}
+ 44%|████▍     | 210/477 [44:23<51:19, 11.53s/it]2025-09-24 23:42:46,716 - INFO - Step 210: Train Loss = 0.3223
+{'loss': 0.3223, 'grad_norm': 1.1368358135223389, 'learning_rate': 6.341067463200677e-07, 'epoch': 1.32}
+ 46%|████▌     | 220/477 [46:18<49:06, 11.46s/it]2025-09-24 23:44:41,514 - INFO - Step 220: Train Loss = 0.2315
+{'loss': 0.2315, 'grad_norm': 0.8688824772834778, 'learning_rate': 6.007035631607604e-07, 'epoch': 1.38}
+ 48%|████▊     | 230/477 [48:12<46:57, 11.41s/it]2025-09-24 23:46:36,140 - INFO - Step 230: Train Loss = 0.3003
+{'loss': 0.3003, 'grad_norm': 1.11501145362854, 'learning_rate': 5.668246712439578e-07, 'epoch': 1.45}
+ 50%|█████     | 240/477 [50:07<46:22, 11.74s/it]2025-09-24 23:48:30,964 - INFO - Step 240: Train Loss = 0.2544
+{'loss': 0.2544, 'grad_norm': 0.7304078936576843, 'learning_rate': 5.326301094508399e-07, 'epoch': 1.51}
+ 52%|█████▏    | 250/477 [52:04<44:10, 11.68s/it]2025-09-24 23:50:27,723 - INFO - Step 250: Train Loss = 0.3016
+{'loss': 0.3016, 'grad_norm': 1.112033724784851, 'learning_rate': 4.982814078404543e-07, 'epoch': 1.57}
+ 55%|█████▍    | 260/477 [53:59<41:42, 11.53s/it]2025-09-24 23:52:22,919 - INFO - Step 260: Train Loss = 0.2859
+{'loss': 0.2859, 'grad_norm': 1.0198713541030884, 'learning_rate': 4.6394082460557803e-07, 'epoch': 1.64}
+ 57%|█████▋    | 270/477 [55:56<40:22, 11.70s/it]2025-09-24 23:54:20,415 - INFO - Step 270: Train Loss = 0.3133
+{'loss': 0.3133, 'grad_norm': 1.137089729309082, 'learning_rate': 4.2977057958898097e-07, 'epoch': 1.7}
+ 59%|█████▊    | 280/477 [57:54<38:56, 11.86s/it]2025-09-24 23:56:18,354 - INFO - Step 280: Train Loss = 0.2983
+{'loss': 0.2983, 'grad_norm': 0.9803615212440491, 'learning_rate': 3.959320879808509e-07, 'epoch': 1.76}
+ 61%|██████    | 290/477 [59:50<36:01, 11.56s/it]2025-09-24 23:58:14,162 - INFO - Step 290: Train Loss = 0.3301
+{'loss': 0.3301, 'grad_norm': 1.1934326887130737, 'learning_rate': 3.625851978172765e-07, 'epoch': 1.83}
+ 63%|██████▎   | 300/477 [1:01:45<33:59, 11.52s/it]2025-09-25 00:00:09,150 - INFO - Step 300: Train Loss = 0.3492
+{'loss': 0.3492, 'grad_norm': 1.188437581062317, 'learning_rate': 3.298874348817369e-07, 'epoch': 1.89}
+ 65%|██████▍   | 310/477 [1:03:41<32:37, 11.72s/it]2025-09-25 00:02:05,014 - INFO - Step 310: Train Loss = 0.2477
+{'loss': 0.2477, 'grad_norm': 1.0490723848342896, 'learning_rate': 2.9799325857656855e-07, 'epoch': 1.95}
+ 67%|██████▋   | 318/477 [1:05:08<26:41, 10.07s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+ 67%|██████▋   | 318/477 [1:05:22<26:41, 10.07s2025-09-25 00:03:46,131 - INFO - Step 318: Eval Loss = 0.2455
+100%|██████████| 15/15 [00:13<00:00,  1.03it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.24545727670192719, 'eval_runtime': 14.5842, 'eval_samples_per_second': 32.158, 'eval_steps_per_second': 1.029, 'epoch': 2.0}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-159] due to args.save_total_limit
+/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:326: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+ 67%|██████▋   | 320/477 [1:09:26<2:37:33, 60.21s/it]2025-09-25 00:07:49,594 - INFO - Step 320: Train Loss = 0.2948
+{'loss': 0.2948, 'grad_norm': 1.15961754322052, 'learning_rate': 2.6705333227956303e-07, 'epoch': 2.01}
+ 69%|██████▉   | 330/477 [1:11:21<31:32, 12.87s/it]2025-09-25 00:09:45,122 - INFO - Step 330: Train Loss = 0.2806
+{'loss': 0.2806, 'grad_norm': 0.9386308193206787, 'learning_rate': 2.3721381163242537e-07, 'epoch': 2.08}
+ 71%|███████▏  | 340/477 [1:13:18<27:04, 11.86s/it]2025-09-25 00:11:42,198 - INFO - Step 340: Train Loss = 0.3239
+{'loss': 0.3239, 'grad_norm': 1.061145544052124, 'learning_rate': 2.0861565412311087e-07, 'epoch': 2.14}
+ 73%|███████▎  | 350/477 [1:15:14<24:42, 11.67s/it]2025-09-25 00:13:37,826 - INFO - Step 350: Train Loss = 0.3307
+{'loss': 0.3307, 'grad_norm': 1.1787503957748413, 'learning_rate': 1.8139395322347334e-07, 'epoch': 2.2}
+ 75%|███████▌  | 360/477 [1:17:10<22:34, 11.57s/it]2025-09-25 00:15:34,105 - INFO - Step 360: Train Loss = 0.2892
+{'loss': 0.2892, 'grad_norm': 1.1678106784820557, 'learning_rate': 1.5567730022765752e-07, 'epoch': 2.26}
+ 78%|███████▊  | 370/477 [1:19:04<20:21, 11.41s/it]2025-09-25 00:17:28,396 - INFO - Step 370: Train Loss = 0.2264
+{'loss': 0.2264, 'grad_norm': 1.2657934427261353, 'learning_rate': 1.3158717680582128e-07, 'epoch': 2.33}
+ 80%|███████▉  | 380/477 [1:21:02<18:44, 11.60s/it]2025-09-25 00:19:25,516 - INFO - Step 380: Train Loss = 0.3192
+{'loss': 0.3192, 'grad_norm': 0.9517964720726013, 'learning_rate': 1.0923738114266823e-07, 'epoch': 2.39}
+ 82%|████████▏ | 390/477 [1:22:56<16:35, 11.44s/it]2025-09-25 00:21:20,088 - INFO - Step 390: Train Loss = 0.2406
+{'loss': 0.2406, 'grad_norm': 1.0291966199874878, 'learning_rate': 8.873349037163319e-08, 'epoch': 2.45}
+ 84%|████████▍ | 400/477 [1:24:52<14:42, 11.46s/it]2025-09-25 00:23:15,883 - INFO - Step 400: Train Loss = 0.3092
+{'loss': 0.3092, 'grad_norm': 1.0730915069580078, 'learning_rate': 7.017236184409859e-08, 'epoch': 2.52}
+ 86%|████████▌ | 410/477 [1:26:47<12:48, 11.47s/it]2025-09-25 00:25:11,482 - INFO - Step 410: Train Loss = 0.2983
+{'loss': 0.2983, 'grad_norm': 1.2970566749572754, 'learning_rate': 5.364167558957267e-08, 'epoch': 2.58}
+ 88%|████████▊ | 420/477 [1:28:43<11:01, 11.61s/it]2025-09-25 00:27:07,376 - INFO - Step 420: Train Loss = 0.2377
+{'loss': 0.2377, 'grad_norm': 0.8977320194244385, 'learning_rate': 3.921952012818208e-08, 'epoch': 2.64}
+ 90%|█████████ | 430/477 [1:30:39<08:59, 11.48s/it]2025-09-25 00:29:02,727 - INFO - Step 430: Train Loss = 0.3035
+{'loss': 0.3035, 'grad_norm': 1.1544979810714722, 'learning_rate': 2.6974023592036376e-08, 'epoch': 2.71}
+ 92%|█████████▏| 440/477 [1:32:34<07:04, 11.48s/it]2025-09-25 00:30:58,077 - INFO - Step 440: Train Loss = 0.2595
+{'loss': 0.2595, 'grad_norm': 1.1356792449951172, 'learning_rate': 1.696303189799586e-08, 'epoch': 2.77}
+ 94%|█████████▍| 450/477 [1:34:28<05:08, 11.44s/it]2025-09-25 00:32:52,430 - INFO - Step 450: Train Loss = 0.2514
+{'loss': 0.2514, 'grad_norm': 1.2776811122894287, 'learning_rate': 9.233835492104325e-09, 'epoch': 2.83}
+ 96%|█████████▋| 460/477 [1:36:24<03:14, 11.47s/it]2025-09-25 00:34:47,569 - INFO - Step 460: Train Loss = 0.2683
+{'loss': 0.2683, 'grad_norm': 0.9582028985023499, 'learning_rate': 3.822945956507006e-09, 'epoch': 2.9}
+ 99%|█████████▊| 470/477 [1:38:23<01:23, 11.89s/it]2025-09-25 00:36:46,518 - INFO - Step 470: Train Loss = 0.2992
+{'loss': 0.2992, 'grad_norm': 1.3516522645950317, 'learning_rate': 7.559235341302873e-10, 'epoch': 2.96}
+100%|██████████| 477/477 [1:39:37<00:00,  9.97s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+100%|██████████| 477/477 [1:39:52<00:00,  9.97s2025-09-25 00:38:15,800 - INFO - Step 477: Eval Loss = 0.2445
+100%|██████████| 15/15 [00:13<00:00,  1.03it/s] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.24454425275325775, 'eval_runtime': 14.5854, 'eval_samples_per_second': 32.156, 'eval_steps_per_second': 1.028, 'epoch': 3.0}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-318] due to args.save_total_limit
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477 (score: 0.24454425275325775).
+Attempting to resume from /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/checkpoint-477
+100%|██████████| 477/477 [1:46:25<00:00, 13.39s/it]
+{'train_runtime': 6387.8562, 'train_samples_per_second': 4.763, 'train_steps_per_second': 0.075, 'train_loss': 0.33953971145537915, 'epoch': 3.0}
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/special_tokens_map.json
+Processing zero checkpoint '/dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70/global_step477'
+Loading checkpoint shards: 100%|██████████| 4/4 [00:11<00:00,  2.92s/it]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 4
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|██████████| 399/399 [00:00<00:00, 1022938.44it/s]
+Reconstructed Trainable fp32 state dict with 399 params 8190735360 elements
+Saving checkpoint shards: 100%|██████████| 7/7 [02:35<00:00, 22.16s/it]
+Saved merged FP32 checkpoint to /dataset/common/huggingface/model/qwen3_8b_Toolace_ASIDE_SFTv70

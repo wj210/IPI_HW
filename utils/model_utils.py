@@ -2,18 +2,19 @@ from transformers import AutoTokenizer,AutoModelForCausalLM
 from vllm import LLM, SamplingParams
 import torch
 from aside.model_api import CustomModelHandler
+import os
 
 DEFAULT_VLLM_KWARGS = {
     "gpu_memory_utilization": 0.9,
     'enable_chunked_prefill': False,
 }
 
-def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',max_ctx_len = 32768,vllm_kwargs={}):
+def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',max_ctx_len = 32768,vllm_kwargs={},pass_handler=False):
     """
     Loads a LLM either using Huggingface or vLLM based on the parameters.
     ASIDE only works with Huggingface models, since we require access to it's embeddings
     """
-    
+    os.environ['TOKENIZERS_PARALLELISM'] = 'false'
     is_aside = True if 'ASIDE' in model_path or 'ISE' in model_path else False
     if is_aside: # not compatible with vllm
         use_vllm = False
@@ -35,7 +36,7 @@ def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',ma
         if not use_vllm:
             model = AutoModelForCausalLM.from_pretrained(
                 model_path,
-                torch_dtype=torch.float16 if 'awq' in model_path.lower() else dtype,
+                dtype=torch.float16 if 'awq' in model_path.lower() else dtype,
                 low_cpu_mem_usage=True,
                 trust_remote_code=True,
             ).to(device).eval()
@@ -48,5 +49,7 @@ def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',ma
         model.generation_config.top_p = None
         model.generation_config.top_k = None
     tokenizer.padding_side = "left"
-    
-    return model,tokenizer,is_aside
+    if pass_handler and is_aside:
+        return model,tokenizer,is_aside,handler
+    else:
+        return model,tokenizer,is_aside

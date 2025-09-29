@@ -1,0 +1,126 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/2246 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "jobs_for_jobsapi", "description": "This is the subfunction for tool \"jobsapi\", you can use this tool.The description of this function is: \"get's jobs\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "albums_for_march4", "description": "This is the subfunction for tool \"march4\", you can use this tool.The description of this function is: \"njnj\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_anything_for_httpbin", "description": "This is the subfunction for tool \"httpbin\", you can use this tool.The description of this function is: \"Forward to httpbin get_anything_for_httpbin endpoint\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getinventory_for_privatepublicapi", "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"Returns a map of status codes to quantities\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getorderbyid_for_privatepublicapi", "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions\"", "parameters": {"type": "object", "properties": {"orderid": {"type": "integer", "description": "ID of pet that needs to be fetched", "example_value": 0}}, "required": ["orderid"], "optional": []}}
+{"name": "logoutuser_for_privatepublicapi", "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"Logs out current logged in user session\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I am passionate about photography and I want to improve my skills. Can you suggest some photography courses or workshops in my area and provide information about their curriculum and instructors? Additionally, it would be helpful to know if any of these courses offer hands-on practice and feedback.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "{'message': \"Endpoint '/api/job' does not exist\"}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|im_end|>
+
+Rotated chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|im_end|>
+Rotated chunk 1: <|im_start|>user
+<tool_response>
+{"error": "", "response": "{'message': \"Endpoint '/api/job' does not exist\"}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|im_end|>
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 821, in <module>
+    main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 697, in main
+    trainer.train()
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+    batch_samples.append(next(epoch_iterator))
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+    current_batch = next(dataloader_iter)
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 283, in __getitem__
+    assistant_chunks = get_aside_segments({'input_ids':[input_ids],'labels':[labels]},self.handler.tokenizer)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/ipi_huawei/utils/utils.py", line 171, in get_aside_segments
+    segment_ids = encoded['segment_ids'][0]
+                  ~~~~~~~^^^^^^^^^^^^^^^
+KeyError: 'segment_ids'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 821, in <module>
+[rank0]:     main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 697, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+[rank0]:     batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+[rank0]:                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+[rank0]:     batch_samples.append(next(epoch_iterator))
+[rank0]:                          ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+[rank0]:     current_batch = next(dataloader_iter)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+[rank0]:     data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:             ~~~~~~~~~~~~^^^^^
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 283, in __getitem__
+[rank0]:     assistant_chunks = get_aside_segments({'input_ids':[input_ids],'labels':[labels]},self.handler.tokenizer)
+[rank0]:                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/utils/utils.py", line 171, in get_aside_segments
+[rank0]:     segment_ids = encoded['segment_ids'][0]
+[rank0]:                   ~~~~~~~^^^^^^^^^^^^^^^
+[rank0]: KeyError: 'segment_ids'

@@ -41,10 +41,14 @@ def google_encode_fn(messages,tokenizer): # only for agentdojo!
     return formatted
     
 def tool_prompt_format(messages,tools,tokenizer,encode=False,enable_thinking=False): # for tool-use agents like Qwen
-    if 'qwen' in tokenizer.name_or_path.lower():
-        formatted = tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=False,enable_thinking=enable_thinking,tools=tools)
+    if messages[-1]['role'] == 'assistant':
+        add_generation_prompt = False
     else:
-        formatted = tokenizer.apply_chat_template(messages,add_generation_prompt=True,tokenize=False,tools=tools)
+        add_generation_prompt = True
+    if 'qwen' in tokenizer.name_or_path.lower():
+        formatted = tokenizer.apply_chat_template(messages,add_generation_prompt=add_generation_prompt,tokenize=False,enable_thinking=enable_thinking,tools=tools)
+    else:
+        formatted = tokenizer.apply_chat_template(messages,add_generation_prompt=add_generation_prompt,tokenize=False,tools=tools)
     return encode_fn(formatted,tokenizer) if encode else formatted
 
 def aside_encode(encoded,tokenizer,start_token=None,end_token=None):
@@ -78,7 +82,7 @@ def aside_encode(encoded,tokenizer,start_token=None,end_token=None):
                 found_end = False
                 while j <= len(input_ids) - len(curr_end_ids):
                     if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
-                        spans.append((i+len(curr_start_ids), j+len(curr_end_ids))) # span is between start and end
+                        spans.append((i, j+len(curr_end_ids))) # span is between start and end
                         found_end = True
                         i = j + len(curr_end_ids)
                         break
@@ -93,10 +97,106 @@ def aside_encode(encoded,tokenizer,start_token=None,end_token=None):
                 segment_ids[jj,span[0]:span[1]] = 1
         else:
             is_error = True
-    if is_error:
-        print("Error in encoding aside segments!")
+    # if is_error:
+    #     print("Error in encoding aside segments!")
     encoded['segment_ids'] = segment_ids
     return encoded
+
+qwen_start_tokens = ["\n<|im_start|>assistant","<|im_start|>user\n<tool_response>"]
+qwen_end_tokens = ["<|im_end|>","</tool_response><|im_end|>\n"]
+
+def multiturn_aside_encode(encoded,tokenizer,start_tokens=[],end_tokens=[],until_last_token=None):
+    """
+    we have a list of start and end_tokens, all of these should be rotated. This is to account for the uncontrollable turn order in agentic tool use, such as tool -> assistant or tool -> user
+    """
+    if 'qwen' in tokenizer.name_or_path.lower(): # default for qwen
+        if len(start_tokens) == 0:
+            start_tokens = qwen_start_tokens
+            # until_last_token = qwen_start_tokens[0] if until_last_token is None else until_last_token
+        if len(end_tokens) == 0:
+            end_tokens = qwen_end_tokens
+        
+    device = encoded['input_ids'].device
+    start_ids = [torch.tensor(tokenizer.encode(start_token,add_special_tokens=False)).to(device) for start_token in start_tokens]
+    end_ids = [torch.tensor(tokenizer.encode(end_token,add_special_tokens=False)).to(device) for end_token in end_tokens]
+    until_last_ids = torch.tensor(tokenizer.encode(until_last_token,add_special_tokens=False)).to(device) if until_last_token is not None else None
+
+    assert len(start_tokens) == len(end_tokens) != 0, "start_tokens and end_tokens must be provided and of same length"
+    # assert until_last_token is not None, "until_last_token must be provided, this is the start token that is allowed to be unclosed - should be the assistant token."
+
+    mask = torch.zeros_like(encoded['input_ids'])
+    for jj, input_ids in enumerate(encoded['input_ids']):
+        for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
+            i = 0
+            while i <= len(input_ids) - len(curr_start_ids):
+                if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids):
+                    # locate matching end after this start
+                    j = i + len(curr_start_ids)
+                    found = False
+                    while j <= len(input_ids) - len(curr_end_ids):
+                        if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
+                            mask[jj,i:j+len(curr_end_ids)] = 1
+                            i = j + len(curr_end_ids)
+                            found = True
+                            break
+                        j += 1
+                    if not found:
+                        if until_last_ids is not None and torch.equal(input_ids[i:i+len(until_last_ids)], until_last_ids):
+                            # allow to be unclosed, mark until end of input
+                            mask[jj,i:len(input_ids)] = 1
+                            break
+                        else:
+                            i += len(curr_start_ids)
+                else:
+                    i += 1
+    return mask
+
+def aside_encode_start(encoded,tokenizer,start_token,key = 'segment_ids'): # given a start token, mark everything from that onwards as 1.
+    device = encoded['input_ids'].device
+    start_ids = torch.tensor(tokenizer.encode(start_token,add_special_tokens=False)).to(device)
+    mask = torch.zeros_like(encoded['input_ids'])
+    for jj, input_ids in enumerate(encoded['input_ids']): # assume only one span
+        i = 0
+        while i <= len(input_ids) - len(start_ids):
+            if torch.equal(input_ids[i:i+len(start_ids)], start_ids):
+                mask[jj,i:] = 1
+                break
+            else:
+                i += 1
+    encoded[key] = mask
+    return encoded
+
+def get_aside_segments(encoded,tokenizer,track_val = 1):
+    input_ids = encoded['input_ids'][0]
+    segment_ids = encoded['segment_ids'][0]
+    start = False
+    spans = []
+    for i,s in zip(input_ids.tolist(),segment_ids.tolist()):
+        if s == track_val and not start:
+            start = True
+            spans.append([i])
+        elif s == track_val and start:
+            spans[-1].append(i)
+        else:
+            start = False
+    decoded = [tokenizer.decode(s) for s in spans]
+    return decoded
+
+def print_aside(encoded,tokenizer):
+    to_print = []
+    start = False
+    for i,l in zip(encoded['input_ids'][0],encoded['segment_ids'][0]):
+        if l == 1 and not start:
+            to_print.append([i.item()])
+            start = True
+        elif l == 1 and start:
+            to_print[-1].append(i.item())
+        elif l == 0:
+            start = False
+    pprint (f'FULL PROMPT: {tokenizer.decode(encoded["input_ids"][0])}')
+    if len(to_print) > 0:
+        for i,seg in enumerate(to_print):
+            pprint (f"SEGMENT {i}: {tokenizer.decode(seg)}")
 
 
 def generate_fn(model, tokenizer, inps, max_new_tokens: int = 512,do_sample: str = False) -> str:

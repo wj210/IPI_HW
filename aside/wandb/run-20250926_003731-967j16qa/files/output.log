@@ -1,0 +1,348 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/625 [00:00<?, ?it/s]/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:327: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "https_www_youtoosound_com_sound_for_youtoosound", "description": "This is the subfunction for tool \"youtoosound\", you can use this tool.The description of this function is: \"https_www_youtoosound_com_sound_for_youtoosound\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "youtoosound_for_youtoosound", "description": "This is the subfunction for tool \"youtoosound\", you can use this tool.The description of this function is: \"youtoosound_for_youtoosound Chiede di poter usare la tua mail e Nome\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I'm looking for some unique sounds to use in my upcoming project. Can you suggest some sound options from YouTooSound that are popular among users? It would be helpful to have access to user reviews and ratings for these sounds.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "https_www_youtoosound_com_sound_for_youtoosound", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "\"\""}
+</tool_response><|im_end|>
+<|im_start|>user
+This is not the first time you try this task, all previous trails failed.
+Before you generate my thought for this state, I will first show you your previous actions for this state, and then you must generate actions that is different from all of them. Here are some previous actions candidates:
+[
+  {
+    "name": "Finish",
+    "arguments": "{\n  \"return_type\": \"give_up_and_restart\"\n}",
+    "function_output": "{\"response\":\"chose to give up and restart\"}",
+    "mento-carlo-action-value": -10000
+  }
+]
+again, your former observation: {"error": "", "response": "\"\""}
+
+Remember you are now in the intermediate state of a trail, you will first analyze the now state and previous action candidates, then make actions that is different from all the previous.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "youtoosound_for_youtoosound", "arguments": {}}
+</tool_call><|im_end|>
+
+Rotated chunk 0: <tool_response>
+{"error": "", "response": "\"\""}
+</tool_response>
+`loss_type=None` was set in the config but it is unrecognized. Using the default loss: `ForCausalLMLoss`.
+  2%|▏         | 10/625 [02:23<2:19:25, 13.60s/it]2025-09-26 00:39:57,013 - INFO - Step 10: Train Loss = 6.1468
+[2025-09-26 00:38:06,489] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 6.1468, 'grad_norm': 77.22241973876953, 'learning_rate': 3.6e-07, 'epoch': 0.02}
+  3%|▎         | 20/625 [04:43<2:20:17, 13.91s/it]2025-09-26 00:42:17,179 - INFO - Step 20: Train Loss = 5.6989
+[2025-09-26 00:41:49,540] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 5.6989, 'grad_norm': 77.22870635986328, 'learning_rate': 7.599999999999999e-07, 'epoch': 0.03}
+  5%|▍         | 30/625 [07:07<2:22:45, 14.40s/it]2025-09-26 00:44:41,069 - INFO - Step 30: Train Loss = 4.0313
+[2025-09-26 00:43:01,376] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 4.0313, 'grad_norm': 18.644128799438477, 'learning_rate': 9.998903417374226e-07, 'epoch': 0.05}
+  6%|▋         | 40/625 [09:31<2:19:23, 14.30s/it]2025-09-26 00:47:05,023 - INFO - Step 40: Train Loss = 2.7771
+{'loss': 2.7771, 'grad_norm': 9.92880630493164, 'learning_rate': 9.98657238612229e-07, 'epoch': 0.06}
+  8%|▊         | 50/625 [11:53<2:15:18, 14.12s/it]2025-09-26 00:49:27,493 - INFO - Step 50: Train Loss = 2.0606
+{'loss': 2.0606, 'grad_norm': 3.0399835109710693, 'learning_rate': 9.960573506572389e-07, 'epoch': 0.08}
+ 10%|▉         | 60/625 [14:15<2:15:07, 14.35s/it]2025-09-26 00:51:49,803 - INFO - Step 60: Train Loss = 1.8662
+{'loss': 1.8662, 'grad_norm': 2.4900600910186768, 'learning_rate': 9.92097803984621e-07, 'epoch': 0.1}
+ 11%|█         | 70/625 [16:36<2:10:41, 14.13s/it]2025-09-26 00:54:10,709 - INFO - Step 70: Train Loss = 1.6302
+{'loss': 1.6302, 'grad_norm': 2.0720396041870117, 'learning_rate': 9.8678945143658e-07, 'epoch': 0.11}
+ 13%|█▎        | 80/625 [18:59<2:11:17, 14.45s/it]2025-09-26 00:56:33,278 - INFO - Step 80: Train Loss = 1.5145
+{'loss': 1.5145, 'grad_norm': 1.8919012546539307, 'learning_rate': 9.801468428384716e-07, 'epoch': 0.13}
+ 14%|█▍        | 90/625 [21:22<2:08:02, 14.36s/it]2025-09-26 00:58:56,339 - INFO - Step 90: Train Loss = 1.3366
+{'loss': 1.3366, 'grad_norm': 1.40395987033844, 'learning_rate': 9.721881851187405e-07, 'epoch': 0.14}
+ 16%|█▌        | 100/625 [23:45<2:05:43, 14.37s/it]2025-09-26 01:01:19,200 - INFO - Step 100: Train Loss = 1.2694
+{'loss': 1.2694, 'grad_norm': 1.751299262046814, 'learning_rate': 9.629352924049974e-07, 'epoch': 0.16}
+ 18%|█▊        | 110/625 [26:10<2:06:13, 14.71s/it]2025-09-26 01:03:44,580 - INFO - Step 110: Train Loss = 1.2404
+{'loss': 1.2404, 'grad_norm': 1.3189756870269775, 'learning_rate': 9.524135262330098e-07, 'epoch': 0.18}
+ 19%|█▉        | 120/625 [28:32<1:59:26, 14.19s/it]2025-09-26 01:06:06,588 - INFO - Step 120: Train Loss = 1.2055
+{'loss': 1.2055, 'grad_norm': 1.8846385478973389, 'learning_rate': 9.40651726032496e-07, 'epoch': 0.19}
+ 20%|██        | 125/625 [29:44<1:58:02, 14.16s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "racecards_for_greyhound_racing_uk", "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"**Get races list.**\n\n- By default current day.\n- Or by date, setting it by parameter\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "race_detail_info_for_greyhound_racing_uk", "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"**Get race detailed info by ID {id_race}.**\n\nYou can get the \"id_race\" from Results or Racecards endpoints\"", "parameters": {"type": "object", "properties": {"id_race": {"type": "string", "description": "", "example_value": "53128"}}, "required": ["id_race"], "optional": []}}
+{"name": "results_for_greyhound_racing_uk", "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"Get results races by date\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I'm a sports enthusiast and I'm interested in attending a greyhound race. Can you give me the race schedule for this week? I would like to know the dates, timings, and locations of the races. Additionally, I'm curious to learn more about a specific race with ID 53128, including the participating greyhounds and their details.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "racecards_for_greyhound_racing_uk", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "[]"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "race_detail_info_for_greyhound_racing_uk", "arguments": {"id_race": "53128"}}
+</tool_call><|im_end|>
+
+Rotated chunk 0: <tool_response>
+{"error": "", "response": "[]"}
+</tool_response>
+ 20%|██        | 125/625 [30:14<1:58:02, 14.16s2025-09-26 01:07:48,374 - INFO - Step 125: Eval Loss = 1.1233
+100%|██████████| 19/19 [00:29<00:00,  1.37s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 1.1232861280441284, 'eval_runtime': 30.2625, 'eval_samples_per_second': 19.166, 'eval_steps_per_second': 0.628, 'epoch': 0.2}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:327: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+[2025-09-26 01:11:32,035] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 21%|██        | 130/625 [34:53<4:19:12, 31.42s/it]2025-09-26 01:12:27,812 - INFO - Step 130: Train Loss = 1.1494
+{'loss': 1.1494, 'grad_norm': 1.4694828987121582, 'learning_rate': 9.276821300802533e-07, 'epoch': 0.21}
+ 22%|██▏       | 140/625 [37:15<1:58:32, 14.67s/it]2025-09-26 01:14:49,511 - INFO - Step 140: Train Loss = 1.1019
+{'loss': 1.1019, 'grad_norm': 1.3452224731445312, 'learning_rate': 9.135402871372808e-07, 'epoch': 0.22}
+ 24%|██▍       | 150/625 [39:37<1:52:07, 14.16s/it]2025-09-26 01:17:11,214 - INFO - Step 150: Train Loss = 1.0572
+{'loss': 1.0572, 'grad_norm': 1.264024257659912, 'learning_rate': 8.982649590120981e-07, 'epoch': 0.24}
+ 26%|██▌       | 160/625 [41:57<1:47:31, 13.87s/it]2025-09-26 01:19:31,570 - INFO - Step 160: Train Loss = 1.0033
+{'loss': 1.0033, 'grad_norm': 1.231984257698059, 'learning_rate': 8.818980143173212e-07, 'epoch': 0.26}
+ 27%|██▋       | 170/625 [44:21<1:50:03, 14.51s/it]2025-09-26 01:21:55,256 - INFO - Step 170: Train Loss = 1.0004
+{'loss': 1.0004, 'grad_norm': 2.281654119491577, 'learning_rate': 8.644843137107057e-07, 'epoch': 0.27}
+ 29%|██▉       | 180/625 [46:42<1:43:00, 13.89s/it]2025-09-26 01:24:16,256 - INFO - Step 180: Train Loss = 0.9489
+{'loss': 0.9489, 'grad_norm': 1.2952144145965576, 'learning_rate': 8.460715869352035e-07, 'epoch': 0.29}
+ 30%|███       | 190/625 [49:02<1:42:28, 14.13s/it]2025-09-26 01:26:36,129 - INFO - Step 190: Train Loss = 0.9760
+{'loss': 0.976, 'grad_norm': 1.397191047668457, 'learning_rate': 8.267103019950528e-07, 'epoch': 0.3}
+ 32%|███▏      | 200/625 [51:24<1:40:51, 14.24s/it]2025-09-26 01:28:58,041 - INFO - Step 200: Train Loss = 0.9168
+{'loss': 0.9168, 'grad_norm': 1.21979820728302, 'learning_rate': 8.064535268264883e-07, 'epoch': 0.32}
+ 34%|███▎      | 210/625 [53:47<1:39:10, 14.34s/it]2025-09-26 01:31:21,772 - INFO - Step 210: Train Loss = 0.9399
+{'loss': 0.9399, 'grad_norm': 1.359259009361267, 'learning_rate': 7.853567838422159e-07, 'epoch': 0.34}
+ 35%|███▌      | 220/625 [56:12<1:38:50, 14.64s/it]2025-09-26 01:33:46,573 - INFO - Step 220: Train Loss = 0.8862
+{'loss': 0.8862, 'grad_norm': 1.6545884609222412, 'learning_rate': 7.634778977483388e-07, 'epoch': 0.35}
+ 37%|███▋      | 230/625 [58:35<1:33:29, 14.20s/it]2025-09-26 01:36:09,768 - INFO - Step 230: Train Loss = 0.8586
+{'loss': 0.8586, 'grad_norm': 1.1897577047348022, 'learning_rate': 7.408768370508576e-07, 'epoch': 0.37}
+ 38%|███▊      | 240/625 [1:00:58<1:30:59, 14.18s/it]2025-09-26 01:38:32,154 - INFO - Step 240: Train Loss = 0.9132
+{'loss': 0.9132, 'grad_norm': 1.2808195352554321, 'learning_rate': 7.176155496861638e-07, 'epoch': 0.38}
+ 40%|████      | 250/625 [1:03:19<1:30:19, 14.45s/it]2025-09-26 01:40:53,948 - INFO - Step 250: Train Loss = 0.8293
+[2025-09-26 01:40:53,941] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.8293, 'grad_norm': 1.0891993045806885, 'learning_rate': 6.937577932260514e-07, 'epoch': 0.4}
+
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 40%|████      | 250/625 [1:03:48<1:30:19, 14.42025-09-26 01:41:22,613 - INFO - Step 250: Eval Loss = 0.8406
+100%|██████████| 19/19 [00:27<00:00,  1.37s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.8405883312225342, 'eval_runtime': 28.6581, 'eval_samples_per_second': 20.239, 'eval_steps_per_second': 0.663, 'epoch': 0.4}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-125] due to args.save_total_limit
+/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:327: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+ 42%|████▏     | 260/625 [1:09:47<1:45:09, 17.29s/it]2025-09-26 01:47:20,967 - INFO - Step 260: Train Loss = 0.8833
+{'loss': 0.8833, 'grad_norm': 1.1094235181808472, 'learning_rate': 6.693689601226458e-07, 'epoch': 0.42}
+ 43%|████▎     | 270/625 [1:12:11<1:24:41, 14.31s/it]2025-09-26 01:49:45,237 - INFO - Step 270: Train Loss = 0.8564
+{'loss': 0.8564, 'grad_norm': 1.3767211437225342, 'learning_rate': 6.445158984722358e-07, 'epoch': 0.43}
+ 45%|████▍     | 280/625 [1:14:35<1:22:52, 14.41s/it]2025-09-26 01:52:09,060 - INFO - Step 280: Train Loss = 0.8475
+{'loss': 0.8475, 'grad_norm': 1.132729172706604, 'learning_rate': 6.192667287892904e-07, 'epoch': 0.45}
+ 46%|████▋     | 290/625 [1:16:56<1:18:50, 14.12s/it]2025-09-26 01:54:30,609 - INFO - Step 290: Train Loss = 0.8452
+{'loss': 0.8452, 'grad_norm': 0.9954630136489868, 'learning_rate': 5.936906572928624e-07, 'epoch': 0.46}
+ 48%|████▊     | 300/625 [1:19:16<1:15:03, 13.86s/it]2025-09-26 01:56:50,343 - INFO - Step 300: Train Loss = 0.7997
+{'loss': 0.7997, 'grad_norm': 1.2284494638442993, 'learning_rate': 5.678577862171522e-07, 'epoch': 0.48}
+ 50%|████▉     | 310/625 [1:21:38<1:14:55, 14.27s/it]2025-09-26 01:59:12,786 - INFO - Step 310: Train Loss = 0.8354
+{'loss': 0.8354, 'grad_norm': 1.1335393190383911, 'learning_rate': 5.418389216661578e-07, 'epoch': 0.5}
+ 51%|█████     | 320/625 [1:24:04<1:13:27, 14.45s/it]2025-09-26 02:01:38,283 - INFO - Step 320: Train Loss = 0.7658
+{'loss': 0.7658, 'grad_norm': 1.1069687604904175, 'learning_rate': 5.157053795390641e-07, 'epoch': 0.51}
+ 53%|█████▎    | 330/625 [1:26:26<1:10:09, 14.27s/it]2025-09-26 02:03:59,971 - INFO - Step 330: Train Loss = 0.8059
+{'loss': 0.8059, 'grad_norm': 1.2155168056488037, 'learning_rate': 4.895287900583216e-07, 'epoch': 0.53}
+ 54%|█████▍    | 340/625 [1:28:51<1:08:30, 14.42s/it]2025-09-26 02:06:25,100 - INFO - Step 340: Train Loss = 0.8205
+{'loss': 0.8205, 'grad_norm': 1.103611707687378, 'learning_rate': 4.6338090143618427e-07, 'epoch': 0.54}
+ 56%|█████▌    | 350/625 [1:31:14<1:05:27, 14.28s/it]2025-09-26 02:08:48,135 - INFO - Step 350: Train Loss = 0.8019
+{'loss': 0.8019, 'grad_norm': 0.8749087452888489, 'learning_rate': 4.3733338321784777e-07, 'epoch': 0.56}
+ 58%|█████▊    | 360/625 [1:33:37<1:04:16, 14.55s/it]2025-09-26 02:11:11,591 - INFO - Step 360: Train Loss = 0.7986
+{'loss': 0.7986, 'grad_norm': 0.9120511412620544, 'learning_rate': 4.114576298402084e-07, 'epoch': 0.58}
+ 59%|█████▉    | 370/625 [1:36:00<59:40, 14.04s/it]2025-09-26 02:13:34,137 - INFO - Step 370: Train Loss = 0.8080
+{'loss': 0.808, 'grad_norm': 1.6512670516967773, 'learning_rate': 3.8582456494467206e-07, 'epoch': 0.59}
+ 60%|██████    | 375/625 [1:37:12<59:29, 14.28s/it]  
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 60%|██████    | 375/625 [1:37:40<59:29, 14.28s2025-09-26 02:15:14,780 - INFO - Step 375: Eval Loss = 0.7487
+100%|██████████| 19/19 [00:27<00:00,  1.37s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.7486952543258667, 'eval_runtime': 28.64, 'eval_samples_per_second': 20.251, 'eval_steps_per_second': 0.663, 'epoch': 0.6}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-250] due to args.save_total_limit
+/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:327: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+ 61%|██████    | 380/625 [1:42:28<2:09:22, 31.68s/it]2025-09-26 02:20:02,875 - INFO - Step 380: Train Loss = 0.7680
+{'loss': 0.768, 'grad_norm': 1.193166732788086, 'learning_rate': 3.605044469803854e-07, 'epoch': 0.61}
+ 62%|██████▏   | 390/625 [1:44:51<57:15, 14.62s/it]2025-09-26 02:22:25,818 - INFO - Step 390: Train Loss = 0.7949
+{'loss': 0.7949, 'grad_norm': 0.8765580654144287, 'learning_rate': 3.3556667663070835e-07, 'epoch': 0.62}
+ 64%|██████▍   | 400/625 [1:47:12<53:06, 14.16s/it]2025-09-26 02:24:46,685 - INFO - Step 400: Train Loss = 0.7533
+{'loss': 0.7533, 'grad_norm': 1.0382592678070068, 'learning_rate': 3.1107960659076647e-07, 'epoch': 0.64}
+ 66%|██████▌   | 410/625 [1:49:38<51:33, 14.39s/it]2025-09-26 02:27:12,029 - INFO - Step 410: Train Loss = 0.7387
+{'loss': 0.7387, 'grad_norm': 0.9842424392700195, 'learning_rate': 2.8711035421746363e-07, 'epoch': 0.66}
+ 67%|██████▋   | 420/625 [1:52:00<48:17, 14.14s/it]2025-09-26 02:29:34,384 - INFO - Step 420: Train Loss = 0.7564
+{'loss': 0.7564, 'grad_norm': 1.1829967498779297, 'learning_rate': 2.6372461756547306e-07, 'epoch': 0.67}
+ 69%|██████▉   | 430/625 [1:54:22<46:28, 14.30s/it]2025-09-26 02:31:56,880 - INFO - Step 430: Train Loss = 0.7515
+{'loss': 0.7515, 'grad_norm': 0.9768296480178833, 'learning_rate': 2.4098649531343494e-07, 'epoch': 0.69}
+ 70%|███████   | 440/625 [1:56:44<43:53, 14.23s/it]2025-09-26 02:34:18,630 - INFO - Step 440: Train Loss = 0.7352
+{'loss': 0.7352, 'grad_norm': 0.941912829875946, 'learning_rate': 2.1895831107393482e-07, 'epoch': 0.7}
+ 72%|███████▏  | 450/625 [1:59:07<41:11, 14.12s/it]2025-09-26 02:36:41,262 - INFO - Step 450: Train Loss = 0.7528
+{'loss': 0.7528, 'grad_norm': 0.9543077349662781, 'learning_rate': 1.9770044256881258e-07, 'epoch': 0.72}
+ 74%|███████▎  | 460/625 [2:01:31<39:39, 14.42s/it]2025-09-26 02:39:05,295 - INFO - Step 460: Train Loss = 0.7457
+{'loss': 0.7457, 'grad_norm': 1.114114761352539, 'learning_rate': 1.7727115613802464e-07, 'epoch': 0.74}
+ 75%|███████▌  | 470/625 [2:03:55<37:09, 14.38s/it]2025-09-26 02:41:28,978 - INFO - Step 470: Train Loss = 0.7806
+{'loss': 0.7806, 'grad_norm': 0.9582818746566772, 'learning_rate': 1.5772644703565564e-07, 'epoch': 0.75}
+ 77%|███████▋  | 480/625 [2:06:16<34:12, 14.16s/it]2025-09-26 02:43:50,910 - INFO - Step 480: Train Loss = 0.7520
+{'loss': 0.752, 'grad_norm': 0.8736743927001953, 'learning_rate': 1.391198859508189e-07, 'epoch': 0.77}
+ 78%|███████▊  | 490/625 [2:08:42<33:18, 14.81s/it]2025-09-26 02:46:16,207 - INFO - Step 490: Train Loss = 0.7639
+{'loss': 0.7639, 'grad_norm': 1.512278437614441, 'learning_rate': 1.2150247217412185e-07, 'epoch': 0.78}
+ 80%|████████  | 500/625 [2:11:02<29:10, 14.00s/it]2025-09-26 02:48:36,378 - INFO - Step 500: Train Loss = 0.7838
+{'loss': 0.7838, 'grad_norm': 1.3563711643218994, 'learning_rate': 1.0492249381215478e-07, 'epoch': 0.8}
+
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 80%|████████  | 500/625 [2:11:31<29:10, 14.00s2025-09-26 02:49:05,017 - INFO - Step 500: Eval Loss = 0.7147
+100%|██████████| 19/19 [00:27<00:00,  1.37s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.7147468328475952, 'eval_runtime': 28.6317, 'eval_samples_per_second': 20.257, 'eval_steps_per_second': 0.664, 'epoch': 0.8}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-375] due to args.save_total_limit
+/export/home2/weijie210/ipi_huawei/aside/fine-tune.py:327: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.detach().clone() or sourceTensor.detach().clone().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  segment_ids = torch.tensor(segment_ids)
+ 82%|████████▏ | 510/625 [2:17:33<33:08, 17.29s/it]2025-09-26 02:55:07,695 - INFO - Step 510: Train Loss = 0.7500
+{'loss': 0.75, 'grad_norm': 0.9786037802696228, 'learning_rate': 8.942539543314798e-08, 'epoch': 0.82}
+ 83%|████████▎ | 520/625 [2:19:59<25:25, 14.53s/it]2025-09-26 02:57:33,145 - INFO - Step 520: Train Loss = 0.7651
+{'loss': 0.7651, 'grad_norm': 1.0788615942001343, 'learning_rate': 7.505365350656811e-08, 'epoch': 0.83}
+ 85%|████████▍ | 530/625 [2:22:19<22:13, 14.03s/it]2025-09-26 02:59:53,722 - INFO - Step 530: Train Loss = 0.7836
+{'loss': 0.7836, 'grad_norm': 1.004496455192566, 'learning_rate': 6.184665997806831e-08, 'epoch': 0.85}
+ 86%|████████▋ | 540/625 [2:24:42<20:29, 14.47s/it]2025-09-26 03:02:16,308 - INFO - Step 540: Train Loss = 0.7059
+{'loss': 0.7059, 'grad_norm': 0.746437132358551, 'learning_rate': 4.984061429890324e-08, 'epoch': 0.86}
+ 88%|████████▊ | 550/625 [2:27:08<18:18, 14.65s/it]2025-09-26 03:04:42,018 - INFO - Step 550: Train Loss = 0.7411
+{'loss': 0.7411, 'grad_norm': 0.9660212397575378, 'learning_rate': 3.9068424205749794e-08, 'epoch': 0.88}
+ 90%|████████▉ | 560/625 [2:29:32<15:30, 14.32s/it]2025-09-26 03:07:06,512 - INFO - Step 560: Train Loss = 0.7529
+{'loss': 0.7529, 'grad_norm': 0.9728662371635437, 'learning_rate': 2.955961552288727e-08, 'epoch': 0.9}
+ 91%|█████████ | 570/625 [2:31:52<12:53, 14.06s/it]2025-09-26 03:09:26,300 - INFO - Step 570: Train Loss = 0.7252
+{'loss': 0.7252, 'grad_norm': 0.8804565072059631, 'learning_rate': 2.1340251233966377e-08, 'epoch': 0.91}
+ 93%|█████████▎| 580/625 [2:34:16<10:48, 14.41s/it]2025-09-26 03:11:50,009 - INFO - Step 580: Train Loss = 0.7673
+{'loss': 0.7673, 'grad_norm': 1.0139069557189941, 'learning_rate': 1.4432860045182016e-08, 'epoch': 0.93}
+ 94%|█████████▍| 590/625 [2:36:38<08:19, 14.28s/it]2025-09-26 03:14:12,397 - INFO - Step 590: Train Loss = 0.8075
+{'loss': 0.8075, 'grad_norm': 1.059165596961975, 'learning_rate': 8.856374635655695e-09, 'epoch': 0.94}
+ 96%|█████████▌| 600/625 [2:39:02<06:01, 14.45s/it]2025-09-26 03:16:36,631 - INFO - Step 600: Train Loss = 0.7368
+{'loss': 0.7368, 'grad_norm': 1.3916828632354736, 'learning_rate': 4.626079764278201e-09, 'epoch': 0.96}
+ 98%|█████████▊| 610/625 [2:41:23<03:33, 14.23s/it]2025-09-26 03:18:57,935 - INFO - Step 610: Train Loss = 0.7132
+{'loss': 0.7132, 'grad_norm': 0.883425772190094, 'learning_rate': 1.7535703752478147e-09, 'epoch': 0.98}
+ 99%|█████████▉| 620/625 [2:43:42<01:10, 14.02s/it]2025-09-26 03:21:16,702 - INFO - Step 620: Train Loss = 0.7194
+{'loss': 0.7194, 'grad_norm': 0.9094769358634949, 'learning_rate': 2.4671981713419997e-10, 'epoch': 0.99}
+100%|██████████| 625/625 [2:44:54<00:00, 14.26s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+100%|██████████| 625/625 [2:45:22<00:00, 14.26s2025-09-26 03:22:56,634 - INFO - Step 625: Eval Loss = 0.7103
+100%|██████████| 19/19 [00:27<00:00,  1.36s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.7103185057640076, 'eval_runtime': 28.5874, 'eval_samples_per_second': 20.289, 'eval_steps_per_second': 0.665, 'epoch': 1.0}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-500] due to args.save_total_limit
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625 (score: 0.7103185057640076).
+Attempting to resume from /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/checkpoint-625
+100%|██████████| 625/625 [2:50:56<00:00, 16.41s/it]
+{'train_runtime': 10259.9075, 'train_samples_per_second': 3.899, 'train_steps_per_second': 0.061, 'train_loss': 1.1592511192321777, 'epoch': 1.0}
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/special_tokens_map.json
+Processing zero checkpoint '/dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k/global_step625'
+Loading checkpoint shards: 100%|██████████| 4/4 [00:11<00:00,  2.99s/it]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 4
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|██████████| 399/399 [00:00<00:00, 1102455.40it/s]
+Reconstructed Trainable fp32 state dict with 399 params 8190735360 elements
+Saving checkpoint shards: 100%|██████████| 7/7 [02:46<00:00, 23.81s/it]
+Saved merged FP32 checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_ToolBench_Chat_SFT_40k

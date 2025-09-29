@@ -2,16 +2,13 @@
 
 ## setup the code parameters
 
-module load cuda12.8/toolkit
-module load cuda12.8/blas
-
 export OMP_NUM_THREADS=8
 # The required free memory in MiB
 REQUIRED_MEMORY=79000  # For example, 70 GB
 REQUIRED_GPUS=4   # Number of GPUs needed
 
-p=PH100q
-w=node06
+p=HPCAIq
+w=node14
 c=24 # num cpus
 
 # This array will hold the PIDs of the Python sub-scripts
@@ -37,42 +34,34 @@ allocate_gpu_memory() {
     # Reset GPU list
     gpu_id=0
 
-    # Run the command and write the output to a temporary file
-    srun -p $p -w $w nvidia-smi | grep -E "[0-9]+MiB / [0-9]+MiB" > gpu_memory_info_w13.txt
+    srun -p "$p" -w "$w" nvidia-smi \
+    --query-gpu=index,memory.total,memory.used \
+    --format=csv,noheader,nounits > gpu_memory_info.csv
 
-    # Read from the temporary file
-    while IFS= read -r line; do 
-      if [[ " ${USED_GPUS[@]} " =~ " ${gpu_id} " ]]; then
-          ((gpu_id++))
-          continue
-        fi
+    # Parse CSV rows "idx,total,used"
+    while IFS=, read -r idx total used; do
+      idx=$(echo "$idx" | xargs)
+      total=$(echo "$total" | xargs)
+      used=$(echo "$used" | xargs)
 
-      # Extract used and total memory
-      used_memory=$(echo $line | awk '{print $9}' | sed 's/MiB//')
-      total_memory=$(echo $line | awk '{print $11}' | sed 's/MiB//')
-
-      # Calculate actual free memory
-      actual_free_memory=$((total_memory - used_memory))
-
-      # Check if the free memory is greater than or equal to the required memory
-      if [ "$actual_free_memory" -ge "$REQUIRED_MEMORY" ]; then
-        # Run the Python sub-script to occupy memory on this GPU
-        srun -p $p -w $w --exact --job-name=t_$gpu_id python mem.py --device_no $gpu_id --memory $REQUIRED_MEMORY &
-        OCCUPY_SCRIPT_PIDS+=($!)
-        echo "Started process $! to occupy GPU $gpu_id"
-        USED_GPUS+=("$gpu_id")
+      # Skip already selected (defensive; keep if you reuse loop)
+      if [[ " ${USED_GPUS[*]} " == *" ${idx} "* ]]; then
+        continue
       fi
 
-      if [ ${#USED_GPUS[@]} -ge $REQUIRED_GPUS ]; then
-        break  # Break the while loop if the condition is met
+      free=$(( total - used ))
+      if (( free >= REQUIRED_MEMORY )); then
+        # If you actually start an occupier, uncomment and keep $! handling;
+        # otherwise, do not append $! (there is no background job).
+        srun -p "$p" -w "$w" --gres=gpu:1 python mem.py --device_no "$idx" --memory "$REQUIRED_MEMORY" &
+        OCCUPY_SCRIPT_PIDS+=("$!")
+        USED_GPUS+=("$idx")
       fi
 
-      # Increment GPU ID counter
-      ((gpu_id++))
-    done < gpu_memory_info_w13.txt
+      (( ${#USED_GPUS[@]} >= REQUIRED_GPUS )) && break
+    done < gpu_memory_info.csv
 
-    # Clean up the temporary file
-    rm gpu_memory_info_w13.txt
+    rm -f gpu_memory_info.csv
 
     # Check if the required number of GPUs is met
     if [ ${#USED_GPUS[@]} -ge $REQUIRED_GPUS ]; then
@@ -100,7 +89,7 @@ allocate_gpu_memory() {
 allocate_gpu_memory
 
 # srun -p $p -w $w -c $c --verbose --job-name=self_learning --gpus=$num_gpu --pty ./script/run_1.sh
-srun -p $p -w $w -c $c --verbose --job-name=self_learning --gpus=$num_gpu bash script/dpo.sh
+srun -p $p -w $w -c $c --verbose --job-name=self_learning --gpus=$num_gpu bash script/sft.sh
 
 trap cleanup SIGINT
 

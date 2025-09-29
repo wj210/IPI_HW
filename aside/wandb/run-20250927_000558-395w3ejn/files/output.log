@@ -1,0 +1,67 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/625 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "getimage_for_the_cancer_imaging_archive", "description": "This is the subfunction for tool \"the_cancer_imaging_archive\", you can use this tool.The description of this function is: \"Set of images in a zip file. NOTE: The resulting zip files can become very large. We strongly advise not testing  this endpoint via Mashape. Instead, consider using curl with the -o option set to output.zip\"", "parameters": {"type": "object", "properties": {"seriesinstanceuid": {"type": "string", "description": "Has been de-identified as part of submission process. (DICOM Tag 0020x000E)"}}, "required": ["seriesinstanceuid"], "optional": []}}
+{"name": "getpatient_for_the_cancer_imaging_archive", "description": "This is the subfunction for tool \"the_cancer_imaging_archive\", you can use this tool.The description of this function is: \"Returns a set of patient objects filtered by query keys\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "getseries_for_the_cancer_imaging_archive", "description": "This is the subfunction for tool \"the_cancer_imaging_archive\", you can use this tool.The description of this function is: \"Returns a set of series objects filtered by query keys\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "genericname_for_drug_info_and_price_history", "description": "This is the subfunction for tool \"drug_info_and_price_history\", you can use this tool.The description of this function is: \"Given a brand name, returns a generic name\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "price_history_for_drug_info_and_price_history", "description": "This is the subfunction for tool \"drug_info_and_price_history\", you can use this tool.The description of this function is: \"Returns an array of price histories when given a valid drug ID.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "drug_info_for_drug_info_and_price_history", "description": "This is the subfunction for tool \"drug_info_and_price_history\", you can use this tool.The description of this function is: \"Returns information about the given drug\"", "parameters": {"type": "object", "properties": {"drug": {"type": "string", "description": "", "example_value": "advil"}}, "required": ["drug"], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+My family and I are planning a road trip across the United States. Can you provide me with a list of hotels along the route, as well as the price history of Advil, a common pain reliever, to help us budget for the trip?
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "price_history_for_drug_info_and_price_history", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "{'message': 'Missing Authentication Token'}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "getpatient_for_the_cancer_imaging_archive", "arguments": {}}
+</tool_call><|im_end|>
+
+Rotated chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "price_history_for_drug_info_and_price_history", "arguments": {}}
+</tool_call><|im_end|>
+Rotated chunk 1: <|im_start|>user
+<tool_response>
+{"error": "", "response": "{'message': 'Missing Authentication Token'}"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "getpatient_for_the_cancer_imaging_archive", "arguments": {}}
+</tool_call><|im_end|>
+[2025-09-27 00:06:22,299] [WARNING] [stage3.py:2171:step] 4 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+  2%|▏         | 10/625 [03:03<3:02:07, 17.77s/it]2025-09-27 00:09:03,351 - INFO - Step 10: Train Loss = 17.8862
+[2025-09-27 00:07:53,136] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 17.8862, 'grad_norm': 71.1947250366211, 'learning_rate': 7.2000000000000005e-06, 'epoch': 0.02}
+  3%|▎         | 16/625 [04:48<2:57:15, 17.46s/it]
+[2025-09-27 00:09:38,414] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time

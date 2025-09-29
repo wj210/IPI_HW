@@ -1,0 +1,85 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/625 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "url_for_newapi", "description": "This is the subfunction for tool \"newapi\", you can use this tool.The description of this function is: \"url_for_newapi\"", "parameters": {"type": "object", "properties": {"url": {"type": "string", "description": "", "example_value": "https://www.instagram.com/reels/CtB6vWMMHFD/"}}, "required": ["url"], "optional": ["url"]}}
+{"name": "n_for_newapi", "description": "This is the subfunction for tool \"newapi\", you can use this tool.The description of this function is: \"n_for_newapiew var\"", "parameters": {"type": "object", "properties": {"language": {"type": "string", "description": "", "example_value": "https://www.instagram.com/reels/Csb0AI3IYUN/"}}, "required": ["language"], "optional": []}}
+{"name": "trending_for_bing_image_search", "description": "This is the subfunction for tool \"bing_image_search\", you can use this tool.The description of this function is: \"Get currently trending images.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "image_search_for_bing_image_search", "description": "This is the subfunction for tool \"bing_image_search\", you can use this tool.The description of this function is: \"Get relevant images for a given query.\"", "parameters": {"type": "object", "properties": {"q": {"type": "string", "description": "The user's search query string"}, "count": {"type": "integer", "description": "The number of image results to return in the response. The actual number delivered may be less than requested."}, "safesearch": {"type": "string", "description": "A filter used to filter results for adult content."}, "offset": {"type": "string", "description": "The zero-based offset that indicates the number of image results to skip before returning results."}, "mkt": {"type": "string", "description": "The market where the results come from. Typically, this is the country where the user is making the request from; however, it could be a different country if the user is not located in a country where Bing delivers results. The market must be in the form -"}}, "required": ["q"], "optional": ["count", "safesearch", "offset", "mkt"]}}
+{"name": "get_categories_for_demo_project", "description": "This is the subfunction for tool \"demo_project\", you can use this tool.", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_products_for_demo_project", "description": "This is the subfunction for tool \"demo_project\", you can use this tool.", "parameters": {"type": "object", "properties": {"skip": {"type": "integer", "description": ""}, "limit": {"type": "integer", "description": ""}}, "required": ["skip", "limit"], "optional": []}}
+{"name": "me_for_demo_project", "description": "This is the subfunction for tool \"demo_project\", you can use this tool.", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_video_urls_for_youtube_video_stream_download", "description": "This is the subfunction for tool \"youtube_video_stream_download\", you can use this tool.The description of this function is: \"Get video/shorts urls for\"", "parameters": {"type": "object", "properties": {"is_id": {"type": "string", "description": "", "example_value": "ppCIVJE3my4"}}, "required": ["is_id"], "optional": []}}
+{"name": "get_all_details_for_youtube_video_stream_download", "description": "This is the subfunction for tool \"youtube_video_stream_download\", you can use this tool.The description of this function is: \"Get all details of a video/stream/shorts (Captions , Audios Only, Videos Only , Videos, Stream url) if available.\"", "parameters": {"type": "object", "properties": {"is_id": {"type": "string", "description": "", "example_value": "ppCIVJE3my4"}}, "required": ["is_id"], "optional": []}}
+{"name": "get_stream_url_for_youtube_video_stream_download", "description": "This is the subfunction for tool \"youtube_video_stream_download\", you can use this tool.The description of this function is: \"get_stream_url_for_youtube_video_stream_download\"", "parameters": {"type": "object", "properties": {"is_id": {"type": "string", "description": ""}}, "required": ["is_id"], "optional": []}}
+{"name": "qrcode_for_getqrcode", "description": "This is the subfunction for tool \"getqrcode\", you can use this tool.The description of this function is: \"qrcode_for_getqrcode\"", "parameters": {"type": "object", "properties": {"forqr": {"type": "string", "description": ""}}, "required": ["forqr"], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+My family wants to have a movie night and we need suggestions for family-friendly movies. Can you provide me with relevant images and videos of popular family movies? I would also like to get the stream URL for a specific movie and the video URLs for a given movie genre.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "trending_for_bing_image_search", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "{'_type': 'TrendingImages', 'instrumentation': {'_type': 'ResponseInstrumentation'}, 'categories': [{'title': 'Popular people searches', 'tiles': [{'query': {'text': 'Ice Spice', 'displayText': 'Ice Spice', 'webSearchUrl': 'https://www.bing.com/images/search?q=Ice+Spice&FORM=ISTRTH&id=ABB3F7E4976AE903F542D1CAAA8E89112E86B07C&cat=Popular%20people%20searches&lpversion=&disoverlay=1'}, 'image': {'thumbnailUrl': 'https://tse1.mm.bing.net/th?id=OET.7055c4f87a7543a2b596c62a45f19535&pid=Api', 'contentUrl': 'https://www.thewikifeed.com/wp-content/uploads/2022/10/ice-spice-1.jpg', 'width': 474, 'height': 517, 'thumbnail': {'width': 474, 'height': 517}, 'imageId': 'ABB3F7E4976AE903F542D1CAAA8E89112E86B07C'}}, {'query': {'text': 'Michael J. Fox', 'displayText': 'Michael J. Fox', 'webSearchUrl': 'https://www.bing.com/images/search?q=Michael+J.+Fox&FORM=ISTRTH&id=E4B0C3A24EB5DE3EB60E3A0D5D08727DD55D553C&cat=Popular%20people%20searches&lpversion=&disoverlay=1'}, 'image': {'thumbnailUrl': 'https:/...
+</tool_response><|im_end|>
+<|im_start|>user
+This is not the first time you try this task, all previous trails failed.
+Before you generate my thought for this state, I will first show you your previous actions for this state, and then you must generate actions that is different from all of them. Here are some previous actions candidates:
+[
+  {
+    "name": "image_search_for_bing_image_search",
+    "arguments": "{\n  \"q\": \"family-friendly movies\",\n  \"count\": 5\n}",
+    "function_output": "{\"error\": \"request invalid, data error. status_code=500\", \"response\": \"\"}",
+    "mento-carlo-action-value": 0.0
+  }
+]
+again, your former observation: {"error": "", "response": "{'_type': 'TrendingImages', 'instrumentation': {'_type': 'ResponseInstrumentation'}, 'categories': [{'title': 'Popular people searches', 'tiles': [{'query': {'text': 'Ice Spice', 'displayText': 'Ice Spice', 'webSearchUrl': 'https://www.bing.com/images/search?q=Ice+Spice&FORM=ISTRTH&id=ABB3F7E4976AE903F542D1CAAA8E89112E86B07C&cat=Popular%20people%20searches&lpversion=&disoverlay=1'}, 'image': {'thumbnailUrl': 'https://tse1.mm.bing.net/th?id=OET.7055c4f87a7543a2b596c62a45f19535&pid=Api', 'contentUrl': 'https://www.thewikifeed.com/wp-content/uploads/2022/10/ice-spice-1.jpg', 'width': 474, 'height': 517, 'thumbnail': {'width': 474, 'height': 517}, 'imageId': 'ABB3F7E4976AE903F542D1CAAA8E89112E86B07C'}}, {'query': {'text': 'Michael J. Fox', 'displayText': 'Michael J. Fox', 'webSearchUrl': 'https://www.bing.com/images/search?q=Michael+J.+Fox&FORM=ISTRTH&id=E4B0C3A24EB5DE3EB60E3A0D5D08727DD55D553C&cat=Popular%20people%20searches&lpversion=&disoverlay=1'}, 'image': {'thumbnailUrl': 'https:/...
+
+Remember you are now in the intermediate state of a trail, you will first analyze the now state and previous action candidates, then make actions that is different from all the previous.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "image_search_for_bing_image_search", "arguments": {"q": "family movies", "count": 5}}
+</tool_call><|im_end|>
+
+Rotated chunk 0: <|im_start|>assistant
+<tool_call>
+{"name": "trending_for_bing_image_search", "arguments": {}}
+</tool_call><|im_end|>
+Rotated chunk 1:
+
+Rotated chunk 2:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "image_search_for_bing_image_search", "arguments": {"q": "family movies", "count": 5}}
+</tool_call><|im_end|>
+[2025-09-26 23:58:45,401] [WARNING] [stage3.py:2171:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+  2%|▏         | 10/625 [03:05<3:00:32, 17.61s/it]2025-09-27 00:01:28,925 - INFO - Step 10: Train Loss = 19.7259
+[2025-09-26 23:59:03,024] [WARNING] [stage3.py:2171:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-26 23:59:21,963] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-26 23:59:43,460] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 19.7259, 'grad_norm': 104.28821563720703, 'learning_rate': 7.2000000000000005e-06, 'epoch': 0.02}
+  3%|▎         | 18/625 [05:28<3:04:15, 18.21s/it]

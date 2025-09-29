@@ -33,6 +33,9 @@ References:
 import os
 import json
 import torch
+import sys
+sys.path.append(os.path.abspath("..")) 
+from utils.utils import aside_encode,get_aside_segments,aside_encode_start,multiturn_aside_encode
 
 from typing import Any, Dict, List
 
@@ -61,6 +64,8 @@ from aside_dpo import DPOTrainerWithSegments,apply_chat_tool_template
 from deepspeed.utils.zero_to_fp32 import convert_zero_checkpoint_to_fp32_state_dict
 from embeddings_init import generate_isoclinic_rotation_matrix
 import re
+
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 def setup_dist(backend="nccl"):
     # Only initialize if launched by torchrun
@@ -102,36 +107,18 @@ def merge_zero_shards_and_save(checkpoint_dir):
 
 
 class AlpacaDataset(Dataset):
-    """
-    Custom Dataset class for ASIDE instruction-tuning with Alpaca data.
-    
-    This dataset provides the instruction-data separation on the level of 
-    prompts required for ASIDE training.
-    It formats Alpaca examples into distinct instruction and data segments, enabling
-    the model to learn different representations for executable vs non-executable content.
-    
-    The dataset follows the paper's methodology (Section 4.1) by:
-    1. Separating instruction and data components of each example
-    2. Creating segment IDs to distinguish instruction from data tokens (needed for ASIDE and ISE)
-    3. Preparing inputs compatible with ASIDE's conditional embedding mechanism
-    
-    Args:
-        data (List[Dict]): Alpaca dataset examples with 'instruction', 'input', 'output' fields
-        template_info (Dict): Chat template information for formatting prompts
-        handler (CustomModelHandler): Model handler containing tokenizer and embedding configuration
-        max_length (int, optional): Maximum sequence length. Defaults to 512.
-        
-    Note:
-        The dataset ensures that instruction tokens receive standard embeddings while
-        data tokens receive rotated embeddings during ASIDE forward passes.
-    """
-
-    def __init__(self, data: List[Dict], template_info: Dict, handler: CustomModelHandler, max_length=512):
+    def __init__(self, data: List[Dict], template_info: Dict, handler: CustomModelHandler, max_length=512,combine_system_user = True, start_token=None, end_token=None,completion_only=False): # combine system user means we leave the system prompt out and put everything inside the user prompt.
         self.data = data
         self.template_info = template_info
         self.handler = handler
         self.max_length = max_length
         self.printed_input = False
+        self.combine_system_user = combine_system_user
+        if self.combine_system_user:
+            assert start_token is not None and end_token is not None, "start_token and end_token must be provided if combine_system_user is True"
+        self.start_token = start_token
+        self.end_token = end_token
+        self.completion_only = completion_only # only train on completion
 
     def __len__(self):
         return len(self.data)
@@ -146,74 +133,79 @@ class AlpacaDataset(Dataset):
                   of instructions (0) or data (1).
         """
         data_point = self.data[idx]
-        # Format the prompts using your existing function
-        template = self.template_info["template_prompt"]
-        
-        if "### Instruction:" in template['user']:
-            instruction = template['system'] # generic system prompt
-            data = format_prompt(data_point, template, "user") # combine both
-        else:
-            instruction = format_prompt(data_point["instruction"], template, "system")
-            data = format_prompt(data_point["input"], template, "user")
-        output = format_prompt(data_point["output"], template, "output")
 
-        # Prepare text sequences
+        if not self.combine_system_user:
+            # Format the prompts using your existing function
+            template = self.template_info["template_prompt"]
+            if "### Instruction:" in template['user']:
+                instruction = template['system'] # generic system prompt
+                data = format_prompt(data_point, template, "user") # combine both
+            else:
+                instruction = format_prompt(data_point["instruction"], template, "system")
+                data = format_prompt(data_point["input"], template, "user")
+            output = format_prompt(data_point["output"], template, "output")
+
+            # Prepare text sequences
+                
+            text_sequences = format_model_input(self.handler.tokenizer, instruction, data, output, split_chat=self.handler.split_chat)
+
+            # Get input_ids and attention_mask
+            input_ids, attention_mask, segment_ids = texts_to_prepared_ids(
+                text_sequences, self.handler.tokenizer, self.max_length, self.handler.embedding_type 
+            )
+            input_ids = torch.hstack((input_ids, torch.Tensor([[self.handler.tokenizer.eos_token_id]]))).long()
+            attention_mask = torch.hstack((attention_mask, torch.Tensor([[True]]))).bool()
+            if segment_ids is not None:
+                segment_ids = torch.hstack((segment_ids, torch.Tensor([[(1 + len(text_sequences)) % 2]]))).long() 
+
+            if not self.printed_input: 
+                print(f"Input Text Sequence:\n{text_sequences}")
+                print (f'Prompt : {self.handler.tokenizer.decode(input_ids.squeeze(0).tolist())}')
+                #print("Shapes", input_ids.shape, segment_ids.shape, attention_mask.shape)
+                self.printed_input = True
+        else: # keys are instruction,input and output
+            prompt_template = "Below is an instruction that describes a task, paired with an input that provides further context.\nWrite a response that appropriately completes the request.\n\nInstruction:\n{instruction}\nInput:\n{input}"
+            response_template = "Response:\n{response}"
+            input_ = data_point['input'] if data_point['input'].strip() != '' else 'No Input'
+            conv = [
+                {'role':'user','content':prompt_template.format(instruction=data_point['instruction'],input=input_)},
+                {'role':'assistant','content':response_template.format(response=data_point['output'])}
+            ]
+            conv = self.handler.tokenizer.apply_chat_template(conv,tokenize=False,add_generation_prompt=False,enable_thinking=False)
+            encoded = self.handler.tokenizer(conv, add_special_tokens=False,return_tensors = 'pt',truncation=False,padding=False)
+            input_ids,attention_mask = encoded['input_ids'],encoded['attention_mask']
+            if self.handler.embedding_type  == 'forward_rot':
+                # encoded = aside_encode(encoded,self.handler.tokenizer,self.start_token,self.end_token)
+                encoded = aside_encode_start(encoded,self.handler.tokenizer,self.start_token,key = 'segment_ids')
+                segment_ids = encoded['segment_ids']
+            else:
+                segment_ids = None
             
-        text_sequences = format_model_input(self.handler.tokenizer, instruction, data, output, split_chat=self.handler.split_chat)
-
-        # Get input_ids and attention_mask
-        input_ids, attention_mask, segment_ids = texts_to_prepared_ids(
-            text_sequences, self.handler.tokenizer, self.max_length, self.handler.embedding_type 
-        )
-        input_ids = torch.hstack((input_ids, torch.Tensor([[self.handler.tokenizer.eos_token_id]]))).long()
-        attention_mask = torch.hstack((attention_mask, torch.Tensor([[True]]))).bool()
-        if segment_ids is not None:
-            segment_ids = torch.hstack((segment_ids, torch.Tensor([[(1 + len(text_sequences)) % 2]]))).long() 
-
-        if not self.printed_input: 
-            print(f"Input Text Sequence:\n{text_sequences}")
-            print (f'Prompt : {self.handler.tokenizer.decode(input_ids.squeeze(0).tolist())}')
-            #print("Shapes", input_ids.shape, segment_ids.shape, attention_mask.shape)
-            self.printed_input = True
-        if segment_ids is not None:
-            return {
-                "input_ids": input_ids.squeeze(0).tolist(), 
-                "attention_mask": attention_mask.squeeze(0).tolist(),
-                "segment_ids": segment_ids.squeeze(0).tolist()
-            }
-        return {
-                "input_ids": input_ids.squeeze(0).tolist(), 
-                "attention_mask": attention_mask.squeeze(0).tolist(),
-            }
-    
-    def map(self, function, batched: bool = False, batch_size: int = None, **kwargs):
-        """
-        Applies a function to dataset elements (needed for HuggingFace datasets compatibility).
+            if not self.printed_input: 
+                print (f'FULL PROMPT: {conv}')
+                if segment_ids is not None:
+                    if segment_ids.sum() > 0:
+                        segment_strings = get_aside_segments(encoded,self.handler.tokenizer)
+                        for i,s in enumerate(segment_strings):
+                            print (f'Rotated segment {i}: {s}')
+                self.printed_input = True
+            input_ids = torch.hstack((input_ids, torch.Tensor([[self.handler.tokenizer.eos_token_id]]))).long()
+            attention_mask = torch.hstack((attention_mask, torch.Tensor([[True]]))).bool()
+            if segment_ids is not None:
+                segment_ids = torch.hstack((segment_ids, torch.Tensor([[1]]))).long() 
         
-        Args:
-            function: Function to apply to each element or batch
-            batched (bool): Whether to process in batches
-            batch_size (int, optional): Batch size if batched=True
-            **kwargs: Additional arguments passed to function
+        if self.completion_only:
+            assistant_start = 'Response:'
+            encoded = aside_encode_start(encoded,self.handler.tokenizer,assistant_start,key = 'labels')
+            # this is only a mask
+            labels = input_ids.clone()
+            labels[encoded['labels'] == 0] = -100 # only compute loss on completion
+            encoded['labels'] = labels
+        
+        if segment_ids is not None:
+            encoded['segment_ids'] = segment_ids
             
-        Returns:
-            AlpacaDataset: New dataset with function applied
-        """
-        new_data = []
-        if batched:
-            batch_size = batch_size or 1
-            for i in range(0, len(self.data), batch_size):
-                batch = self.data[i : i + batch_size]
-                # If your function is meant to handle a batch, it should return a list.
-                result = function(batch, **kwargs)
-                # If result is not a list, wrap it in a list.
-                if not isinstance(result, list):
-                    result = [result]
-                new_data.extend(result)
-        else:
-            for item in self.data:
-                new_data.append(function(item, **kwargs))
-        return AlpacaDataset(new_data, template_info=self.template_info, handler=self.handler, max_length=self.max_length)
+        return {k:v.squeeze(0) for k,v in encoded.items()}
 
 
 class ToolDataset(Dataset):
@@ -221,7 +213,7 @@ class ToolDataset(Dataset):
     Custom Dataset class for Tool use
     """
 
-    def __init__(self, data: List[Dict], template_info: Dict, handler: CustomModelHandler, assistant_token, tool_token, max_length=2048,last_completion_only=False):
+    def __init__(self, data: List[Dict], template_info: Dict, handler: CustomModelHandler, assistant_token, tool_token, user_token,max_length=4096,completion_only=True):
         self.data = data
         self.template_info = template_info
         self.handler = handler
@@ -229,7 +221,8 @@ class ToolDataset(Dataset):
         self.printed_input = False
         self.assistant_token = assistant_token
         self.tool_token = tool_token
-        self.last_completion_only = last_completion_only
+        self.user_token = user_token
+        self.completion_only = completion_only
 
     def __len__(self):
         return len(self.data)
@@ -244,110 +237,75 @@ class ToolDataset(Dataset):
                   of instructions (0) or data (1).
         """
         data_point = self.data[idx]
-        if 'system' in data_point:
-            sys = data_point['system']
-            conv = [{'role':'system','content':sys}]
-        # else:
         conv = []
+        data_key = 'from' if 'from' in data_point['conversations'][0] else 'role' # some datasets use 'role' instead of 'from'
+        value_key = 'value' if 'value' in data_point['conversations'][0] else 'content'
         for x in data_point['conversations']:
-            if x['from'] == 'function': # convert to tool
-                x['from'] = 'tool'
-            conv.append({'role':x['from'],'content':x['value'].lstrip('\n')}) # remove leading \n (ToolLLM have these)
-        
-        formatted = self.handler.tokenizer.apply_chat_template(conv,tokenize=False,add_generation_prompt=False,enable_thinking=False,tools=data_point['tools'])
+            if x[data_key] == 'function': # convert to tool
+                x[data_key] = 'tool'
+            conv.append({'role':x[data_key],'content':x[value_key].lstrip('\n')}) # remove leading \n (ToolLLM have these)
 
-        input_ids = self.handler.tokenizer(formatted, add_special_tokens=False,return_tensors = 'pt',truncation=False)['input_ids'][0]
+        formatted = self.handler.tokenizer.apply_chat_template(conv,tokenize=False,add_generation_prompt=False,enable_thinking=False,tools=data_point['tools'])
+        encoded = self.handler.tokenizer(formatted, add_special_tokens=False,return_tensors = 'pt',truncation=False)
+        input_ids,attention_mask = encoded['input_ids'][0],encoded['attention_mask'][0]
         
         segment_ids = None
-        add_eos=False
         # split into assistant and tool (tool is for ASIDE)
         to_iter = 2 if self.handler.embedding_type in ['ise','forward_rot'] else 1
         for token_type in range(to_iter):
             if token_type == 0:
-                start,end = self.assistant_token
-            else:
-                start,end = self.tool_token
-            mask = torch.zeros(len(input_ids), dtype=torch.bool)
-            start_ids = self.handler.tokenizer.encode(start,add_special_tokens=False)
-            end_ids = self.handler.tokenizer.encode(end,add_special_tokens=False)
-            
-            i = 0
-            spans = []
-            while i <= len(input_ids) - len(start_ids):
-                if torch.equal(input_ids[i:i+len(start_ids)], torch.tensor(start_ids)):
-                    # locate matching end after this start
-                    j = i + len(start_ids)
-                    found_end = False
-                    while j <= len(input_ids) - len(end_ids):
-                        if torch.equal(input_ids[j:j+len(end_ids)], torch.tensor(end_ids)):
-                            spans.append((i+len(start_ids), j+len(end_ids))) # span is between start and end
-                            found_end = True
-                            i = j + len(end_ids)
-                            break
-                        j += 1
-                    if not found_end:
-                        # No closing tag; don't label this open span to avoid corruption
-                        i += len(start_ids)
-                else:
-                    i += 1
-            
-            if len(spans):
-                if self.last_completion_only and token_type == 0:
-                    last_span = spans[-1:] # only last completion
-                    if last_span[0][0] >= self.max_length: # if last completion and the start will get truncated, then take the span that is before the max_length
-                        last_span = []
-                        for s in spans[::-1]:
-                            if s[-1] <= self.max_length:
-                                last_span = [s]
-                                break
-                    elif last_span[0][-1] > self.max_length: # early truncation, directly change the last input_ids to eos token
-                        add_eos=True
-                    
-                    spans = last_span
-                for span in spans:
-                    mask[span[0]:span[1]] = True
-            
-            if token_type == 0:
+                start,end = [self.assistant_token[0]], [self.assistant_token[1]]
+                assistant_mask = multiturn_aside_encode(encoded,self.handler.tokenizer,start,end)[0]
                 labels = input_ids.clone()
-                labels[~mask] = -100  # Only compute loss on assistant parts
-            elif token_type == 1:
-                segment_ids = torch.ones(len(input_ids), dtype=torch.long)
-                segment_ids[~mask] = 0  # non-tool parts are 0
-        attention_mask = torch.ones_like(input_ids)
-        if self.handler.embedding_type in ['forward_rot','ise']:
-            segment_ids = torch.tensor(segment_ids)
-            
+                labels[~assistant_mask.bool()] = -100  # Only compute loss on assistant parts
+            else: # both
+                start,end = [self.assistant_token[0],self.tool_token[0]], [self.assistant_token[1],self.tool_token[1]]
+                segment_ids = multiturn_aside_encode(encoded,self.handler.tokenizer,start,end)[0]
+                ## add the segment_ids pos to labels, if = 1, then do not set to 100 so use the OR condition
+                augmented_assistant_mask = assistant_mask | (segment_ids == 1)
+                labels = input_ids.clone()
+                labels[~augmented_assistant_mask.bool()] = -100  # Only compute loss on assistant and tool parts
+
+                # user_start,user_end = [self.user_token[0]], [self.user_token[1]]
+                # # Since we purposely overlap the tool to the start of the assistant start token, it may include user, reset user to 0
+                # user_mask = multiturn_aside_encode(encoded,self.handler.tokenizer,user_start,user_end)[0]
+                # for i,p in enumerate(user_mask):
+                #     if p.bool():
+                #         segment_ids[i] = 0 # user part is 0
+
         if not self.printed_input: 
             print (f'Prompt : {self.handler.tokenizer.decode(input_ids.tolist())}')
             if segment_ids is not None:
-                chunks = []
-                start=False
-                for j,v in enumerate(segment_ids):
-                    if not start and v != 0:
+                chunks = get_aside_segments({'input_ids':[input_ids],'segment_ids':[segment_ids]},self.handler.tokenizer)
+                for j,chunk in enumerate(chunks):
+                    print (f'Rotated chunk {j}: {chunk}')
+                
+                ## just to get the segments
+                assistant_chunks = []
+                start = False
+                for l in labels.tolist():
+                    if l != -100 and not start:
                         start = True
-                        chunks.append([])
-                    if start and v != 0:
-                        chunks[-1].append(input_ids[j])
-                    if start and v == 0:
+                        assistant_chunks.append([l])
+                    elif l != -100 and start:
+                        assistant_chunks[-1].append(l)
+                    else:
                         start = False
-                for j,lc in enumerate(chunks):
-                    print (f'Rotated chunk {j}: {self.handler.tokenizer.decode(lc)}')
-
+                for j,chunk in enumerate(assistant_chunks):
+                    print (f'Assistant loss chunk {j}: {self.handler.tokenizer.decode(chunk)}')
             self.printed_input = True
         
         batch = {
             "input_ids": input_ids.tolist(), 
             "attention_mask": attention_mask.tolist(),
-            "labels": labels.tolist() # adding labels seem to incurr a high lost?
+            # "labels": labels.tolist() # adding labels seem to incurr a high lost? # try to not add.
         }
+        if self.completion_only:
+            batch['labels'] = labels.tolist()
         if segment_ids is not None:
             batch["segment_ids"] = segment_ids.tolist()
         
         batch = {k:v[:self.max_length] for k,v in batch.items()} # trim to max length
-        if add_eos: # if last part is user, doesnt matter since masked loss, but if is assistant, ensure token is eos
-            batch['input_ids'][-1] = self.handler.tokenizer.eos_token_id # ensure ends with eos
-            batch['attention_mask'][-1] = 1
-            
         return batch
 
 
@@ -457,30 +415,6 @@ class CustomDataCollator:
             batch["labels"] = padded_labels
         
         return batch 
-
-# class CustomDPODataCollator:
-#     def __init__(self, pad_token_id):
-#         self.base_collator = PreferenceCollator(pad_token_id=pad_token_id)
-
-#     def __call__(self, features):
-#         """
-#         Collates batch with segment ID handling.
-        
-#         Returns:
-#             Dict: Batch dictionary with 'input_ids', 'attention_mask', 'labels',
-#                   and 'segment_ids' (for ASIDE and ISE models)
-#         """
-#         padded_segment_ids = None
-#         if "segment_ids" in features[0] and features[0]["segment_ids"] is not None:
-#             # Collect segment_ids from each feature and convert them to tensors.
-#             segment_ids = [torch.tensor(feature.pop("segment_ids")) for feature in features]
-#             padded_segment_ids = pad_sequence(segment_ids, batch_first=True, padding_value=0)
-        
-#         batch = self.base_collator(features)
-#         if padded_segment_ids is not None:
-#             batch["segment_ids"] = padded_segment_ids
-#         return batch 
-
 
 
 class EmbeddingRotationCallback(TrainerCallback):
@@ -650,13 +584,13 @@ def main(model_family: str, emb_type: str, train_version: str, model_ix: int, ru
     max_length = hparams["max_length"]
     if hparams['mode'] == 'sft':
         if 'tool' in train_dataset_path.lower(): # for tooluse, train on ToolACE
-            train_dataset = ToolDataset(train_data, template_info, handler, assistant_token=config['assistant_token'], tool_token=config['tool_token'], max_length=max_length,last_completion_only=hparams.get('last_completion_only',False))
-            eval_dataset = ToolDataset(eval_data, template_info, handler, assistant_token=config['assistant_token'], tool_token=config['tool_token'], max_length=max_length)
+            train_dataset = ToolDataset(train_data, template_info, handler, assistant_token=config['assistant_token'], tool_token=config['tool_token'], user_token=config['user_token'], max_length=max_length, completion_only=hparams.get('completion_only',True))
+            eval_dataset = ToolDataset(eval_data, template_info, handler, assistant_token=config['assistant_token'], tool_token=config['tool_token'], user_token=config['user_token'], max_length=max_length, completion_only=hparams.get('completion_only',True))
         else:
-            train_dataset = AlpacaDataset(train_data, template_info, handler, max_length=max_length)
-            eval_dataset = AlpacaDataset(eval_data, template_info, handler, max_length=max_length)
+            train_dataset = AlpacaDataset(train_data, template_info, handler, max_length=max_length,combine_system_user=config.get('combine_system_user',False),start_token=config.get('start_token',None),end_token=config.get('end_token',None),completion_only=hparams['completion_only'])
+            eval_dataset = AlpacaDataset(eval_data, template_info, handler, max_length=max_length,combine_system_user=config.get('combine_system_user',False),start_token=config.get('start_token',None),end_token=config.get('end_token',None),completion_only=hparams['completion_only'])
     else:
-        def convert_str_to_list(examples):
+        def convert_str_to_list(examples): # if chosen and rejected are str, while prompt is list of dict alr
             for e in examples:
                 e['chosen'] = [{'role':'assistant','content':e['chosen']}]
                 e['rejected'] = [{'role':'assistant','content':e['rejected']}]
@@ -686,11 +620,11 @@ def main(model_family: str, emb_type: str, train_version: str, model_ix: int, ru
         
     total_steps = math.ceil((len(train_dataset) * hparams["num_train_epochs"]) / (hparams["per_device_train_batch_size"] * hparams["gradient_accumulation_steps"]  * (dist.get_world_size() if dist.is_initialized() else 1)))
     print (f"Total training steps: {total_steps}")
-    if hparams['mode'] == 'dpo': # eval every 20% of total steps
+    if hparams['eval_percent']> 0:
         hparams['evaluation_strategy'] = 'steps'
-        hparams['eval_steps'] = max(1, total_steps // 5)
+        hparams['eval_steps'] = int(total_steps * hparams['eval_percent'])
         hparams['save_strategy'] = 'steps'
-        hparams['save_steps'] = max(1, total_steps // 5)
+        hparams['save_steps'] = hparams['eval_steps']
         
 
     print('Datasets created')
@@ -842,6 +776,7 @@ if __name__ == "__main__":
     parser.add_argument("--save_strategy", type=str, default="steps", choices=["steps", "epoch"],
                         help="Save strategy.")
     parser.add_argument("--eval_steps", type=int, default=50, help="Number of steps between evaluations.")
+    parser.add_argument("--eval_percent", type=float, default=0.1, help="Percentage of data to use for evaluation.")
     parser.add_argument("--save_steps", type=int, default=300, help="Number of steps between model checkpoints.")
     parser.add_argument("--num_data", type=int, default=-1, help="Number of data points to use.")
     parser.add_argument("--save_total_limit", type=int, default=5, help="Maximum number of checkpoints to save.")
@@ -875,6 +810,7 @@ if __name__ == "__main__":
     parser.add_argument("--no_deepspeed", default = False,type = bool)
     parser.add_argument("--mode", default = 'sft',type = str, help="sft or dpo")
     parser.add_argument("--beta", type=float, default=0.1, help="DPO beta value")
+    parser.add_argument("--completion_only", action = 'store_true', help="If true, only compute loss on the assistant part of the output")
     
     # Parse the arguments
     args = parser.parse_args()

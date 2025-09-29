@@ -1,0 +1,14 @@
+{"time":"2025-09-27T00:12:56.232614385+08:00","level":"INFO","msg":"stream: starting","core version":"0.22.0"}
+{"time":"2025-09-27T00:12:56.715643715+08:00","level":"INFO","msg":"stream: created new stream","id":"u0ue6b30"}
+{"time":"2025-09-27T00:12:56.715738587+08:00","level":"INFO","msg":"stream: started","id":"u0ue6b30"}
+{"time":"2025-09-27T00:12:56.715929661+08:00","level":"INFO","msg":"writer: started","stream_id":"u0ue6b30"}
+{"time":"2025-09-27T00:12:56.71605424+08:00","level":"INFO","msg":"sender: started","stream_id":"u0ue6b30"}
+{"time":"2025-09-27T00:12:56.716195259+08:00","level":"INFO","msg":"handler: started","stream_id":"u0ue6b30"}
+{"time":"2025-09-27T03:39:42.940589947+08:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/self_learning/ToolLLM_SFT_ASIDE/u0ue6b30/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-09-27T04:56:09.102594779+08:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/self_learning/ToolLLM_SFT_ASIDE/u0ue6b30/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-09-27T04:58:57.339945924+08:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/self_learning/ToolLLM_SFT_ASIDE/u0ue6b30/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-09-27T10:45:15.129518501+08:00","level":"INFO","msg":"stream: closing","id":"u0ue6b30"}
+{"time":"2025-09-27T10:45:16.723054303+08:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-27T10:45:17.020522804+08:00","level":"INFO","msg":"handler: closed","stream_id":"u0ue6b30"}
+{"time":"2025-09-27T10:45:17.022024191+08:00","level":"INFO","msg":"sender: closed","stream_id":"u0ue6b30"}
+{"time":"2025-09-27T10:45:17.022087576+08:00","level":"INFO","msg":"stream: closed","id":"u0ue6b30"}

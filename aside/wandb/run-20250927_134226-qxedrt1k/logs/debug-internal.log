@@ -1,0 +1,14 @@
+{"time":"2025-09-27T13:42:26.947925715+08:00","level":"INFO","msg":"stream: starting","core version":"0.22.0"}
+{"time":"2025-09-27T13:42:28.03237735+08:00","level":"INFO","msg":"stream: created new stream","id":"qxedrt1k"}
+{"time":"2025-09-27T13:42:28.032472176+08:00","level":"INFO","msg":"stream: started","id":"qxedrt1k"}
+{"time":"2025-09-27T13:42:28.032686289+08:00","level":"INFO","msg":"writer: started","stream_id":"qxedrt1k"}
+{"time":"2025-09-27T13:42:28.032865373+08:00","level":"INFO","msg":"handler: started","stream_id":"qxedrt1k"}
+{"time":"2025-09-27T13:42:28.032995682+08:00","level":"INFO","msg":"sender: started","stream_id":"qxedrt1k"}
+{"time":"2025-09-27T22:21:44.262276193+08:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/self_learning/ToolLLM_SFT_ASIDE/qxedrt1k/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-27T22:21:46.709457869+08:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/self_learning/ToolLLM_SFT_ASIDE/qxedrt1k/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-27T22:21:51.712571566+08:00","level":"INFO","msg":"api: retrying HTTP error","status":429,"url":"https://api.wandb.ai/files/self_learning/ToolLLM_SFT_ASIDE/qxedrt1k/file_stream","body":"{\"error\":\"rate limit exceeded\"}"}
+{"time":"2025-09-28T00:44:06.506853642+08:00","level":"INFO","msg":"stream: closing","id":"qxedrt1k"}
+{"time":"2025-09-28T00:44:08.145796895+08:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-09-28T00:44:08.434243221+08:00","level":"INFO","msg":"handler: closed","stream_id":"qxedrt1k"}
+{"time":"2025-09-28T00:44:08.435783762+08:00","level":"INFO","msg":"sender: closed","stream_id":"qxedrt1k"}
+{"time":"2025-09-28T00:44:08.435833312+08:00","level":"INFO","msg":"stream: closed","id":"qxedrt1k"}

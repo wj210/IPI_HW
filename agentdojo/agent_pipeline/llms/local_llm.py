@@ -75,20 +75,27 @@ where the JSON inside <function=...> contains exactly the parameters for that fu
 After calling a function, stop generating text and wait for the results of the function call in the next message. The next message will use provide the output of the function call as a JSON object. Based on the output of the function call, you may call additional functions or provide a final answer."""
 
 
-def _make_system_prompt(system_message: str, tools: Collection[Function]) -> str:
+def _make_system_prompt(system_message: str, tools: Collection[Function],system_template: str = None) -> str:
     if len(tools) == 0:
         return system_message
 
-    functions = ""
+    functions = "" if system_template is None else []
     for tool in tools:
         tool_dict = {
             "name": tool.name,
             "description": tool.description,
             "parameters": tool.parameters.model_json_schema(),
         }
-        functions += json.dumps(tool_dict, indent=2)
-        functions += "\n\n"
-    prompt = _tool_calling_prompt.format(functions=functions)
+        if system_template is None:
+            functions += json.dumps(tool_dict, indent=2)
+            functions += "\n\n"
+        else:
+            functions.append(json.dumps(tool_dict, separators=(',', ':')))
+    if system_template is not None: # use custom -STRICTLY FOR TOOLACE, CHECK PROPERLY
+        functions = "[" + ",".join(functions) + "]"
+        prompt = system_template.format(functions=functions)
+    else:
+        prompt = _tool_calling_prompt.format(functions=functions)
     if system_message:
         prompt += "\n\n" + "## Additional Instructions" + "\n\n" + system_message
 
@@ -131,34 +138,26 @@ def _parse_model_output(completion: str) -> ChatAssistantMessage:
         role="assistant", content=[text_content_block_from_string(completion.strip())], tool_calls=tool_calls
     )
 
-def _parse_toolllm_output(completion: str) -> ChatAssistantMessage:
-    """Parse the output from the ToolLLM model"""
+def parse_tool_output(completion:str):
     default_message = ChatAssistantMessage(
         role="assistant", content=[text_content_block_from_string(completion.strip())], tool_calls=[]
     )
-    if "Action:" not in completion and 'Action Input:' not in completion:
+    match = re.search(r"<tool_call>\s*(.*?)\s*</tool_call>", completion, re.DOTALL)
+    if not match:
         return default_message
     
-    function_name = completion.split('Action:')[1].split('Action Input:')[0].strip()
-    params_match = re.search(r'Action Input:\s*({.*})', completion, re.DOTALL)
-    
-    if function_name.lower() == 'finish': # done
-        return default_message
-    
-    if not params_match:
-        print(f"[debug] broken JSON: {completion}")
-        return default_message
-    else:
-        try:
-            raw_json = params_match.group(1)
-            params_dict = json.loads(raw_json)
-            tool_calls = [FunctionCall(function=function_name, args=params_dict)]
-            return ChatAssistantMessage(
+    json_dict = match.group(1).strip()
+    try:
+        json_dict = json.loads(json_dict)
+        function_name = json_dict.get("name")
+        params_dict = json_dict.get("arguments", {})
+        tool_calls = [FunctionCall(function=function_name, args=params_dict)]
+        return ChatAssistantMessage(
                 role="assistant", content=[text_content_block_from_string(completion.strip())], tool_calls=tool_calls
             )
-        except json.JSONDecodeError:
-            print(f"[debug] broken JSON: {raw_json!r}")
-            return default_message
+    except json.JSONDecodeError:
+        print (f"[debug] broken JSON: {json_dict!r}")
+        return default_message
     
 
 class LocalLLM(BasePipelineElement):
@@ -173,8 +172,8 @@ class LocalLLM(BasePipelineElement):
         self.tokenizer = extra_args.get('tokenizer',None)
         self.encode_fn = extra_args.get('encode_fn',None)
         self.gen_kwargs = extra_args.get('gen_kwargs',None)
-        self.embed_fn = extra_args.get('embed_fn',None) # if pass in embeddings
         self.is_vllm = extra_args.get('is_vllm',False)
+        self.system_template = extra_args.get('system_template',None)
 
     def generate_fn(self, encoded, eos_token_id = [],max_new_tokens: int = 512,do_sample=False) -> str:
         output_ids = self.query_model.generate(
@@ -191,12 +190,8 @@ class LocalLLM(BasePipelineElement):
         return text
     
     def vllm_generate(self,texts):
-        if self.embed_fn:
-            embeds = self.embed_fn(texts)
-            assert all([isinstance(t,list) for t in embeds]) # if embedding ,need to pass in list of int
-            out = self.query_model.generate([{'prompt_embeds':t} for t in embeds],sampling_params = self.gen_kwargs,use_tqdm = False)
-        else:
-            out = self.query_model.generate(texts, sampling_params = self.gen_kwargs,use_tqdm = False)
+
+        out = self.query_model.generate(texts, sampling_params = self.gen_kwargs,use_tqdm = False)
         return [o.outputs[0].text for o in out]
 
     def query(
@@ -211,17 +206,21 @@ class LocalLLM(BasePipelineElement):
         for m in messages:
             role, content = m["role"], m["content"]
             if role == "system" and content is not None:
-                content = _make_system_prompt(get_text_content_as_str(content), runtime.functions.values())
+                content = _make_system_prompt(get_text_content_as_str(content), runtime.functions.values(),self.system_template)
             if role == "tool":
                 if "error" in m and m["error"] is not None:
                     # content = json.dumps({"error": m["error"]})
-                    role,content = 'error',m["error"]
+                    if 'qwen' not in self.tokenizer.name_or_path.lower():
+                        role = 'error'
+                    content = m["error"]
                 else:
                     func_result = get_text_content_as_str(content)
                     if func_result == "None":
                         func_result = "Success"
                     # content = json.dumps({"result": func_result})
-                    role,content = 'result',func_result
+                    if 'qwen' not in self.tokenizer.name_or_path.lower():
+                        role = 'result'
+                    content = func_result
             try:
                 content = get_text_content_as_str(content)
             except Exception as e:
@@ -240,6 +239,9 @@ class LocalLLM(BasePipelineElement):
                 completion = self.generate_fn(self.encode_fn(messages_),**self.gen_kwargs)[0]
             else:
                 completion = self.vllm_generate(self.encode_fn(messages_))[0]
-            
-        output = _parse_model_output(completion)
+        
+        if self.system_template is not None:
+            output = parse_tool_output(completion)
+        else:
+            output = _parse_model_output(completion)
         return query, runtime, env, [*messages, output], extra_args
