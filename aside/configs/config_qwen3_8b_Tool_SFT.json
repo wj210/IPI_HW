@@ -8,8 +8,8 @@
     "train_logs_path": "./model_outputs/train_logs/",
     "training_version": "ToolBench_Chat_SFT_40k",
     "tokenizer_path": "Qwen/Qwen3-8B",
-    "assistant_token": ["\n<|im_start|>assistant","<|im_end|>"],
-    "tool_token": ["<|im_start|>user\n<tool_response>","</tool_response><|im_end|>\n"],
+    "assistant_token": ["\n<|im_start|>assistant","<|im_end|>\n"],
+    "tool_token": ["\n<|im_start|>user\n<tool_response>","</tool_response><|im_end|>\n"],
     "user_token": ["<|im_start|>user","<|im_end|>"],
     "models": {
         "single_emb": {

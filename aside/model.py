@@ -654,7 +654,7 @@ class LlamaForwardRot(ForwardRotMixin, LlamaBase):
         if self.learned_rotation:
             self.rotation_matrix = nn.Parameter(rotation_matrix)
         else:
-            self.register_buffer("rotation_matrix", rotation_matrix)
+            self.register_buffer("rotation_matrix", rotation_matrix,persistent=False)
 
 
 ###########
@@ -737,7 +737,7 @@ class QwenForwardRot(ForwardRotMixin, QwenBase):
         if self.learned_rotation:
             self.rotation_matrix = nn.Parameter(rotation_matrix)
         else:
-            self.register_buffer("rotation_matrix", rotation_matrix)
+            self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
 
 class CustomQwen3Config(Qwen3Config):
     """Extended Qwen configuration for ASIDE experiments."""
@@ -855,7 +855,7 @@ class Qwen3ForwardRot(ForwardRotMixin, Qwen3Base):
         if self.learned_rotation:
             self.rotation_matrix = nn.Parameter(rotation_matrix)
         else:
-            self.register_buffer("rotation_matrix", rotation_matrix)
+            self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
 
 
 class Qwen3ForwardRot_StruQ(ForwardRotMixin, Qwen3Base_StruQ):
@@ -892,7 +892,7 @@ class Qwen3ForwardRot_StruQ(ForwardRotMixin, Qwen3Base_StruQ):
         if self.learned_rotation:
             self.rotation_matrix = nn.Parameter(rotation_matrix)
         else:
-            self.register_buffer("rotation_matrix", rotation_matrix)
+            self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
 
 
 ###########
@@ -978,7 +978,7 @@ class MistralForwardRot(ForwardRotMixin, MistralBase):
         if self.learned_rotation:
             self.rotation_matrix = nn.Parameter(rotation_matrix)
         else:
-            self.register_buffer("rotation_matrix", rotation_matrix)
+            self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
 
 
 ###########
@@ -1061,7 +1061,7 @@ class GemmaForwardRot(ForwardRotMixin, GemmaBase):
         if self.learned_rotation:
             self.rotation_matrix = nn.Parameter(rotation_matrix)
         else:
-            self.register_buffer("rotation_matrix", rotation_matrix)
+            self.register_buffer("rotation_matrix", rotation_matrix, persistent=False)
 
 
 ###########

@@ -12,15 +12,15 @@ fi
 # export CUDA_VISIBLE_DEVICES=4,5,6,7
 output_dir="/dataset/common/huggingface/model" # change to place to store large models
 export WANDB_API_KEY="4d0cfb6b964e4092b544eaa50ffa07ae36cc5249"
-export WANDB_PROJECT="ToolLLM_SFT_Vanilla"
+export WANDB_PROJECT="ToolLLM_SFT_ISE"
 
 
 deepspeed --master_port=29509 fine-tune.py \
 --model_family qwen3_8b \
 --train_version Tool_SFT \
---emb_type single_emb \
+--emb_type ise \
 --model_ix 0 \
---run_number Vanilla \
+--run_number ISE \
 --train_type full \
 --num_train_epochs 1 \
 --per_device_train_batch_size 4 \
@@ -47,4 +47,4 @@ deepspeed --master_port=29509 fine-tune.py \
 --report_to wandb \
 --max_length 4096 \
 --eval_percent 0.2 \
---completion_only
+--num_data 40000

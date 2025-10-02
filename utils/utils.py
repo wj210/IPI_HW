@@ -102,8 +102,8 @@ def aside_encode(encoded,tokenizer,start_token=None,end_token=None):
     encoded['segment_ids'] = segment_ids
     return encoded
 
-qwen_start_tokens = ["\n<|im_start|>assistant","<|im_start|>user\n<tool_response>"]
-qwen_end_tokens = ["<|im_end|>","</tool_response><|im_end|>\n"]
+qwen_start_tokens = ["\n<|im_start|>assistant","\n<|im_start|>user\n<tool_response>"]
+qwen_end_tokens = ["<|im_end|>\n","</tool_response><|im_end|>\n"]
 
 def multiturn_aside_encode(encoded,tokenizer,start_tokens=[],end_tokens=[],until_last_token=None):
     """

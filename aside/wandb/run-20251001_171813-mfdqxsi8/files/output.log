@@ -1,0 +1,84 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/1563 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "scramble_word_for_word_scramble", "description": "This is the subfunction for tool \"word_scramble\", you can use this tool.The description of this function is: \"Call scramble with {word} parameter\"", "parameters": {"type": "object", "properties": {"word": {"type": "string", "description": "", "example_value": "TEST"}}, "required": ["word"], "optional": []}}
+{"name": "languages_for_google_translator", "description": "This is the subfunction for tool \"google_translator\", you can use this tool.The description of this function is: \"Returns a list of supported languages for translation.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "analyze_text_for_sentiment_analysis_service", "description": "This is the subfunction for tool \"sentiment_analysis_service\", you can use this tool.The description of this function is: \"Determine the sentiment of a given body of text\"", "parameters": {"type": "object", "properties": {"text": {"type": "string", "description": "", "example_value": "The weather today is fantastic! I am in a very happy mood, so this text is likely positive"}}, "required": ["text"], "optional": []}}
+{"name": "big_five_personality_test_for_personality_quest", "description": "This is the subfunction for tool \"personality_quest\", you can use this tool.The description of this function is: \"This route is for getting big_five_personality_test_for_personality_quest Questionnaire\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "enneagram_personality_test_questionnaire_for_personality_quest", "description": "This is the subfunction for tool \"personality_quest\", you can use this tool.The description of this function is: \"This route will give you all questions for Enneagram Personality Test.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "pq_personality_test_questionnaire_for_personality_quest", "description": "This is the subfunction for tool \"personality_quest\", you can use this tool.The description of this function is: \"This route will give you all questions for Positive Quotient    Personality Test.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "sample1_for_testingsunlife", "description": "This is the subfunction for tool \"testingsunlife\", you can use this tool.The description of this function is: \"sample1_for_testingsunlife\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+My company is organizing a team-building retreat and we want to plan some fun activities for the team. Can you recommend some outdoor team-building games and exercises that promote collaboration and communication? Also, suggest some picturesque locations for the retreat in the countryside.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "sample1_for_testingsunlife", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "Function executing from my_tools.Text_Analysis.testingsunlife.api import sample1 error...\nHTTPSConnectionPool(host='testingsunlife.p.rapidapi.comhttp', port=443): Max retries exceeded with url: //slgstage.azurewebsites.net (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fdfde3c2c80>: Failed to establish a new connection: [Errno -2] Name or service not known'))", "response": ""}
+</tool_response><|im_end|>
+<|im_start|>user
+This is not the first time you try this task, all previous trails failed.
+Before you generate my thought for this state, I will first show you your previous actions for this state, and then you must generate actions that is different from all of them. Here are some previous actions candidates:
+[
+  {
+    "name": "scramble_word_for_word_scramble",
+    "arguments": "{\n  \"word\": \"outdoor team-building games and exercises\"\n}",
+    "function_output": "{\"error\": \"\", \"response\": \"lt-deiaumrmanoxres gbo cusiosde eaigtde n\"}",
+    "mento-carlo-action-value": 0.0
+  }
+]
+again, your former observation: {"error": "Function executing from my_tools.Text_Analysis.testingsunlife.api import sample1 error...\nHTTPSConnectionPool(host='testingsunlife.p.rapidapi.comhttp', port=443): Max retries exceeded with url: //slgstage.azurewebsites.net (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7fdfde3c2c80>: Failed to establish a new connection: [Errno -2] Name or service not known'))", "response": ""}
+
+Remember you are now in the intermediate state of a trail, you will first analyze the now state and previous action candidates, then make actions that is different from all the previous.<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "enneagram_personality_test_questionnaire_for_personality_quest", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "[{\"personality_test_id\":5,\"title\":\"Enneagram Personality test\",\"description\":\"A nine-sided figure used in a particular system of analysis to represent the spectrum of possible personality types.\",\"lowest_range\":1,\"heighest_range\":5,\"lowest_range_name\":\"That's not me\",\"heighest_range_name\":\"That's me\",\"personality_test_type\":\"Enneagram\",\"created_at\":\"2023-05-18T11:05:43.683Z\",\"updated_at\":\"2023-05-18T11:05:43.683Z\",\"personality_test_questions\":[{\"personality_test_id\":5,\"question\":\"I have very good judgement and am extremely prudent: in fact, good judgement is one of my deepest strengths.\",\"personality_test_question_id\":105},{\"personality_test_id\":5,\"question\":\"I have a strong conscience and a clear sense of right and wrong.\",\"personality_test_question_id\":106},{\"personality_test_id\":5,\"question\":\"I tolerate others, their beliefs and actions, even though I dont necessarily agree with them or think that they are right.\",\"person...
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "scramble_word_for_word_scramble", "arguments": {"word": "exercise"}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "ecserexi"}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Some outdoor team-building games and exercises that promote collaboration and communication are the 'Spider Web' game and the 'Blindfolded Obstacle Course' exercise. As for picturesque locations for the retreat, the Swiss Alps in Switzerland, the Scottish Highlands, and the Cotswolds in England are recommended. Enjoy your team-building retreat!<|im_end|>
+
+[2025-10-01 17:18:51,373] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:19:18,333] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:19:44,139] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:20:09,265] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:20:59,880] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:21:50,499] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:22:18,778] [WARNING] [stage3.py:2171:step] 4 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 1.5005, 'grad_norm': 53.38621139526367, 'learning_rate': 2.857142857142857e-07, 'epoch': 0.01}
+  1%|▏         | 20/1563 [08:37<10:35:26, 24.71s/it]2025-10-01 17:26:55,511 - INFO - Step 20: Train Loss = 1.3530
+{'loss': 1.353, 'grad_norm': 31.171424865722656, 'learning_rate': 6.031746031746031e-07, 'epoch': 0.01}
+  2%|▏         | 25/1563 [10:40<10:27:56, 24.50s/it]

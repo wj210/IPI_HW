@@ -1,0 +1,295 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/240 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "LogEntryManager.processLogEntries", "description": "Processes and stores log entries into the database with optional timestamp formatting.", "parameters": {"type": "dict", "properties": {"logEntries": {"description": "List of log entries to be processed.", "type": "array", "items": {"type": "dict", "properties": {"entryID": {"description": "Unique identifier for the log entry.", "type": "string"}, "entryMessage": {"description": "The message content of the log entry.", "type": "string"}, "entryTimestamp": {"description": "Timestamp of the log entry. Format must match '%Y-%m-%d %H:%M:%S'.", "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"}}, "required": ["entryID", "entryMessage", "entryTimestamp"]}}, "databaseTable": {"description": "The database table where log entries will be stored.", "type": "string"}}, "required": ["logEntries", "databaseTable"]}, "required": null}
+{"name": "DatabaseLogger.initializeConnection", "description": "Establishes a secure connection to the specified database for logging purposes, with configurable timeout and retry options.", "parameters": {"type": "dict", "properties": {"connectionDetails": {"description": "Details of the database connection.", "type": "dict", "properties": {"databaseURL": {"description": "The URL of the database to connect to.", "type": "string"}, "username": {"description": "The username for database authentication.", "type": "string"}, "password": {"description": "The password for database authentication.", "type": "string"}}, "required": ["databaseURL", "username", "password"]}, "timeout": {"description": "Connection timeout in seconds.", "type": "int"}, "retryOptions": {"description": "Options for connection retry.", "type": "dict", "properties": {"maxRetries": {"description": "Maximum number of retry attempts.", "type": "int"}, "retryDelay": {"description": "Delay between retries in seconds.", "type": "int"}}, "required": ["maxRetries", "retryDelay"]}}, "required": ["connectionDetails"]}, "required": null}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I need to process a batch of log entries into the 'app_logs' table. The entries are as follows: [{"entryID": "001", "entryMessage": "System startup", "entryTimestamp": "2023-09-01 12:00:00"}, {"entryID": "002", "entryMessage": "User login successful", "entryTimestamp": "2023-09-01 12:30:00"}]. Can you help with this?<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "LogEntryManager.processLogEntries", "arguments": {"logEntries": [{"entryID": "001", "entryMessage": "System startup", "entryTimestamp": "2023-09-01 12:00:00"}, {"entryID": "002", "entryMessage": "User login successful", "entryTimestamp": "2023-09-01 12:30:00"}], "databaseTable": "app_logs"}}
+</tool_call><|im_end|>
+
+Rotated chunk 0:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "LogEntryManager.processLogEntries", "arguments": {"logEntries": [{"entryID": "001", "entryMessage": "System startup", "entryTimestamp": "2023-09-01 12:00:00"}, {"entryID": "002", "entryMessage": "User login successful", "entryTimestamp": "2023-09-01 12:30:00"}], "databaseTable": "app_logs"}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 0:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "LogEntryManager.processLogEntries", "arguments": {"logEntries": [{"entryID": "001", "entryMessage": "System startup", "entryTimestamp": "2023-09-01 12:00:00"}, {"entryID": "002", "entryMessage": "User login successful", "entryTimestamp": "2023-09-01 12:30:00"}], "databaseTable": "app_logs"}}
+</tool_call><|im_end|>
+  4%|▍         | 10/240 [02:24<55:51, 14.57s/it]2025-09-30 22:20:31,048 - INFO - Step 10: Train Loss = 15.2150
+
+{'loss': 15.215, 'grad_norm': 24.846263885498047, 'learning_rate': 1.8e-05, 'epoch': 0.13}
+  8%|▊         | 20/240 [04:46<53:10, 14.50s/it]2025-09-30 22:22:52,942 - INFO - Step 20: Train Loss = 2.8724
+{'loss': 2.8724, 'grad_norm': 7.461726188659668, 'learning_rate': 1.9924533866912017e-05, 'epoch': 0.25}
+ 12%|█▎        | 30/240 [07:01<47:03, 13.44s/it]2025-09-30 22:25:07,933 - INFO - Step 30: Train Loss = 1.2466
+{'loss': 1.2466, 'grad_norm': 2.9788472652435303, 'learning_rate': 1.9665125286177448e-05, 'epoch': 0.38}
+ 17%|█▋        | 40/240 [09:23<47:17, 14.19s/it]2025-09-30 22:27:29,273 - INFO - Step 40: Train Loss = 0.8350
+{'loss': 0.835, 'grad_norm': 3.369507074356079, 'learning_rate': 1.922567370848072e-05, 'epoch': 0.5}
+ 20%|█▉        | 47/240 [11:01<45:17, 14.08s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "Get Greet", "description": "Generates a personalized greeting message based on the provided name and cringe level.", "parameters": {"type": "dict", "properties": {"name": {"description": "The name of the person to be greeted.", "type": "string"}, "cringeLevel": {"description": "The level of cringe to include in the greeting message.", "type": "int"}}, "required": ["name", "cringeLevel"]}, "required": null}
+{"name": "Twitter Auto Complete", "description": "Auto complete search queries on Twitter", "parameters": {"type": "dict", "properties": {"q": {"description": "Search query", "type": "string"}}, "required": ["q"]}, "required": null}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+Can you create personalized greetings for four of my friends? Their names are Alex, Jamie, Taylor, and Jordan. I want different levels of cringe for each: 1 for Alex, 2 for Jamie, 3 for Taylor, and 4 for Jordan.<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Alex", "cringeLevel": 1}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jamie", "cringeLevel": 2}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Taylor", "cringeLevel": 3}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jordan", "cringeLevel": 4}}
+</tool_call><|im_end|>
+
+Rotated chunk 0:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Alex", "cringeLevel": 1}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jamie", "cringeLevel": 2}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Taylor", "cringeLevel": 3}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jordan", "cringeLevel": 4}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 0:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Alex", "cringeLevel": 1}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jamie", "cringeLevel": 2}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Taylor", "cringeLevel": 3}}
+</tool_call>
+<tool_call>
+{"name": "Get Greet", "arguments": {"name": "Jordan", "cringeLevel": 4}}
+</tool_call><|im_end|>
+ 20%|█▉        | 47/240 [11:14<45:17, 14.08s/2025-09-30 22:29:20,883 - INFO - Step 47: Eval Loss = 0.5856
+100%|██████████| 8/8 [00:12<00:00,  1.61s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+
+{'eval_loss': 0.5855695605278015, 'eval_runtime': 13.4387, 'eval_samples_per_second': 34.899, 'eval_steps_per_second': 0.595, 'epoch': 0.59}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+[2025-09-30 22:32:47,279] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 21%|██        | 50/240 [15:07<2:19:01, 43.91s/it]2025-09-30 22:33:13,848 - INFO - Step 50: Train Loss = 0.7458
+{'loss': 0.7458, 'grad_norm': 2.3383736610412598, 'learning_rate': 1.8614365285240002e-05, 'epoch': 0.63}
+ 25%|██▌       | 60/240 [17:31<44:38, 14.88s/it]2025-09-30 22:35:38,084 - INFO - Step 60: Train Loss = 0.8108
+{'loss': 0.8108, 'grad_norm': 2.3669095039367676, 'learning_rate': 1.7842587535740315e-05, 'epoch': 0.76}
+ 29%|██▉       | 70/240 [19:58<41:51, 14.77s/it]2025-09-30 22:38:04,187 - INFO - Step 70: Train Loss = 0.6426
+{'loss': 0.6426, 'grad_norm': 2.6095197200775146, 'learning_rate': 1.6924717219195258e-05, 'epoch': 0.88}
+ 33%|███▎      | 80/240 [22:07<31:39, 11.87s/it]2025-09-30 22:40:13,214 - INFO - Step 80: Train Loss = 0.5338
+{'loss': 0.5338, 'grad_norm': 3.447235107421875, 'learning_rate': 1.5877852522924733e-05, 'epoch': 1.0}
+ 38%|███▊      | 90/240 [24:22<33:48, 13.52s/it]2025-09-30 22:42:28,908 - INFO - Step 90: Train Loss = 0.4166
+{'loss': 0.4166, 'grad_norm': 1.8778653144836426, 'learning_rate': 1.4721494555476189e-05, 'epoch': 1.13}
+ 39%|███▉      | 94/240 [25:16<33:26, 13.74s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+ 39%|███▉      | 94/240 [25:27<33:26, 13.74s/2025-09-30 22:43:33,531 - INFO - Step 94: Eval Loss = 0.3914
+100%|██████████| 8/8 [00:10<00:00,  1.41s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.39143648743629456, 'eval_runtime': 11.2088, 'eval_samples_per_second': 41.842, 'eval_steps_per_second': 0.714, 'epoch': 1.18}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-47] due to args.save_total_limit
+ 42%|████▏     | 100/240 [30:09<56:33, 24.24s/it]2025-09-30 22:48:15,591 - INFO - Step 100: Train Loss = 0.3955
+{'loss': 0.3955, 'grad_norm': 1.445794701576233, 'learning_rate': 1.3477184077869892e-05, 'epoch': 1.25}
+ 46%|████▌     | 110/240 [32:28<30:42, 14.17s/it]2025-09-30 22:50:34,909 - INFO - Step 110: Train Loss = 0.3891
+{'loss': 0.3891, 'grad_norm': 1.0731688737869263, 'learning_rate': 1.216810023997781e-05, 'epoch': 1.38}
+ 50%|█████     | 120/240 [34:42<26:48, 13.40s/it]2025-09-30 22:52:48,553 - INFO - Step 120: Train Loss = 0.3630
+{'loss': 0.363, 'grad_norm': 1.3697713613510132, 'learning_rate': 1.0818628796818134e-05, 'epoch': 1.5}
+ 54%|█████▍    | 130/240 [37:07<26:39, 14.54s/it]2025-09-30 22:55:14,072 - INFO - Step 130: Train Loss = 0.3902
+{'loss': 0.3902, 'grad_norm': 1.4322959184646606, 'learning_rate': 9.453907848078901e-06, 'epoch': 1.63}
+ 58%|█████▊    | 140/240 [39:31<23:44, 14.24s/it]2025-09-30 22:57:38,079 - INFO - Step 140: Train Loss = 0.3691
+{'loss': 0.3691, 'grad_norm': 1.2298552989959717, 'learning_rate': 8.099359562883931e-06, 'epoch': 1.76}
+ 59%|█████▉    | 141/240 [39:46<23:45, 14.40s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+ 59%|█████▉    | 141/240 [39:57<23:45, 14.40s2025-09-30 22:58:04,061 - INFO - Step 141: Eval Loss = 0.3388
+100%|██████████| 8/8 [00:10<00:00,  1.41s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.33878156542778015, 'eval_runtime': 11.2019, 'eval_samples_per_second': 41.868, 'eval_steps_per_second': 0.714, 'epoch': 1.77}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-94] due to args.save_total_limit
+ 62%|██████▎   | 150/240 [45:25<26:14, 17.49s/it]2025-09-30 23:03:32,054 - INFO - Step 150: Train Loss = 0.4434
+{'loss': 0.4434, 'grad_norm': 1.5934360027313232, 'learning_rate': 6.78021661288262e-06, 'epoch': 1.88}
+ 67%|██████▋   | 160/240 [47:34<15:29, 11.62s/it]2025-09-30 23:05:40,941 - INFO - Step 160: Train Loss = 0.3371
+{'loss': 0.3371, 'grad_norm': 2.2294065952301025, 'learning_rate': 5.521052135319182e-06, 'epoch': 2.0}
+ 71%|███████   | 170/240 [49:54<16:23, 14.04s/it]2025-09-30 23:08:00,775 - INFO - Step 170: Train Loss = 0.2380
+{'loss': 0.238, 'grad_norm': 1.248634934425354, 'learning_rate': 4.345321981979942e-06, 'epoch': 2.13}
+ 75%|███████▌  | 180/240 [52:15<13:50, 13.84s/it]2025-09-30 23:10:21,729 - INFO - Step 180: Train Loss = 0.2641
+{'loss': 0.2641, 'grad_norm': 1.0665733814239502, 'learning_rate': 3.2749277810547286e-06, 'epoch': 2.25}
+ 78%|███████▊  | 188/240 [54:07<12:38, 14.59s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+ 78%|███████▊  | 188/240 [54:18<12:38, 14.59s2025-09-30 23:12:24,928 - INFO - Step 188: Eval Loss = 0.3429
+100%|██████████| 8/8 [00:09<00:00,  1.40s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.342898964881897, 'eval_runtime': 11.1722, 'eval_samples_per_second': 41.979, 'eval_steps_per_second': 0.716, 'epoch': 2.35}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 79%|███████▉  | 190/240 [57:59<47:37, 57.14s/it]2025-09-30 23:16:05,512 - INFO - Step 190: Train Loss = 0.2052
+{'loss': 0.2052, 'grad_norm': 1.04716157913208, 'learning_rate': 2.3298089512431744e-06, 'epoch': 2.38}
+ 83%|████████▎ | 200/240 [1:00:16<10:21, 15.55s/it]2025-09-30 23:18:23,162 - INFO - Step 200: Train Loss = 0.2037
+{'loss': 0.2037, 'grad_norm': 1.0938506126403809, 'learning_rate': 1.5275712681111643e-06, 'epoch': 2.5}
+ 88%|████████▊ | 210/240 [1:02:34<06:54, 13.80s/it]2025-09-30 23:20:40,417 - INFO - Step 210: Train Loss = 0.2077
+{'loss': 0.2077, 'grad_norm': 1.2060869932174683, 'learning_rate': 8.831589018034659e-07, 'epoch': 2.63}
+ 92%|█████████▏| 220/240 [1:04:53<04:32, 13.65s/it]2025-09-30 23:22:59,575 - INFO - Step 220: Train Loss = 0.1995
+{'loss': 0.1995, 'grad_norm': 0.8897899985313416, 'learning_rate': 4.0857603542936776e-07, 'epoch': 2.76}
+ 96%|█████████▌| 230/240 [1:07:11<02:17, 13.79s/it]2025-09-30 23:25:17,913 - INFO - Step 230: Train Loss = 0.2098
+{'loss': 0.2098, 'grad_norm': 1.16455078125, 'learning_rate': 1.1266324984415266e-07, 'epoch': 2.88}
+ 98%|█████████▊| 235/240 [1:08:25<01:15, 15.06s/it]
+***** Running Evaluation *****
+  Num examples = 469
+  Batch size = 8
+ 98%|█████████▊| 235/240 [1:08:36<01:15, 15.02025-09-30 23:26:43,134 - INFO - Step 235: Eval Loss = 0.3402
+100%|██████████| 8/8 [00:10<00:00,  1.41s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.3401775658130646, 'eval_runtime': 11.2043, 'eval_samples_per_second': 41.859, 'eval_steps_per_second': 0.714, 'epoch': 2.95}
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-188] due to args.save_total_limit
+100%|██████████| 240/240 [1:12:56<00:00, 26.73s/it]2025-09-30 23:31:02,875 - INFO - Step 240: Train Loss = 0.2062
+{'loss': 0.2062, 'grad_norm': 2.8861196041107178, 'learning_rate': 9.328403547792518e-10, 'epoch': 3.0}
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-235] due to args.save_total_limit
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141 (score: 0.33878156542778015).
+Attempting to resume from /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-141
+100%|██████████| 240/240 [1:18:15<00:00, 26.73s/it]Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/checkpoint-240] due to args.save_total_limit
+{'train_runtime': 4698.0515, 'train_samples_per_second': 6.476, 'train_steps_per_second': 0.051, 'train_loss': 1.1558396105964979, 'epoch': 3.0}
+100%|██████████| 240/240 [1:18:25<00:00, 19.61s/it]
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/special_tokens_map.json
+Processing zero checkpoint '/dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT/global_step141'
+Loading checkpoint shards: 100%|██████████| 8/8 [00:14<00:00,  1.77s/it]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 8
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|██████████| 399/399 [00:00<00:00, 606350.47it/s]
+Reconstructed Trainable fp32 state dict with 399 params 8190735360 elements
+Saving checkpoint shards: 100%|██████████| 7/7 [03:23<00:00, 29.11s/it]
+Saved merged FP32 checkpoint to /dataset/common/huggingface/model/qwen3_8b_ASIDE_Toolace_SFT

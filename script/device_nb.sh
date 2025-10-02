@@ -7,8 +7,8 @@ export OMP_NUM_THREADS=8
 REQUIRED_MEMORY=79000  # For example, 70 GB
 REQUIRED_GPUS=1   # Number of GPUs needed
 
-p=NH100q
-w=node07
+p=PH100q
+w=node06
 c=8 # num cpus
 
 

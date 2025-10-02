@@ -1,0 +1,136 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+2025-10-01 18:17:27,760 - INFO - Step 0: Eval Loss = 1.5609
+100%|██████████| 37/37 [00:57<00:00,  1.57s/it]
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None}.
+Detected ZeRO Offload and non-DeepSpeed optimizers: This combination should work as long as the custom optimizer has both CPU and GPU implementation (except LAMB)
+***** Running training *****
+  Num examples = 100,000
+  Num Epochs = 1
+  Instantaneous batch size per device = 8
+  Total train batch size (w. parallel, distributed & accumulation) = 64
+  Gradient Accumulation steps = 4
+  Total optimization steps = 1,563
+  Number of trainable parameters = 8,190,735,360
+  0%|          | 0/1563 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "past_1_week_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for past 1 week.\n\n~hourly data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "past_1_month_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for the past month. (~30 days)\n\n~hourly data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "past_3_years_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for the past 3 years.\n\n~ daily (00:00 UTC) data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "medium_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get official news from medium_for_the_sandbox_sand.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "past_1_year_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for the past 1 year.\n\n~ daily (00:00 UTC) data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "year_to_date_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for year to date.\n\n1 day = 5 minute interval data\n1 - 90 days = hourly data\nabove 90 days = daily data (00:00 UTC)\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "past_6_months_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for the past 6 months.\n\n~ daily data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "past_3_months_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for the past 3 months.\n\n~hourly data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "past_1_day_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get price data for the past 24 hours.\n\n~5 minutes data points.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "quote_for_the_sandbox_sand", "description": "This is the subfunction for tool \"the_sandbox_sand\", you can use this tool.The description of this function is: \"Get the latest price.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I'm planning to invest in The Sandbox - SAND token and I need to analyze its price data. Can you fetch the price data for the past 3 years, 6 months, and 1 month? It would also be helpful if you could provide any official news about the token from Medium.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "past_3_years_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "{\"prices\":[[1597363200000,0.08091994568370936],[1597449600000,0.06640343292744963],[1597536000000,0.05078364883524794],[1597622400000,0.061079835827440775],[1597708800000,0.05497444370112035],[1597795200000,0.05153185760373768],[1597881600000,0.05206361273746828],[1597968000000,0.05363025973311594],[1598054400000,0.045212699771900754],[1598140800000,0.04589056462985725],[1598227200000,0.043894677126984465],[1598313600000,0.050743822595316714],[1598400000000,0.04793773024641064],[1598486400000,0.057674199238858054],[1598572800000,0.07476800101088775],[1598659200000,0.06963894970132761],[1598745600000,0.07221118334437886],[1598832000000,0.06637468092599266],[1598918400000,0.07016845064094356],[1599004800000,0.05956588462936652],[1599091200000,0.05894967190483147],[1599177600000,0.04380289332353941],[1599264000000,0.045259260909798205],[1599350400000,0.03756205107810682],[1599436800000,0.040874613822584206],[1599523200000,0.037400497098505577],[1599609600000,0.049696282969686555],[15...
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "past_6_months_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "Timeout error...HTTPConnectionPool(host='47.251.13.204', port=8080): Read timed out. (read timeout=10)", "response": ""}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "past_1_month_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "{\"prices\":[[1685001629669,0.5029686857841915],[1685005236349,0.503886452104977],[1685008814160,0.502968214620808],[1685012432416,0.5038177059782966],[1685016020472,0.5052437256689776],[1685019638979,0.5145716040016617],[1685023232245,0.5086741515426547],[1685026823839,0.5130134657413715],[1685030435089,0.5025894183543917],[1685034025280,0.5058951533362627],[1685037624475,0.5064369479327706],[1685041218743,0.5065511816387807],[1685044855666,0.5091714715199016],[1685048404716,0.5114469261856156],[1685052010331,0.5087021693105389],[1685055605362,0.5070588227474743],[1685059229018,0.5075001548833549],[1685062853188,0.5045616807494292],[1685066456930,0.5017096951670548],[1685070014215,0.5021599358859912],[1685073629919,0.5043502902274429],[1685077264454,0.5027275580109627],[1685080852617,0.49950197875719055],[1685084435949,0.5007383717404846],[1685088076197,0.5044395638561961],[1685091633603,0.5044894872012033],[1685095250528,0.501964017553943],[1685098841076,0.5038554452285382],[16851...
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "medium_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "past_3_years_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 1:
+<|im_start|>assistant
+<tool_call>
+{"name": "past_6_months_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 2:
+<|im_start|>assistant
+<tool_call>
+{"name": "past_1_month_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 3:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "medium_for_the_sandbox_sand", "arguments": {}}
+</tool_call><|im_end|>
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 835, in <module>
+    main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 711, in main
+    trainer.train()
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2672, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4060, in training_step
+    self.accelerator.backward(loss, **kwargs)
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/accelerator.py", line 2726, in backward
+    self.deepspeed_engine_wrapped.backward(loss, sync_gradients=self.sync_gradients, **kwargs)
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'backward'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 835, in <module>
+[rank0]:     main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 711, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2672, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4060, in training_step
+[rank0]:     self.accelerator.backward(loss, **kwargs)
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/accelerator.py", line 2726, in backward
+[rank0]:     self.deepspeed_engine_wrapped.backward(loss, sync_gradients=self.sync_gradients, **kwargs)
+[rank0]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: AttributeError: 'NoneType' object has no attribute 'backward'

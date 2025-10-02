@@ -1,0 +1,125 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+2025-10-01 18:23:17,567 - INFO - Step 0: Eval Loss = 1.5609
+100%|██████████| 37/37 [00:58<00:00,  1.59s/it]
+The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'bos_token_id': None}.
+Detected ZeRO Offload and non-DeepSpeed optimizers: This combination should work as long as the custom optimizer has both CPU and GPU implementation (except LAMB)
+***** Running training *****
+  Num examples = 100,000
+  Num Epochs = 1
+  Instantaneous batch size per device = 8
+  Total train batch size (w. parallel, distributed & accumulation) = 64
+  Gradient Accumulation steps = 4
+  Total optimization steps = 1,563
+  Number of trainable parameters = 8,190,735,360
+  0%|          | 0/1563 [00:00<?, ?it/s]
+Parameter Offload - Persistent parameters statistics: param_count = 145, numel = 308224
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+  0%|          | 0/1563 [01:01<?, ?it/s]       2025-10-01 18:24:22,563 - INFO - Step 0: Eval Loss = 1.5609
+100%|██████████| 37/37 [00:54<00:00,  1.34s/it]
+{'eval_loss': 1.5608519315719604, 'eval_model_preparation_time': 5.2272, 'eval_runtime': 55.9882, 'eval_samples_per_second': 10.359, 'eval_steps_per_second': 0.661, 'epoch': 0}
+
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "post_search_for_socialgrep", "description": "This is the subfunction for tool \"socialgrep\", you can use this tool.The description of this function is: \"Searches Reddit posts.\"", "parameters": {"type": "object", "properties": {"query": {"type": "string", "description": "The comma-separated query for the search. Supports the following term types:\n\n`site:{site_name}` - search only posts where the domain matches {site_name}.\n\n`-site:{site_name}` - search only posts where the domain does not match {site_name}.\n\n`/r/{subreddit", "example_value": "/r/funny,cat"}, "after": {"type": "integer", "description": "The previous result's `sort_key` value. Used for pagination."}}, "required": ["query"], "optional": ["after"]}}
+{"name": "comment_search_for_socialgrep", "description": "This is the subfunction for tool \"socialgrep\", you can use this tool.The description of this function is: \"Searches Reddit comments.\"", "parameters": {"type": "object", "properties": {"query": {"type": "string", "description": "The comma-separated query for the search. Supports the following term types:\n\n`/r/{subreddit}` - search only comments from the subreddit {subreddit}.\n\n`-/r/{subreddit}` - search only comments not from the subreddit {subreddit}.\n\n`{term}` - search only comm", "example_value": "/r/funny,cat"}, "after": {"type": "integer", "description": "The previous result's `sort_key` value. Used for pagination."}}, "required": ["query"], "optional": ["after"]}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I'm planning a trip to Hawaii and I want to know what people are saying about the best activities and attractions there. Can you search for posts and comments on Reddit related to Hawaii tourism, and provide me with the most popular ones? Also, include the sentiment analysis of the comments.
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "post_search_for_socialgrep", "arguments": {"query": "Hawaii tourism", "after": 0}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "request invalid, data error. status_code=500", "response": ""}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "comment_search_for_socialgrep", "arguments": {"query": "/r/Hawaii tourism", "after": 0}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "post_search_for_socialgrep", "arguments": {"query": "Hawaii tourism", "after": 0}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 1:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "comment_search_for_socialgrep", "arguments": {"query": "/r/Hawaii tourism", "after": 0}}
+</tool_call><|im_end|>
+    main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 712, in main
+    trainer.train()
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2672, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4060, in training_step
+    self.accelerator.backward(loss, **kwargs)
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/accelerator.py", line 2726, in backward
+    self.deepspeed_engine_wrapped.backward(loss, sync_gradients=self.sync_gradients, **kwargs)
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/utils/deepspeed.py", line 270, in backward
+    self.engine.backward(loss, **kwargs)
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+    ret_val = func(*args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/engine.py", line 2323, in backward
+    self._do_optimizer_backward(loss, retain_graph)
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/engine.py", line 2269, in _do_optimizer_backward
+    self.optimizer.backward(loss, retain_graph=retain_graph)
+    ^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DeepSpeedZeRoOffload' object has no attribute 'backward'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 836, in <module>
+[rank0]:     main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 712, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2672, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4060, in training_step
+[rank0]:     self.accelerator.backward(loss, **kwargs)
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/accelerator.py", line 2726, in backward
+[rank0]:     self.deepspeed_engine_wrapped.backward(loss, sync_gradients=self.sync_gradients, **kwargs)
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/utils/deepspeed.py", line 270, in backward
+[rank0]:     self.engine.backward(loss, **kwargs)
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank0]:     ret_val = func(*args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/engine.py", line 2323, in backward
+[rank0]:     self._do_optimizer_backward(loss, retain_graph)
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/engine.py", line 2269, in _do_optimizer_backward
+[rank0]:     self.optimizer.backward(loss, retain_graph=retain_graph)
+[rank0]:     ^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: AttributeError: 'DeepSpeedZeRoOffload' object has no attribute 'backward'

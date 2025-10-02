@@ -5,10 +5,10 @@
 export OMP_NUM_THREADS=8
 # The required free memory in MiB
 REQUIRED_MEMORY=79000  # For example, 70 GB
-REQUIRED_GPUS=4   # Number of GPUs needed
+REQUIRED_GPUS=2   # Number of GPUs needed
 
-p=HPCAIq
-w=node14
+p=PH100q
+w=node06
 c=24 # num cpus
 
 # This array will hold the PIDs of the Python sub-scripts

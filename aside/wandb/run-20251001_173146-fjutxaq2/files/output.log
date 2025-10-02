@@ -1,0 +1,86 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/1563 [00:00<?, ?it/s]
+Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"name": "get_blogs_feed_for_all_crypto_news_feed", "description": "This is the subfunction for tool \"all_crypto_news_feed\", you can use this tool.The description of this function is: \"Returns Blogs Feed.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_twitter_feed_for_all_crypto_news_feed", "description": "This is the subfunction for tool \"all_crypto_news_feed\", you can use this tool.The description of this function is: \"Returns Twitter Feed.\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+{"name": "get_all_feed_for_all_crypto_news_feed", "description": "This is the subfunction for tool \"all_crypto_news_feed\", you can use this tool.The description of this function is: \"Returns all feed.\nTweets\nBlogs\nBinance\nUsGov\"", "parameters": {"type": "object", "properties": {}, "required": [], "optional": []}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I want to stay informed about the latest news in the crypto world. Can you provide me with a feed that includes blogs, tweets, and news from Binance and the US government?
+Begin!
+<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "get_all_feed_for_all_crypto_news_feed", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{"error": "", "response": "[{'_id': '1688470200887TnANMbtAtincftu', 'icon': 'https://pbs.twimg.com/profile_images/1516785287191531527/3IiSyyxo.jpg', 'image': '', 'info': {'isQuote': False, 'isReply': False, 'isRetweet': False, 'twitterId': '911245230426525697'}, 'source': 'Twitter', 'suggestions': [{'coin': 'FET', 'found': ['FET'], 'symbols': [{'exchange': 'binance-futures', 'symbol': 'FETUSDT'}, {'exchange': 'binance', 'symbol': 'FETUSDT'}, {'exchange': 'binance', 'symbol': 'FETBTC'}, {'exchange': 'binance', 'symbol': 'FETBUSD'}, {'exchange': 'binance', 'symbol': 'FETBNB'}, {'exchange': 'bybit-perps', 'symbol': 'FETUSDT'}]}], 'time': 1688470200887, 'title': 'Fetch.ai (@Fetch_ai): The new AI-focused NFT Marketplace by the @AzoyaLabs team is nearing completion for testnet usage! \ud83d\udd25\\n\\nJust two more weeks to go \u23f1\ufe0f https://twitter.com/LooksMintable/status/1676142936508059648', 'url': 'https://twitter.com/Fetch_ai/status/1676191625457049600'}, {'_id': '1688469060170TTMRJ2', 'en': 'TUSD: TUSD...
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "get_blogs_feed_for_all_crypto_news_feed", "arguments": {}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 0:
+<|im_start|>assistant
+<tool_call>
+{"name": "get_all_feed_for_all_crypto_news_feed", "arguments": {}}
+</tool_call><|im_end|>
+
+Assistant loss chunk 1:
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "get_blogs_feed_for_all_crypto_news_feed", "arguments": {}}
+</tool_call><|im_end|>
+
+[2025-10-01 17:32:19,885] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:32:44,255] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:33:12,924] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:33:40,411] [WARNING] [stage3.py:2171:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:34:32,758] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:35:00,062] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:35:45,975] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-01 17:36:10,318] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 1.5782, 'grad_norm': 64.98595428466797, 'learning_rate': 2.857142857142857e-07, 'epoch': 0.01}
+[2025-10-01 17:36:34,994] [WARNING] [stage3.py:2171:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+  1%|▏         | 20/1563 [08:24<10:10:16, 23.73s/it]2025-10-01 17:40:14,017 - INFO - Step 20: Train Loss = 1.3934
+[2025-10-01 17:37:00,855] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 1.3934, 'grad_norm': 36.04351806640625, 'learning_rate': 6.031746031746031e-07, 'epoch': 0.01}
+  2%|▏         | 30/1563 [12:34<10:43:58, 25.20s/it]2025-10-01 17:44:23,602 - INFO - Step 30: Train Loss = 0.8838
+{'loss': 0.8838, 'grad_norm': 13.72088623046875, 'learning_rate': 9.206349206349205e-07, 'epoch': 0.02}
+  3%|▎         | 40/1563 [16:45<10:31:44, 24.89s/it]2025-10-01 17:48:35,015 - INFO - Step 40: Train Loss = 0.3411
+[2025-10-01 17:46:01,900] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.3411, 'grad_norm': 5.566752910614014, 'learning_rate': 1.238095238095238e-06, 'epoch': 0.03}
+  3%|▎         | 50/1563 [20:57<10:38:22, 25.32s/it]2025-10-01 17:52:47,187 - INFO - Step 50: Train Loss = 0.1729
+[2025-10-01 17:50:15,107] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1729, 'grad_norm': 1.2491437196731567, 'learning_rate': 1.5555555555555556e-06, 'epoch': 0.03}
+  4%|▍         | 60/1563 [25:08<10:30:15, 25.16s/it]2025-10-01 17:56:58,092 - INFO - Step 60: Train Loss = 0.1491
+{'loss': 0.1491, 'grad_norm': 1.2363977432250977, 'learning_rate': 1.873015873015873e-06, 'epoch': 0.04}
+  4%|▍         | 70/1563 [29:19<10:30:17, 25.33s/it]2025-10-01 18:01:09,056 - INFO - Step 70: Train Loss = 0.1430
+{'loss': 0.143, 'grad_norm': 1.1913080215454102, 'learning_rate': 1.9999210442038163e-06, 'epoch': 0.04}
+  5%|▌         | 80/1563 [33:28<10:20:08, 25.09s/it]2025-10-01 18:05:17,775 - INFO - Step 80: Train Loss = 0.1575
+{'loss': 0.1575, 'grad_norm': 0.7582998275756836, 'learning_rate': 1.9994385817114644e-06, 'epoch': 0.05}
+  6%|▌         | 90/1563 [37:28<9:53:29, 24.17s/it]2025-10-01 18:09:18,042 - INFO - Step 90: Train Loss = 0.1341
+{'loss': 0.1341, 'grad_norm': 0.7912099361419678, 'learning_rate': 1.9985177324254197e-06, 'epoch': 0.06}

@@ -262,9 +262,9 @@ class ToolDataset(Dataset):
                 start,end = [self.assistant_token[0],self.tool_token[0]], [self.assistant_token[1],self.tool_token[1]]
                 segment_ids = multiturn_aside_encode(encoded,self.handler.tokenizer,start,end)[0]
                 ## add the segment_ids pos to labels, if = 1, then do not set to 100 so use the OR condition
-                augmented_assistant_mask = assistant_mask | (segment_ids == 1)
-                labels = input_ids.clone()
-                labels[~augmented_assistant_mask.bool()] = -100  # Only compute loss on assistant and tool parts
+                # augmented_assistant_mask = assistant_mask | (segment_ids == 1)
+                # labels = input_ids.clone()
+                # labels[~augmented_assistant_mask.bool()] = -100  # Only compute loss on assistant and tool parts
 
                 # user_start,user_end = [self.user_token[0]], [self.user_token[1]]
                 # # Since we purposely overlap the tool to the start of the assistant start token, it may include user, reset user to 0
@@ -280,7 +280,8 @@ class ToolDataset(Dataset):
                 for j,chunk in enumerate(chunks):
                     print (f'Rotated chunk {j}: {chunk}')
                 
-                ## just to get the segments
+            ## just to get the segments
+            if self.completion_only:
                 assistant_chunks = []
                 start = False
                 for l in labels.tolist():
@@ -654,6 +655,7 @@ def main(model_family: str, emb_type: str, train_version: str, model_ix: int, ru
         'report_to': hparams["report_to"],
         'metric_for_best_model': None,
         'gradient_checkpointing': True,
+        # 'eval_on_start':True
     }
     if hparams['mode'] == 'dpo':
         training_args['beta'] = hparams['beta']
@@ -703,6 +705,7 @@ def main(model_family: str, emb_type: str, train_version: str, model_ix: int, ru
         trainer = dpo_trainer_class(**dpo_args)
     print('Trainer created')
     
+    # do a single eval before training
     # Start training
     trainer.train()
 

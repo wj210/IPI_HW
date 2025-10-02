@@ -1,0 +1,376 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/1123 [00:00<?, ?it/s]
+Prompt : <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Environment: ipython
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Given the following functions, please respond with a JSON for a function call with its proper arguments that best answers the given prompt.
+
+Respond in the format {"name": function name, "parameters": dictionary of argument name and its value}.Do not use variables.
+
+{
+    "name": "jobs_for_jobsapi",
+    "description": "This is the subfunction for tool \"jobsapi\", you can use this tool.The description of this function is: \"get's jobs\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+{
+    "name": "albums_for_march4",
+    "description": "This is the subfunction for tool \"march4\", you can use this tool.The description of this function is: \"njnj\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+{
+    "name": "get_anything_for_httpbin",
+    "description": "This is the subfunction for tool \"httpbin\", you can use this tool.The description of this function is: \"Forward to httpbin get_anything_for_httpbin endpoint\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+{
+    "name": "getinventory_for_privatepublicapi",
+    "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"Returns a map of status codes to quantities\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+{
+    "name": "getorderbyid_for_privatepublicapi",
+    "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"For valid response try integer IDs with value >= 1 and <= 10. Other values will generated exceptions\"",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "orderid": {
+                "type": "integer",
+                "description": "ID of pet that needs to be fetched",
+                "example_value": 0
+            }
+        },
+        "required": [
+            "orderid"
+        ],
+        "optional": []
+    }
+}
+
+{
+    "name": "logoutuser_for_privatepublicapi",
+    "description": "This is the subfunction for tool \"privatepublicapi\", you can use this tool.The description of this function is: \"Logs out current logged in user session\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+I am passionate about photography and I want to improve my skills. Can you suggest some photography courses or workshops in my area and provide information about their curriculum and instructors? Additionally, it would be helpful to know if any of these courses offer hands-on practice and feedback.
+Begin!<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|eot_id|><|start_header_id|>ipython<|end_header_id|>
+
+"{\"error\": \"\", \"response\": \"{'message': \\\"Endpoint '/api/job' does not exist\\\"}\"}"<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|eot_id|>
+Rotated chunk 0: <|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|eot_id|><|start_header_id|>ipython<|end_header_id|>
+
+"{\"error\": \"\", \"response\": \"{'message': \\\"Endpoint '/api/job' does not exist\\\"}\"}"<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|eot_id|>
+Assistant loss chunk 0: <|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "jobs_for_jobsapi", "arguments": {}}
+</tool_call><|eot_id|>
+Assistant loss chunk 1: <|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "albums_for_march4", "arguments": {}}
+</tool_call><|eot_id|>
+  1%|          | 10/1123 [04:02<7:13:18, 23.36s/it]2025-09-30 13:29:50,767 - INFO - Step 10: Train Loss = 10.6425
+[2025-09-30 13:26:42,067] [WARNING] [stage3.py:2171:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 10.6425, 'grad_norm': 76.47205352783203, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.01}
+  2%|▏         | 20/1123 [07:46<6:54:09, 22.53s/it]2025-09-30 13:33:35,223 - INFO - Step 20: Train Loss = 3.3654
+[2025-09-30 13:32:07,478] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 3.3654, 'grad_norm': 21.31716537475586, 'learning_rate': 8.444444444444446e-06, 'epoch': 0.02}
+  3%|▎         | 30/1123 [11:29<6:30:06, 21.42s/it]2025-09-30 13:37:18,570 - INFO - Step 30: Train Loss = 1.2327
+{'loss': 1.2327, 'grad_norm': 10.917710304260254, 'learning_rate': 1.288888888888889e-05, 'epoch': 0.03}
+  4%|▎         | 40/1123 [15:06<6:31:00, 21.66s/it]2025-09-30 13:40:54,899 - INFO - Step 40: Train Loss = 0.7973
+{'loss': 0.7973, 'grad_norm': 29.512441635131836, 'learning_rate': 1.7333333333333336e-05, 'epoch': 0.04}
+  4%|▍         | 50/1123 [18:48<6:38:28, 22.28s/it]2025-09-30 13:44:37,587 - INFO - Step 50: Train Loss = 0.5841
+{'loss': 0.5841, 'grad_norm': 4.428432941436768, 'learning_rate': 1.999932056597369e-05, 'epoch': 0.04}
+  5%|▌         | 60/1123 [22:26<6:19:32, 21.42s/it]2025-09-30 13:48:14,946 - INFO - Step 60: Train Loss = 0.4320
+{'loss': 0.432, 'grad_norm': 4.24381685256958, 'learning_rate': 1.9991677993445832e-05, 'epoch': 0.05}
+  6%|▌         | 70/1123 [25:53<6:05:46, 20.84s/it]2025-09-30 13:51:41,898 - INFO - Step 70: Train Loss = 0.3441
+{'loss': 0.3441, 'grad_norm': 4.271121501922607, 'learning_rate': 1.997555006789023e-05, 'epoch': 0.06}
+  7%|▋         | 80/1123 [29:31<6:19:48, 21.85s/it]2025-09-30 13:55:19,806 - INFO - Step 80: Train Loss = 0.3348
+{'loss': 0.3348, 'grad_norm': 3.746654748916626, 'learning_rate': 1.9950950485819334e-05, 'epoch': 0.07}
+  8%|▊         | 90/1123 [33:07<6:00:48, 20.96s/it]2025-09-30 13:58:56,422 - INFO - Step 90: Train Loss = 0.2731
+{'loss': 0.2731, 'grad_norm': 2.364433526992798, 'learning_rate': 1.991790013823246e-05, 'epoch': 0.08}
+  9%|▉         | 100/1123 [36:39<5:48:27, 20.44s/it]2025-09-30 14:02:27,649 - INFO - Step 100: Train Loss = 0.2588
+{'loss': 0.2588, 'grad_norm': 2.3951375484466553, 'learning_rate': 1.987642709287431e-05, 'epoch': 0.09}
+ 10%|▉         | 110/1123 [40:17<5:57:52, 21.20s/it]2025-09-30 14:06:05,845 - INFO - Step 110: Train Loss = 0.2289
+{'loss': 0.2289, 'grad_norm': 2.11405348777771, 'learning_rate': 1.9826566570398622e-05, 'epoch': 0.1}
+ 11%|█         | 120/1123 [43:49<5:49:22, 20.90s/it]2025-09-30 14:09:38,428 - INFO - Step 120: Train Loss = 0.2180
+{'loss': 0.218, 'grad_norm': 2.9833552837371826, 'learning_rate': 1.9768360914457355e-05, 'epoch': 0.11}
+ 12%|█▏        | 130/1123 [47:28<6:08:16, 22.25s/it]2025-09-30 14:13:17,302 - INFO - Step 130: Train Loss = 0.2027
+{'loss': 0.2027, 'grad_norm': 2.529954195022583, 'learning_rate': 1.9701859555740647e-05, 'epoch': 0.12}
+ 12%|█▏        | 140/1123 [50:57<5:39:04, 20.70s/it]2025-09-30 14:16:46,307 - INFO - Step 140: Train Loss = 0.1838
+{'loss': 0.1838, 'grad_norm': 1.4297126531600952, 'learning_rate': 1.9627118969998204e-05, 'epoch': 0.12}
+ 13%|█▎        | 150/1123 [54:37<5:58:05, 22.08s/it]2025-09-30 14:20:26,157 - INFO - Step 150: Train Loss = 0.1970
+{'loss': 0.197, 'grad_norm': 1.760617733001709, 'learning_rate': 1.9544202630077733e-05, 'epoch': 0.13}
+ 14%|█▍        | 160/1123 [58:06<5:29:22, 20.52s/it]2025-09-30 14:23:55,163 - INFO - Step 160: Train Loss = 0.1942
+{'loss': 0.1942, 'grad_norm': 1.074724555015564, 'learning_rate': 1.94531809520211e-05, 'epoch': 0.14}
+ 15%|█▌        | 170/1123 [1:01:40<5:35:12, 21.10s/it]2025-09-30 14:27:29,477 - INFO - Step 170: Train Loss = 0.2046
+[2025-09-30 14:26:06,705] [WARNING] [stage3.py:2171:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.2046, 'grad_norm': 1.2889012098312378, 'learning_rate': 1.93541312352641e-05, 'epoch': 0.15}
+ 16%|█▌        | 180/1123 [1:05:22<5:44:47, 21.94s/it]2025-09-30 14:31:10,908 - INFO - Step 180: Train Loss = 0.1886
+[2025-09-30 14:28:13,597] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-30 14:29:21,842] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-30 14:30:28,656] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1886, 'grad_norm': 5.028495788574219, 'learning_rate': 1.92471375969905e-05, 'epoch': 0.16}
+[2025-09-30 14:31:34,145] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 17%|█▋        | 190/1123 [1:08:55<5:29:26, 21.19s/it]2025-09-30 14:34:43,877 - INFO - Step 190: Train Loss = 0.1641
+{'loss': 0.1641, 'grad_norm': 2.145930528640747, 'learning_rate': 1.913229090069622e-05, 'epoch': 0.17}
+ 18%|█▊        | 200/1123 [1:12:27<5:27:43, 21.30s/it]2025-09-30 14:38:16,502 - INFO - Step 200: Train Loss = 0.1794
+{'loss': 0.1794, 'grad_norm': 5.925578594207764, 'learning_rate': 1.900968867902419e-05, 'epoch': 0.18}
+ 19%|█▊        | 210/1123 [1:16:05<5:24:18, 21.31s/it]2025-09-30 14:41:53,941 - INFO - Step 210: Train Loss = 0.1941
+{'loss': 0.1941, 'grad_norm': 1.641516923904419, 'learning_rate': 1.8879435050935577e-05, 'epoch': 0.19}
+ 20%|█▉        | 220/1123 [1:19:38<5:17:17, 21.08s/it]2025-09-30 14:45:27,108 - INFO - Step 220: Train Loss = 0.1673
+{'loss': 0.1673, 'grad_norm': 1.4072749614715576, 'learning_rate': 1.874164063328754e-05, 'epoch': 0.2}
+ 20%|█▉        | 224/1123 [1:21:04<5:20:42, 21.40s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+Prompt : <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Environment: ipython
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Given the following functions, please respond with a JSON for a function call with its proper arguments that best answers the given prompt.
+
+Respond in the format {"name": function name, "parameters": dictionary of argument name and its value}.Do not use variables.
+
+{
+    "name": "racecards_for_greyhound_racing_uk",
+    "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"**Get races list.**\n\n- By default current day.\n- Or by date, setting it by parameter\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+{
+    "name": "race_detail_info_for_greyhound_racing_uk",
+    "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"**Get race detailed info by ID {id_race}.**\n\nYou can get the \"id_race\" from Results or Racecards endpoints\"",
+    "parameters": {
+        "type": "object",
+        "properties": {
+            "id_race": {
+                "type": "string",
+                "description": "",
+                "example_value": "53128"
+            }
+        },
+        "required": [
+            "id_race"
+        ],
+        "optional": []
+    }
+}
+
+{
+    "name": "results_for_greyhound_racing_uk",
+    "description": "This is the subfunction for tool \"greyhound_racing_uk\", you can use this tool.The description of this function is: \"Get results races by date\"",
+    "parameters": {
+        "type": "object",
+        "properties": {},
+        "required": [],
+        "optional": []
+    }
+}
+
+I'm a sports enthusiast and I'm interested in attending a greyhound race. Can you give me the race schedule for this week? I would like to know the dates, timings, and locations of the races. Additionally, I'm curious to learn more about a specific race with ID 53128, including the participating greyhounds and their details.
+Begin!<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "racecards_for_greyhound_racing_uk", "arguments": {}}
+</tool_call><|eot_id|><|start_header_id|>ipython<|end_header_id|>
+
+"{\"error\": \"\", \"response\": \"[]\"}"<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "race_detail_info_for_greyhound_racing_uk", "arguments": {"id_race": "53128"}}
+</tool_call><|eot_id|>
+Rotated chunk 0: <|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "racecards_for_greyhound_racing_uk", "arguments": {}}
+</tool_call><|eot_id|><|start_header_id|>ipython<|end_header_id|>
+
+"{\"error\": \"\", \"response\": \"[]\"}"<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "race_detail_info_for_greyhound_racing_uk", "arguments": {"id_race": "53128"}}
+</tool_call><|eot_id|>
+Assistant loss chunk 0: <|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "racecards_for_greyhound_racing_uk", "arguments": {}}
+</tool_call><|eot_id|>
+Assistant loss chunk 1: <|start_header_id|>assistant<|end_header_id|>
+
+<tool_call>
+{"name": "race_detail_info_for_greyhound_racing_uk", "arguments": {"id_race": "53128"}}
+</tool_call><|eot_id|>
+ 20%|█▉        | 224/1123 [1:21:27<5:20:42, 21.2025-09-30 14:47:16,083 - INFO - Step 224: Eval Loss = 0.1687
+100%|██████████| 10/10 [00:21<00:00,  2.17s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.16868416965007782, 'eval_runtime': 23.3818, 'eval_samples_per_second': 24.806, 'eval_steps_per_second': 0.428, 'epoch': 0.2}
+Saving model checkpoint to /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224
+Configuration saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224/config.json
+Configuration saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224/model.safetensors
+chat template saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+[2025-09-30 14:50:44,077] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 20%|██        | 230/1123 [1:26:44<8:03:48, 32.51s/it]2025-09-30 14:52:33,457 - INFO - Step 230: Train Loss = 0.1657
+[2025-09-30 14:51:06,485] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-30 14:51:49,514] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-09-30 14:52:33,449] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1657, 'grad_norm': 1.0457416772842407, 'learning_rate': 1.8596422446892774e-05, 'epoch': 0.2}
+ 21%|██▏       | 240/1123 [1:30:14<5:07:08, 20.87s/it]2025-09-30 14:56:02,842 - INFO - Step 240: Train Loss = 0.1612
+[2025-09-30 14:53:38,856] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1612, 'grad_norm': 1.8458564281463623, 'learning_rate': 1.8443903817140517e-05, 'epoch': 0.21}
+ 22%|██▏       | 250/1123 [1:33:47<5:07:52, 21.16s/it]2025-09-30 14:59:36,205 - INFO - Step 250: Train Loss = 0.1773
+[2025-09-30 14:57:28,853] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1773, 'grad_norm': 1.337364673614502, 'learning_rate': 1.828421426926343e-05, 'epoch': 0.22}
+ 23%|██▎       | 260/1123 [1:37:14<4:52:37, 20.34s/it]2025-09-30 15:03:03,548 - INFO - Step 260: Train Loss = 0.1564
+{'loss': 0.1564, 'grad_norm': 0.8054615259170532, 'learning_rate': 1.8117489418339317e-05, 'epoch': 0.23}
+[2025-09-30 15:03:26,546] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 24%|██▍       | 270/1123 [1:40:41<4:53:12, 20.62s/it]2025-09-30 15:06:29,869 - INFO - Step 270: Train Loss = 0.1510
+{'loss': 0.151, 'grad_norm': 0.9881752133369446, 'learning_rate': 1.7943870854121126e-05, 'epoch': 0.24}
+ 25%|██▍       | 280/1123 [1:44:09<4:52:15, 20.80s/it]2025-09-30 15:09:58,059 - INFO - Step 280: Train Loss = 0.1770
+[2025-09-30 15:07:34,870] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.177, 'grad_norm': 1.0089365243911743, 'learning_rate': 1.7763506020792968e-05, 'epoch': 0.25}
+ 26%|██▌       | 290/1123 [1:47:36<4:47:07, 20.68s/it]2025-09-30 15:13:25,423 - INFO - Step 290: Train Loss = 0.1824
+{'loss': 0.1824, 'grad_norm': 0.9430567026138306, 'learning_rate': 1.757654809175429e-05, 'epoch': 0.26}
+ 27%|██▋       | 300/1123 [1:51:09<4:54:14, 21.45s/it]2025-09-30 15:16:58,053 - INFO - Step 300: Train Loss = 0.1506
+[2025-09-30 15:15:54,351] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1506, 'grad_norm': 0.8424069285392761, 'learning_rate': 1.7383155839538634e-05, 'epoch': 0.27}
+ 28%|██▊       | 310/1123 [1:54:38<4:44:16, 20.98s/it]2025-09-30 15:20:27,563 - INFO - Step 310: Train Loss = 0.1548
+[2025-09-30 15:18:42,158] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.1548, 'grad_norm': 0.962779700756073, 'learning_rate': 1.7183493500977277e-05, 'epoch': 0.28}
+ 28%|██▊       | 320/1123 [1:58:33<5:32:08, 24.82s/it]2025-09-30 15:24:22,280 - INFO - Step 320: Train Loss = 0.1504
+{'loss': 0.1504, 'grad_norm': 0.708858072757721, 'learning_rate': 1.6977730637722446e-05, 'epoch': 0.28}
+ 29%|██▉       | 330/1123 [2:03:17<6:10:52, 28.06s/it]2025-09-30 15:29:05,632 - INFO - Step 330: Train Loss = 0.1435
+{'loss': 0.1435, 'grad_norm': 0.9803526997566223, 'learning_rate': 1.6766041992248415e-05, 'epoch': 0.29}
+ 30%|███       | 340/1123 [2:07:40<5:51:32, 26.94s/it]2025-09-30 15:33:29,285 - INFO - Step 340: Train Loss = 0.1627
+{'loss': 0.1627, 'grad_norm': 1.3469809293746948, 'learning_rate': 1.6548607339452853e-05, 'epoch': 0.3}
+ 31%|███       | 350/1123 [2:12:12<5:34:06, 25.93s/it]2025-09-30 15:38:00,711 - INFO - Step 350: Train Loss = 0.1641
+{'loss': 0.1641, 'grad_norm': 1.1717441082000732, 'learning_rate': 1.632561133398442e-05, 'epoch': 0.31}
+ 32%|███▏      | 360/1123 [2:16:26<5:12:03, 24.54s/it]2025-09-30 15:42:14,963 - INFO - Step 360: Train Loss = 0.1340
+{'loss': 0.134, 'grad_norm': 0.664313018321991, 'learning_rate': 1.609724335342628e-05, 'epoch': 0.32}
+ 33%|███▎      | 370/1123 [2:20:55<5:38:44, 26.99s/it]2025-09-30 15:46:43,641 - INFO - Step 370: Train Loss = 0.1409
+{'loss': 0.1409, 'grad_norm': 1.0896048545837402, 'learning_rate': 1.5863697337468704e-05, 'epoch': 0.33}
+ 34%|███▍      | 380/1123 [2:25:22<5:32:08, 26.82s/it]2025-09-30 15:51:10,731 - INFO - Step 380: Train Loss = 0.1497
+{'loss': 0.1497, 'grad_norm': 0.9805070757865906, 'learning_rate': 1.562517162320731e-05, 'epoch': 0.34}
+ 35%|███▍      | 390/1123 [2:29:47<5:36:35, 27.55s/it]2025-09-30 15:55:36,224 - INFO - Step 390: Train Loss = 0.1464
+{'loss': 0.1464, 'grad_norm': 0.7915229201316833, 'learning_rate': 1.5381868776706883e-05, 'epoch': 0.35}
+ 36%|███▌      | 400/1123 [2:34:15<5:26:47, 27.12s/it]2025-09-30 16:00:03,953 - INFO - Step 400: Train Loss = 0.1609
+{'loss': 0.1609, 'grad_norm': 1.0527701377868652, 'learning_rate': 1.5133995420973746e-05, 'epoch': 0.36}
+ 37%|███▋      | 410/1123 [2:38:23<4:54:20, 24.77s/it]2025-09-30 16:04:12,146 - INFO - Step 410: Train Loss = 0.1441
+{'loss': 0.1441, 'grad_norm': 1.0575766563415527, 'learning_rate': 1.4881762060482814e-05, 'epoch': 0.37}
+ 37%|███▋      | 420/1123 [2:42:42<5:14:02, 26.80s/it]2025-09-30 16:08:31,199 - INFO - Step 420: Train Loss = 0.1365
+{'loss': 0.1365, 'grad_norm': 0.9209200143814087, 'learning_rate': 1.4625382902408356e-05, 'epoch': 0.37}
+ 38%|███▊      | 430/1123 [2:47:16<5:25:04, 28.15s/it]2025-09-30 16:13:04,836 - INFO - Step 430: Train Loss = 0.1475
+{'loss': 0.1475, 'grad_norm': 0.6740835905075073, 'learning_rate': 1.4365075674710238e-05, 'epoch': 0.38}
+ 39%|███▉      | 440/1123 [2:52:05<5:36:15, 29.54s/it]2025-09-30 16:17:53,913 - INFO - Step 440: Train Loss = 0.1226
+{'loss': 0.1226, 'grad_norm': 0.9674374461174011, 'learning_rate': 1.4101061441230209e-05, 'epoch': 0.39}
+ 40%|███▉      | 448/1123 [2:55:33<4:57:06, 26.41s/it]
+***** Running Evaluation *****
+  Num examples = 580
+  Batch size = 8
+ 40%|███▉      | 448/1123 [2:56:00<4:57:06, 26.2025-09-30 16:21:48,790 - INFO - Step 448: Eval Loss = 0.1458
+100%|██████████| 10/10 [00:24<00:00,  2.59s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+{'eval_loss': 0.14580003917217255, 'eval_runtime': 27.0928, 'eval_samples_per_second': 21.408, 'eval_steps_per_second': 0.369, 'epoch': 0.4}
+Saving model checkpoint to /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448
+Configuration saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448/config.json
+Configuration saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448/model.safetensors
+chat template saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-448/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/llama3.1_8b_ASIDE_ToolBench-SFT/checkpoint-224] due to args.save_total_limit
+ 40%|████      | 450/1123 [3:00:10<13:43:29, 73.42s/it]2025-09-30 16:25:58,712 - INFO - Step 450: Train Loss = 0.1537
+{'loss': 0.1537, 'grad_norm': 0.844348132610321, 'learning_rate': 1.3833564413955171e-05, 'epoch': 0.4}
+ 41%|████      | 460/1123 [3:04:27<5:02:54, 27.41s/it]2025-09-30 16:30:16,432 - INFO - Step 460: Train Loss = 0.1359
+{'loss': 0.1359, 'grad_norm': 0.6891234517097473, 'learning_rate': 1.356281176260695e-05, 'epoch': 0.41}
+ 42%|████▏     | 470/1123 [3:08:45<4:32:45, 25.06s/it]2025-09-30 16:34:34,427 - INFO - Step 470: Train Loss = 0.1418
+{'loss': 0.1418, 'grad_norm': 0.7402564287185669, 'learning_rate': 1.32890334217202e-05, 'epoch': 0.42}
+ 43%|████▎     | 480/1123 [3:13:11<4:37:38, 25.91s/it]2025-09-30 16:38:59,815 - INFO - Step 480: Train Loss = 0.1322
+{'loss': 0.1322, 'grad_norm': 0.6203461289405823, 'learning_rate': 1.3012461895372343e-05, 'epoch': 0.43}
+ 44%|████▎     | 490/1123 [3:17:36<4:26:40, 25.28s/it]2025-09-30 16:43:25,467 - INFO - Step 490: Train Loss = 0.1281
+{'loss': 0.1281, 'grad_norm': 0.6127778887748718, 'learning_rate': 1.2733332059731333e-05, 'epoch': 0.44}
+ 45%|████▍     | 500/1123 [3:21:56<4:34:29, 26.44s/it]2025-09-30 16:47:44,837 - INFO - Step 500: Train Loss = 0.1281
+{'loss': 0.1281, 'grad_norm': 0.6653296947479248, 'learning_rate': 1.2451880963588927e-05, 'epoch': 0.45}
+ 45%|████▌     | 510/1123 [3:26:14<4:28:38, 26.29s/it]2025-09-30 16:52:02,819 - INFO - Step 510: Train Loss = 0.1316
+{'loss': 0.1316, 'grad_norm': 0.9010159373283386, 'learning_rate': 1.2168347627048891e-05, 'epoch': 0.45}
+ 46%|████▋     | 520/1123 [3:30:22<4:05:07, 24.39s/it]2025-09-30 16:56:11,490 - INFO - Step 520: Train Loss = 0.1263
+{'loss': 0.1263, 'grad_norm': 0.5476655960083008, 'learning_rate': 1.1882972838541084e-05, 'epoch': 0.46}
+ 47%|████▋     | 530/1123 [3:33:53<3:28:05, 21.05s/it]2025-09-30 16:59:42,409 - INFO - Step 530: Train Loss = 0.1574
+{'loss': 0.1574, 'grad_norm': 1.1231303215026855, 'learning_rate': 1.1595998950333794e-05, 'epoch': 0.47}
+ 48%|████▊     | 540/1123 [3:37:26<3:28:37, 21.47s/it]2025-09-30 17:03:14,897 - INFO - Step 540: Train Loss = 0.1257
+{'loss': 0.1257, 'grad_norm': 0.5772678852081299, 'learning_rate': 1.1307669672718e-05, 'epoch': 0.48}
+ 49%|████▉     | 550/1123 [3:40:59<3:22:17, 21.18s/it]2025-09-30 17:06:48,353 - INFO - Step 550: Train Loss = 0.1248
+{'loss': 0.1248, 'grad_norm': 0.6820066571235657, 'learning_rate': 1.1018229867038358e-05, 'epoch': 0.49}
+ 50%|████▉     | 560/1123 [3:44:32<3:17:03, 21.00s/it]2025-09-30 17:10:21,138 - INFO - Step 560: Train Loss = 0.1344
+{'loss': 0.1344, 'grad_norm': 0.7460644841194153, 'learning_rate': 1.0727925337746633e-05, 'epoch': 0.5}
+ 51%|█████     | 570/1123 [3:48:06<3:15:04, 21.16s/it]2025-09-30 17:13:55,399 - INFO - Step 570: Train Loss = 0.1241
+{'loss': 0.1241, 'grad_norm': 1.1609193086624146, 'learning_rate': 1.0437002623654256e-05, 'epoch': 0.51}
+ 52%|█████▏    | 580/1123 [3:51:36<3:13:34, 21.39s/it]2025-09-30 17:17:25,193 - INFO - Step 580: Train Loss = 0.1218
+{'loss': 0.1218, 'grad_norm': 0.6458799839019775, 'learning_rate': 1.0145708788561157e-05, 'epoch': 0.52}
+ 52%|█████▏    | 583/1123 [3:52:42<3:17:31, 21.95s/it]

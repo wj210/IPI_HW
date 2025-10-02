@@ -1,0 +1,524 @@
+import os
+import subprocess
+import threading
+import time
+from pathlib import Path
+from typing import Any, Optional
+
+import requests
+import torch
+from bfcl_eval.constants.enums import ModelStyle
+from bfcl_eval.constants.eval_config import LOCAL_SERVER_PORT
+from bfcl_eval.model_handler.base_handler import BaseHandler
+from bfcl_eval.model_handler.utils import (
+    default_decode_ast_prompting,
+    default_decode_execute_prompting,
+    system_prompt_pre_processing_chat_model,
+)
+from bfcl_eval.utils import contain_multi_turn_interaction
+from openai import OpenAI
+from overrides import EnforceOverrides, final, override
+from vllm import LLM, SamplingParams
+from bfcl_eval.model_handler.local_inference.emb_service import RotatingEmbeddingService,generate_isoclinic_rotation_matrix
+from transformers import AutoModelForCausalLM
+import io
+import base64
+
+def to_base64_tensor_cpu(t: torch.Tensor) -> str:
+    """Serialize a CPU tensor with torch.save and base64-encode it."""
+    if t.device.type != "cpu":
+        t = t.cpu()
+    buf = io.BytesIO()
+    torch.save(t, buf)  # vLLM server example expects torch.save format
+    buf.seek(0)
+    return base64.b64encode(buf.read()).decode("utf-8")
+
+
+class OSSHandler(BaseHandler, EnforceOverrides):
+    def __init__(self, model_name, temperature,dtype="bfloat16") -> None:
+        super().__init__(model_name, temperature)
+        self.model_name_huggingface = model_name
+        self.model_style = ModelStyle.OSSMODEL
+        self.dtype = dtype
+
+        # Will be overridden in batch_inference method
+        # Used to indicate where the tokenizer and config should be loaded from
+        self.model_path_or_id = None
+
+        # Read from env vars with fallbacks
+        self.local_server_endpoint = os.getenv("LOCAL_SERVER_ENDPOINT", "localhost")
+        self.local_server_port = os.getenv("LOCAL_SERVER_PORT", LOCAL_SERVER_PORT)
+        
+        self.base_url = f"http://{self.local_server_endpoint}:{self.local_server_port}/v1"
+        self.client = OpenAI(base_url=self.base_url, api_key="EMPTY")
+        
+
+    @override
+    def inference(
+        self,
+        test_entry: dict,
+        include_input_log: bool,
+        exclude_state_log: bool,
+    ):
+        # TODO: Let oss model support FC methods as well, depends on their model type
+        if contain_multi_turn_interaction(test_entry["id"]):
+            return self.inference_multi_turn_prompting(
+                test_entry, include_input_log, exclude_state_log
+            )
+        else:
+            return self.inference_single_turn_prompting(test_entry, include_input_log)
+
+    @override
+    def decode_ast(self, result, language, has_tool_call_tag):
+        return default_decode_ast_prompting(result, language, has_tool_call_tag)
+
+    @override
+    def decode_execute(self, result, has_tool_call_tag):
+        return default_decode_execute_prompting(result, has_tool_call_tag)
+    
+    @final
+    def spin_up_local_vllm(
+        self,
+        num_gpus: int,
+        gpu_memory_utilization: float,
+        local_model_path: Optional[str],
+    ):
+        from transformers import AutoConfig, AutoTokenizer
+        if local_model_path is not None:
+            load_path = local_model_path
+        else:
+            load_path = self.model_name_huggingface
+        self.tokenizer = AutoTokenizer.from_pretrained(load_path)
+
+        config = AutoConfig.from_pretrained(load_path)
+
+        if hasattr(config, "max_position_embeddings"):
+            self.max_context_length = config.max_position_embeddings
+        elif self.tokenizer.model_max_length is not None:
+            self.max_context_length = self.tokenizer.model_max_length
+        
+        self.local_llm = LLM( # call the local_llm
+            load_path,
+            tensor_parallel_size=num_gpus,
+            gpu_memory_utilization=gpu_memory_utilization,
+            dtype=torch.bfloat16,
+            enable_prompt_embeds=True
+        )
+        
+        if self.is_aside: # load the hf model and rotation
+            hf_model = AutoModelForCausalLM.from_pretrained(load_path,dtype = torch.bfloat16,low_cpu_mem_usage=True,trust_remote_code=True).eval().to('cuda')
+            # get hidden dim
+            hidden_size = hf_model.config.hidden_size
+            rotation_alpha = 1.57079633
+            rotation_matrix = generate_isoclinic_rotation_matrix(
+                hidden_size, rotation_alpha, 'cuda', torch.bfloat16
+            ).detach()
+            self.emb_svc = RotatingEmbeddingService(hf_model = hf_model,rotation_matrix = rotation_matrix,pad_id = self.tokenizer.pad_token_id,max_batch=32,wait_ms=3)
+
+    @final
+    def spin_up_local_server(
+        self,
+        num_gpus: int,
+        gpu_memory_utilization: float,
+        backend: str,
+        skip_server_setup: bool,
+        local_model_path: Optional[str],
+    ):
+        """
+        Spin up a local server for the model.
+        If the server is already running, skip the setup.
+        """
+        from transformers import AutoConfig, AutoTokenizer
+
+        # Determine the model source
+        if local_model_path is not None:
+            # Validate the local_model_path
+            if not os.path.isdir(local_model_path):
+                raise ValueError(
+                    f"local_model_path '{local_model_path}' does not exist or is not a directory."
+                )
+
+            required_files = ["config.json", "tokenizer_config.json"]
+            for file_name in required_files:
+                if not os.path.exists(os.path.join(local_model_path, file_name)):
+                    raise ValueError(
+                        f"Required file '{file_name}' not found in local_model_path '{local_model_path}'."
+                    )
+
+            self.model_path_or_id = local_model_path
+            load_kwargs = {
+                "pretrained_model_name_or_path": self.model_path_or_id,
+                "local_files_only": True,
+                "trust_remote_code": True,
+            }
+        else:
+            self.model_path_or_id = self.model_name_huggingface
+            load_kwargs = {
+                "pretrained_model_name_or_path": self.model_path_or_id,
+                "trust_remote_code": True,
+            }
+
+        self.tokenizer = AutoTokenizer.from_pretrained(**load_kwargs)
+        config = AutoConfig.from_pretrained(**load_kwargs)
+
+        if hasattr(config, "max_position_embeddings"):
+            self.max_context_length = config.max_position_embeddings
+        elif self.tokenizer.model_max_length is not None:
+            self.max_context_length = self.tokenizer.model_max_length
+        else:
+            if not hasattr(self, "max_context_length"):
+                raise ValueError(
+                    "Model does not have a max_position_embeddings attribute or tokenizer.model_max_length attribute. Please set the max_context_length attribute in the corresponding model handler."
+                )
+        print(f"Max context length: {self.max_context_length}")
+
+        self._server_process = process = None
+        self._stdout_thread = stdout_thread = None
+        self._stderr_thread = stderr_thread = None
+        # Event to signal threads to stop; no need to see logs after server is ready
+        # declare early so it always exists
+        # Extra modification:
+        if self.is_aside: # load the hf model and rotation
+            hf_model = AutoModelForCausalLM.from_pretrained(local_model_path,dtype = torch.bfloat16).eval()
+            embed_layer = hf_model.get_input_embeddings().to('cuda')
+            # get hidden dim
+            hidden_size = hf_model.config.hidden_size
+            rotation_alpha = 1.57079633
+            rotation_matrix = generate_isoclinic_rotation_matrix(
+                hidden_size, rotation_alpha, 'cuda', torch.bfloat16
+            ).detach()
+            self.emb_svc = RotatingEmbeddingService(embed_layer = embed_layer,rotation_matrix = rotation_matrix,pad_id = self.tokenizer.pad_token_id,max_batch=8,wait_ms=3)
+        
+        self._stop_event = threading.Event()
+        try:
+            if not skip_server_setup:
+                if backend == "vllm":
+                    if not self.is_aside:
+                        process = subprocess.Popen(
+                            [
+                                "vllm",
+                                "serve",
+                                str(self.model_path_or_id),
+                                "--port",
+                                str(self.local_server_port),
+                                "--dtype",
+                                str(self.dtype),
+                                "--tensor-parallel-size",
+                                str(num_gpus),
+                                "--gpu-memory-utilization",
+                                str(gpu_memory_utilization),
+                                "--trust-remote-code",
+                            ],
+                            stdout=subprocess.PIPE,  # Capture stdout
+                            stderr=subprocess.PIPE,  # Capture stderr
+                            text=True,  # To get the output as text instead of bytes
+                        )
+                    else:
+                         process = subprocess.Popen(
+                            [
+                                "vllm",
+                                "serve",
+                                str(self.model_path_or_id),
+                                "--port",
+                                str(self.local_server_port),
+                                "--dtype",
+                                str(self.dtype),
+                                "--tensor-parallel-size",
+                                str(num_gpus),
+                                "--gpu-memory-utilization",
+                                str(gpu_memory_utilization),
+                                "--trust-remote-code",
+                                "--enable-prompt-embeds",
+                            ],
+                            stdout=subprocess.PIPE,  # Capture stdout
+                            stderr=subprocess.PIPE,  # Capture stderr
+                            text=True,  # To get the output as text instead of bytes
+                        )
+                elif backend == "sglang":
+
+                    process = subprocess.Popen(
+                        [
+                            "python",
+                            "-m",
+                            "sglang.launch_server",
+                            "--model-path",
+                            str(self.model_path_or_id),
+                            "--port",
+                            str(self.local_server_port),
+                            "--dtype",
+                            str(self.dtype),
+                            "--tp",
+                            str(num_gpus),
+                            "--mem-fraction-static",
+                            str(gpu_memory_utilization),
+                            "--trust-remote-code",
+                        ],
+                        stdout=subprocess.PIPE,  # Capture stdout
+                        stderr=subprocess.PIPE,  # Capture stderr
+                        text=True,  # To get the output as text instead of bytes
+                    )
+                else:
+                    raise ValueError(f"Backend {backend} is not supported.")
+
+                def log_subprocess_output(pipe, stop_event):
+                    # Read lines until stop event is set
+                    while not stop_event.is_set():
+                        line = pipe.readline()
+                        if line:
+                            print(line, end="")
+                        else:
+                            break
+                    pipe.close()
+                    print("server log tracking thread stopped successfully.")
+
+                # Start threads to read and print stdout and stderr
+                stdout_thread = threading.Thread(
+                    target=log_subprocess_output, args=(process.stdout, self._stop_event)
+                )
+                stderr_thread = threading.Thread(
+                    target=log_subprocess_output, args=(process.stderr, self._stop_event)
+                )
+                stdout_thread.setDaemon(True)
+                stderr_thread.setDaemon(True)
+                stdout_thread.start()
+                stderr_thread.start()
+
+            self._server_process = process
+            self._stdout_thread = stdout_thread
+            self._stderr_thread = stderr_thread
+
+            # Wait for the server to be ready
+            server_ready = False
+            while not server_ready:
+                # Check if the process has terminated unexpectedly
+                if not skip_server_setup and process.poll() is not None:
+                    # Output the captured logs
+                    stdout, stderr = process.communicate()
+                    print(stdout)
+                    print(stderr)
+                    raise Exception(
+                        f"Subprocess terminated unexpectedly with code {process.returncode}"
+                    )
+                try:
+                    # Make a simple request to check if the server is up
+                    response = requests.get(f"{self.base_url}/models")
+                    if response.status_code == 200:
+                        server_ready = True
+                        print("server is ready!")
+                except requests.exceptions.ConnectionError:
+                    # If the connection is not ready, wait and try again
+                    time.sleep(1)
+
+            # Signal threads to stop reading output
+            self._stop_event.set()
+
+        except Exception as e:
+            # Clean-up everything we already started, then re-raise
+            if self._server_process and self._server_process.poll() is None:
+                self._server_process.terminate()
+            if self._stop_event:
+                self._stop_event.set()
+            if self._stdout_thread:
+                self._stdout_thread.join(timeout=2)
+            if self._stderr_thread:
+                self._stderr_thread.join(timeout=2)
+            raise e
+
+    def shutdown_local_server(self):
+        """Terminate the locally launched OSS model server if it is still running."""
+        # Ensure the server process is terminated properly
+        process = getattr(self, "_server_process", None)
+        if process and process.poll() is None:
+            process.terminate()
+            try:
+                # Wait for the process to terminate fully
+                process.wait(timeout=15)
+                print("Process terminated successfully.")
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()  # Wait again to ensure it's fully terminated
+                print("Process killed.")
+
+        # Tell the log-reader threads to stop and wait for them
+        if getattr(self, "_stop_event", None):
+            self._stop_event.set()
+        if getattr(self, "_stdout_thread", None):
+            self._stdout_thread.join(timeout=2)
+        if getattr(self, "_stderr_thread", None):
+            self._stderr_thread.join(timeout=2)
+
+    #### Prompting methods ####
+
+    def _format_prompt(self, messages, function):
+        """
+        Manually apply the chat template to construct the formatted prompt.
+        This way, we can have full control over the final formatted prompt and is generally recommended for advanced use cases.
+        """
+        raise NotImplementedError(
+            "OSS Models should implement their own prompt formatting."
+        )
+    
+    def multiturn_aside_encode(self,input_ids):
+        """
+        we have a list of start and end_tokens, all of these should be rotated. This is to account for the uncontrollable turn order in agentic tool use, such as tool -> assistant or tool -> user
+        """
+        start_tokens = self.start_tokens
+        end_tokens = self.end_tokens
+        until_last_token = self.start_tokens[0] # by default put as the first start token
+        
+        device = input_ids.device
+        start_ids = [torch.tensor(self.tokenizer.encode(start_token,add_special_tokens=False)).to(device) for start_token in start_tokens]
+        end_ids = [torch.tensor(self.tokenizer.encode(end_token,add_special_tokens=False)).to(device) for end_token in end_tokens]
+        until_last_ids = torch.tensor(self.tokenizer.encode(until_last_token,add_special_tokens=False)).to(device) if until_last_token is not None else None
+
+        assert len(start_tokens) == len(end_tokens) != 0, "start_tokens and end_tokens must be provided and of same length"
+        # assert until_last_token is not None, "until_last_token must be provided, this is the start token that is allowed to be unclosed - should be the assistant token."
+        mask = torch.zeros_like(input_ids)
+        for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
+            i = 0
+            while i <= len(input_ids) - len(curr_start_ids):
+                if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids):
+                    # locate matching end after this start
+                    j = i + len(curr_start_ids)
+                    found = False
+                    while j <= len(input_ids) - len(curr_end_ids):
+                        if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
+                            mask[i:j+len(curr_end_ids)] = 1
+                            i = j + len(curr_end_ids)
+                            found = True
+                            break
+                        j += 1
+                    if not found:
+                        if until_last_ids is not None and torch.equal(input_ids[i:i+len(until_last_ids)], until_last_ids):
+                            # allow to be unclosed, mark until end of input
+                            mask[i:len(input_ids)] = 1
+                            break
+                        else:
+                            i += len(curr_start_ids)
+                else:
+                    i += 1
+        return mask
+
+    @override
+    def _query_prompting(self, inference_data: dict):
+        # We use the OpenAI Completions API
+        function: list[dict] = inference_data["function"]
+        message: list[dict] = inference_data["message"]
+
+        formatted_prompt: str = self._format_prompt(message, function)
+        inference_data["inference_input_log"] = {"formatted_prompt": formatted_prompt}
+
+        # Tokenize the formatted prompt to get token count
+        input_token_count = len(self.tokenizer.tokenize(formatted_prompt))
+
+        # Determine the number of tokens to request. Cap it at 4096 if the model has a larger limit.
+        if self.max_context_length < input_token_count + 2:
+            # If the prompt is already at the max length, just request 1000 token, we will get an error anyway
+            leftover_tokens_count = 1000
+        else:
+            leftover_tokens_count = min(
+                4096,
+                self.max_context_length - input_token_count - 2,
+            )
+
+        extra_body = {}
+        if hasattr(self, "stop_token_ids"):
+            extra_body["stop_token_ids"] = self.stop_token_ids
+        if hasattr(self, "skip_special_tokens"):
+            extra_body["skip_special_tokens"] = self.skip_special_tokens
+
+        start_time = time.time()
+        if self.is_aside: # local_llm, need to rotate the embeddings first!
+            input_ids = self.tokenizer(formatted_prompt, return_tensors="pt").input_ids.cuda(non_blocking=True).squeeze(0)
+            segment_ids = self.multiturn_aside_encode(input_ids)
+            embeddings = self.emb_svc.get(input_ids=input_ids,segment_ids=segment_ids)
+            extra_body["prompt_embeds"] = to_base64_tensor_cpu(embeddings)
+            api_response = self.client.completions.create(
+                    model=self.model_path_or_id,
+                    temperature=self.temperature,
+                    prompt='',
+                    max_tokens=leftover_tokens_count,
+                    extra_body=extra_body,
+                    timeout=72000,  # Avoid timeout errors
+                )
+        else:
+            
+            if len(extra_body) > 0: # vllm
+                api_response = self.client.completions.create(
+                    model=self.model_path_or_id,
+                    temperature=self.temperature,
+                    prompt=formatted_prompt,
+                    max_tokens=leftover_tokens_count,
+                    extra_body=extra_body,
+                    timeout=72000,  # Avoid timeout errors
+                )
+            else:
+                api_response = self.client.completions.create(
+                    model=self.model_path_or_id,
+                    temperature=self.temperature,
+                    prompt=formatted_prompt,
+                    max_tokens=leftover_tokens_count,
+                    timeout=72000,  # Avoid timeout errors
+                )
+        end_time = time.time()
+
+        return api_response, end_time - start_time
+
+    @override
+    def _pre_query_processing_prompting(self, test_entry: dict) -> dict:
+        functions: list = test_entry["function"]
+        test_entry_id: str = test_entry["id"]
+
+        test_entry["question"][0] = system_prompt_pre_processing_chat_model(
+            test_entry["question"][0], functions, test_entry_id
+        )
+
+        return {"message": [], "function": functions}
+
+    @override
+    def _parse_query_response_prompting(self, api_response: Any) -> dict:
+        return {
+            "model_responses": api_response.choices[0].text,
+            "input_token": api_response.usage.prompt_tokens,
+            "output_token": api_response.usage.completion_tokens,
+        }
+
+    @override
+    def add_first_turn_message_prompting(
+        self, inference_data: dict, first_turn_message: list[dict]
+    ) -> dict:
+        inference_data["message"].extend(first_turn_message)
+        return inference_data
+
+    @override
+    def _add_next_turn_user_message_prompting(
+        self, inference_data: dict, user_message: list[dict]
+    ) -> dict:
+        inference_data["message"].extend(user_message)
+        return inference_data
+
+    @override
+    def _add_assistant_message_prompting(
+        self, inference_data: dict, model_response_data: dict
+    ) -> dict:
+        inference_data["message"].append(
+            {"role": "assistant", "content": model_response_data["model_responses"]}
+        )
+        return inference_data
+
+    @override
+    def _add_execution_results_prompting(
+        self, inference_data: dict, execution_results: list[str], model_response_data: dict
+    ) -> dict:
+        for execution_result, decoded_model_response in zip(
+            execution_results, model_response_data["model_responses_decoded"]
+        ):
+            inference_data["message"].append(
+                {
+                    "role": "tool",
+                    "name": decoded_model_response,
+                    "content": execution_result,
+                }
+            )
+
+        return inference_data
