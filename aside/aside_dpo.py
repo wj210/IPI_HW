@@ -6,22 +6,43 @@ from typing import Union
 
 
 def apply_chat_tool_template(example,tokenizer):
-    prompt = tokenizer.apply_chat_template(example["prompt"], tools=example['tools'], tokenize=False, add_generation_prompt=True)
-    chosen = tokenizer.apply_chat_template(example["prompt"] + example['chosen'],tools=example['tools'], tokenize=False, add_generation_prompt=False)
+    prompt = tokenizer.apply_chat_template(example["prompt"], tools=example['tools'], tokenize=False, add_generation_prompt=True,enable_thinking=False)
+    chosen = tokenizer.apply_chat_template(example["prompt"] + example['chosen'],tools=example['tools'], tokenize=False, add_generation_prompt=False,enable_thinking=False)
     chosen = chosen[len(prompt):]
-    rejected = tokenizer.apply_chat_template(example["prompt"] + example['rejected'],tools=example['tools'], tokenize=False, add_generation_prompt=False)
+    rejected = tokenizer.apply_chat_template(example["prompt"] + example['rejected'],tools=example['tools'], tokenize=False, add_generation_prompt=False,enable_thinking=False)
+    rejected = rejected[len(prompt):]
+    return {"prompt": prompt, "chosen": chosen, "rejected": rejected}
+
+def apply_standard_chat_template(example,tokenizer):
+    prompt = tokenizer.apply_chat_template(example["prompt"], tokenize=False, add_generation_prompt=True,enable_thinking=False)
+    chosen = tokenizer.apply_chat_template(example["prompt"] + example['chosen'], tokenize=False, add_generation_prompt=False,enable_thinking=False)
+    chosen = chosen[len(prompt):]
+    rejected = tokenizer.apply_chat_template(example["prompt"] + example['rejected'], tokenize=False, add_generation_prompt=False,enable_thinking=False)
     rejected = rejected[len(prompt):]
     return {"prompt": prompt, "chosen": chosen, "rejected": rejected}
     
-
+def segment_start(input_ids,tokenizer,start_token): # given a start token, mark everything from that onwards as 1.
+    device = input_ids.device
+    start_ids = torch.tensor(tokenizer.encode(start_token,add_special_tokens=False)).to(device)
+    mask = torch.zeros_like(input_ids)
+    for jj, input_ids in enumerate(input_ids): # assume only one span
+        i = 0
+        while i <= len(input_ids) - len(start_ids):
+            if torch.equal(input_ids[i:i+len(start_ids)], start_ids):
+                mask[jj,i:] = 1
+                break
+            else:
+                i += 1
+    return mask
 
 class DPOTrainerWithSegments(DPOTrainer):
-    def __init__(self, *args, tool_tokens,**kwargs):
+    def __init__(self, *args, start_tokens,end_tokens,start_from = None,**kwargs):
         super().__init__(*args, **kwargs)
-        self.start,self.end = tool_tokens
-        self.start_ids = self.processing_class.encode(self.start, add_special_tokens=False)
-        self.end_ids = self.processing_class.encode(self.end, add_special_tokens=False)
+        self.start,self.end = start_tokens,end_tokens
+        self.start_ids =[torch.tensor(self.processing_class.encode(s, add_special_tokens=False)) for s in self.start]
+        self.end_ids =[torch.tensor(self.processing_class.encode(e, add_special_tokens=False)) for e in self.end]
         self.printed = False
+        self.start_from = start_from # once detected a start, mark everything after as 1. is a string marker
 
     def _set_signature_columns_if_needed(self):
         super()._set_signature_columns_if_needed()
@@ -33,38 +54,37 @@ class DPOTrainerWithSegments(DPOTrainer):
     def concatenated_inputs(self,batch, padding_value: int):
         out = DPOTrainer.concatenated_inputs(batch, padding_value)
         input_ids = out["prompt_input_ids"]
-        segment_ids = torch.ones_like(input_ids, dtype=torch.long)
         
-        start_ids = torch.tensor(self.start_ids, device=input_ids.device)
-        end_ids = torch.tensor(self.end_ids, device=input_ids.device)
-        for idx, inp_ids in enumerate(input_ids):
-            i = 0
-            spans = []
-            mask = torch.zeros(len(inp_ids), dtype=torch.bool)
-            while i <= len(inp_ids) - len(start_ids):
-                if torch.equal(inp_ids[i:i+len(start_ids)], start_ids):
-                    # locate matching end after this start
-                    j = i + len(start_ids)
-                    found_end = False
-                    while j <= len(inp_ids) - len(end_ids):
-                        if torch.equal(inp_ids[j:j+len(end_ids)], end_ids):
-                            spans.append((i+len(start_ids), j+len(end_ids))) # span is between start and end
-                            found_end = True
-                            i = j + len(end_ids)
-                            break
-                        j += 1
-                    if not found_end:
-                        # No closing tag; don't label this open span to avoid corruption
-                        i += len(start_ids)
-                else:
-                    i += 1
-            if len(spans):
-                for span in spans:
-                    mask[span[0]:span[1]] = True
-                segment_ids[idx,~mask] = 0
+        if self.start_from is not None:
+            segment_ids = segment_start(input_ids, self.processing_class, self.start_from)
+        else: # Take spans
+            segment_ids = torch.zeros_like(input_ids, dtype=torch.long)
+            start_ids = [s.to(device=input_ids.device) for s in self.start_ids]
+            end_ids = [e.to(device=input_ids.device) for e in self.end_ids]
+            for idx, inp_ids in enumerate(input_ids):
+                for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
+                    i = 0
+                    while i <= len(inp_ids) - len(curr_start_ids):
+                        if torch.equal(inp_ids[i:i+len(curr_start_ids)], curr_start_ids):
+                            # locate matching end after this start
+                            j = i + len(curr_start_ids)
+                            found_end = False
+                            while j <= len(inp_ids) - len(curr_end_ids):
+                                if torch.equal(inp_ids[j:j+len(curr_end_ids)], curr_end_ids):
+                                    segment_ids[idx,i:j+len(curr_end_ids)] = 1
+                                    found_end = True
+                                    i = j + len(curr_end_ids)
+                                    break
+                                j += 1
+                            if not found_end:
+                                # No closing tag; don't label this open span to avoid corruption
+                                i += len(curr_start_ids)
+                        else:
+                            i += 1
+
         completion_input_ids = out["completion_input_ids"]
         completion_len = completion_input_ids.size(1)
-        segment_ids = torch.cat([segment_ids, torch.zeros((segment_ids.size(0), completion_len), dtype=torch.long, device=segment_ids.device)], dim=1)
+        segment_ids = torch.cat([segment_ids, torch.ones((segment_ids.size(0), completion_len), dtype=torch.long, device=segment_ids.device)], dim=1) # completion is rotated.
         out['segment_ids'] = segment_ids
         return out
         

@@ -1,0 +1,64 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/809 [00:00<?, ?it/s]Traceback (most recent call last):
+FULL PROMPT: [{'role': 'user', 'content': 'Estimate the total cost of a cross-country road trip from Los Angeles to New York.'}, {'role': 'assistant', 'content': 'Estimating the total cost of a **cross-country road trip from Los Angeles to New York** involves several factors, including:\n\n- **Fuel costs**\n- **Vehicle maintenance and repairs**\n- **Tolls**\n- **Accommodation**\n- **Food**\n- **Miscellaneous expenses (parking, activities, etc.)**\n- **Estimated distance**\n\n---\n\n## 🚗 **Route Distance**\nThe approximate driving distance from Los Angeles, CA to New York, NY is **around 2,790 miles (4,500 kilometers)**.\n\n---\n\n## ✅ **Estimated Total Cost Breakdown**\n\n### 1. **Fuel Costs**\n- **Vehicle fuel efficiency**: Assume **25 miles per gallon (mpg)** for a mid-size car.\n- **Gas prices**: Estimate $4.50 per gallon (national average).\n  \n  $$\n  \\text{Fuel cost} = \\frac{2,790 \\text{ miles}}{25 \\text{ mpg}} \\times \\$4.50 = 120 \\text{ gallons} \\times \\$4.50 = \\$540\n  $$\n\n---\n\n### 2. **Vehicle Maintenance**\n- Include **tire maintenance, oil changes, minor repairs**.\n- Estimated cost: **\\$100–\\$200**.\n\n---\n\n### 3. **Tolls**\n- **Estimated tolls**: Varies by route, but on average **\\$150–\\$300** depending on the route you take.\n\n---\n\n### 4. **Accommodation**\n- **Estimated stay**: 2–3 nights per state.\n- **Number of states**: ~11 (Los Angeles to New York)\n- **Average cost per night**: \\$100–\\$200/night\n- **Estimated total**: 20–25 nights × \\$150 = **\\$3,000–\\$3,750**\n\n---\n\n### 5. **Food**\n- **Daily food cost**: \\$50–\\$75 per day\n- **Trip duration**: ~20–25 days\n- **Estimated total**: 20 days × \\$60 = **\\$1,200–\\$1,500**\n\n---\n\n### 6. **Miscellaneous Expenses**\n- **Parking, admission fees, activities**, etc.\n- Estimated total: **\\$500–\\$1,000**\n\n---\n\n## 📊 **Total Estimated Cost**\n\n| Category             | Estimated Cost |\n|----------------------|----------------|\n| Fuel                 | \\$540          |\n| Vehicle Maintenance  | \\$100–\\$200    |\n| Tolls                | \\$150–\\$300    |\n| Accommodation        | \\$3,000–\\$3,750 |\n| Food                 | \\$1,200–\\$1,500 |\n| Miscellaneous        | \\$500–\\$1,000   |\n| **Total**            | **\\$5,990–\\$8,890** |\n\n---\n\n## 📌 **Final Estimate**\n- **Average cost**: **\\$7,000–\\$8,000**\n- **Low-end estimate**: **\\$5,000–\\$6,000**\n- **High-end estimate**: **\\$9,000–\\$10,000**\n\n---\n\n## 📝 Notes\n- **Route choice** can affect fuel and toll costs (e.g., I-10 vs. I-80).\n- **Vehicle type** (fuel efficiency, size) affects fuel and maintenance costs.\n- **Travel season** (summer vs. off-season) can influence lodging and food prices.\n- **Budgeting extra** for unexpected expenses (e.g., flat tire, car issues) is always wise.\n\nWould you like a breakdown by state or help planning the actual route?'}]
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 601, in <module>
+    main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 480, in main
+    trainer.train()
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+    batch_samples.append(next(epoch_iterator))
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+    current_batch = next(dataloader_iter)
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/export/home2/weijie210/ipi_huawei/aside/data_utils.py", line 154, in __getitem__
+    labels[encoded['labels'] == 0] = -100 # only compute loss on completion
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: The shape of the mask [1, 864] at index 1 does not match the shape of the indexed tensor [1, 865] at index 1
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 601, in <module>
+[rank0]:     main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 480, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+[rank0]:     batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+[rank0]:                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+[rank0]:     batch_samples.append(next(epoch_iterator))
+[rank0]:                          ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+[rank0]:     current_batch = next(dataloader_iter)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+[rank0]:     data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:             ~~~~~~~~~~~~^^^^^
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/data_utils.py", line 154, in __getitem__
+[rank0]:     labels[encoded['labels'] == 0] = -100 # only compute loss on completion
+[rank0]:     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: IndexError: The shape of the mask [1, 864] at index 1 does not match the shape of the indexed tensor [1, 865] at index 1

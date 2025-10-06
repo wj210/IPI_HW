@@ -1,0 +1,12 @@
+{"time":"2025-10-04T19:48:23.634176382+08:00","level":"INFO","msg":"stream: starting","core version":"0.22.0"}
+{"time":"2025-10-04T19:48:24.183418691+08:00","level":"INFO","msg":"stream: created new stream","id":"7l8el8g2"}
+{"time":"2025-10-04T19:48:24.183490579+08:00","level":"INFO","msg":"stream: started","id":"7l8el8g2"}
+{"time":"2025-10-04T19:48:24.183518807+08:00","level":"INFO","msg":"writer: started","stream_id":"7l8el8g2"}
+{"time":"2025-10-04T19:48:24.183640932+08:00","level":"INFO","msg":"handler: started","stream_id":"7l8el8g2"}
+{"time":"2025-10-04T19:48:24.1837225+08:00","level":"INFO","msg":"sender: started","stream_id":"7l8el8g2"}
+{"time":"2025-10-04T23:02:26.020177195+08:00","level":"INFO","msg":"api: retrying HTTP error","status":502,"url":"https://api.wandb.ai/files/self_learning/MetaSecAlign_DPO_ASIDE_ISE/7l8el8g2/file_stream","body":"\n<html><head>\n<meta http-equiv=\"content-type\" content=\"text/html;charset=utf-8\">\n<title>502 Server Error</title>\n</head>\n<body text=#000000 bgcolor=#ffffff>\n<h1>Error: Server Error</h1>\n<h2>The server encountered a temporary error and could not complete your request.<p>Please try again in 30 seconds.</h2>\n<h2></h2>\n</body></html>\n"}
+{"time":"2025-10-04T23:20:52.277273357+08:00","level":"INFO","msg":"stream: closing","id":"7l8el8g2"}
+{"time":"2025-10-04T23:20:53.749377772+08:00","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-10-04T23:20:54.159224566+08:00","level":"INFO","msg":"handler: closed","stream_id":"7l8el8g2"}
+{"time":"2025-10-04T23:20:54.159956296+08:00","level":"INFO","msg":"sender: closed","stream_id":"7l8el8g2"}
+{"time":"2025-10-04T23:20:54.159965986+08:00","level":"INFO","msg":"stream: closed","id":"7l8el8g2"}

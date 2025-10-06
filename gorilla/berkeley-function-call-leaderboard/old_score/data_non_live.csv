@@ -1,0 +1,5 @@
+Rank,Model,Non-Live Overall Acc,AST Summary,Simple AST,Python Simple AST,Java Simple AST,JavaScript Simple AST,Multiple AST,Parallel AST,Parallel Multiple AST,Irrelevance Detection
+1,Qwen3-8B (FC),88.23%,88.23%,76.42%,95.25%,62.00%,72.00%,95.00%,92.00%,89.50%,82.08%
+2,Qwen3-8B (MetaSecAlign-DPO-1e6),87.67%,87.67%,75.17%,95.50%,64.00%,66.00%,96.00%,92.50%,87.00%,80.00%
+3,Qwen3-8B (MetaSecAlign-DPO-1e5),77.15%,77.15%,69.08%,84.25%,63.00%,60.00%,66.50%,88.00%,85.00%,70.42%
+4,Qwen3-8B (Vanilla),43.35%,43.35%,78.92%,95.75%,65.00%,76.00%,94.50%,0.00%,0.00%,0.00%

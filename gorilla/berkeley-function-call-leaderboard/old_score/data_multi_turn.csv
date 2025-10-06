@@ -1,0 +1,5 @@
+Rank,Model,Multi Turn Overall Acc,Base,Miss Func,Miss Param,Long Context
+1,Qwen3-8B (MetaSecAlign-DPO-1e6),38.38%,48.50%,41.00%,29.00%,35.00%
+2,Qwen3-8B (FC),35.00%,42.00%,38.00%,31.50%,28.50%
+3,Qwen3-8B (Vanilla),15.12%,22.00%,17.50%,6.00%,15.00%
+4,Qwen3-8B (MetaSecAlign-DPO-1e5),14.00%,20.00%,13.50%,10.50%,12.00%

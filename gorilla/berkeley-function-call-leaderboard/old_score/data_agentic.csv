@@ -1,0 +1,5 @@
+Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No Snippet,Memory Summary,Memory KV,Memory Vector,Memory Recursive Summarization
+1,Qwen3-8B (FC),11.14%,4.00%,5.00%,3.00%,18.28%,6.45%,11.61%,36.77%
+2,Qwen3-8B (MetaSecAlign-DPO-1e6),10.25%,2.00%,3.00%,1.00%,18.49%,5.16%,12.90%,37.42%
+3,Qwen3-8B (MetaSecAlign-DPO-1e5),9.49%,5.00%,5.00%,5.00%,13.98%,7.10%,7.74%,27.10%
+4,Qwen3-8B (Vanilla),7.53%,0.00%,0.00%,0.00%,15.05%,10.97%,20.00%,14.19%

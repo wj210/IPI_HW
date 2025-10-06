@@ -31,6 +31,7 @@ def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',ma
         model = handler.model.to(device).eval() # dont pass to model, i just need the model itself.
         tokenizer = handler.tokenizer
         tokenizer.model_max_length=max_ctx_len
+        print (f'Embedding type {handler.embedding_type}')
     else:
         tokenizer = AutoTokenizer.from_pretrained(model_path)
         if not use_vllm:
@@ -49,6 +50,9 @@ def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',ma
         model.generation_config.top_p = None
         model.generation_config.top_k = None
     tokenizer.padding_side = "left"
+    if not tokenizer.pad_token:
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+    model.tokenizer = tokenizer # for convenience
     if pass_handler and is_aside:
         return model,tokenizer,is_aside,handler
     else:

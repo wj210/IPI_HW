@@ -52,7 +52,7 @@ def parse_tool_output(completion:str):
     
 class LocalToolLLM(BasePipelineElement):
     def __init__(
-        self, model,tokenizer,gen_kwargs,is_vllm,encode_fn,embed_fn=None,additional_encode_fn = lambda x:x):
+        self, model,tokenizer,gen_kwargs,is_vllm,encode_fn,embed_fn=None,additional_encode_fn = lambda x:x,tool_role = 'tool'):
         self.model = model
         self.tokenizer = tokenizer
         self.gen_kwargs = gen_kwargs
@@ -60,6 +60,7 @@ class LocalToolLLM(BasePipelineElement):
         self.embed_fn = embed_fn # only for ASIDE models
         self.encode_fn = encode_fn # if ASIDE and not vllm
         self.additional_encode_fn = additional_encode_fn
+        self.tool_role = tool_role # allow custom tool role name (metasecalign uses a separate input role name)
     
     def generate_fn(self, encoded, eos_token_id = [],max_new_tokens: int = 512,do_sample=False) -> str:
         encoded = self.additional_encode_fn(encoded)
@@ -87,16 +88,6 @@ class LocalToolLLM(BasePipelineElement):
             out = self.model.generate(texts, sampling_params = self.gen_kwargs,use_tqdm = False)
         return [o.outputs[0].text for o in out]
     
-    # def encode_fn(self,message,tools,encode):
-    #     if 'qwen' in self.tokenizer.__class__.__name__:
-    #         formatted = self.tokenizer.apply_chat_template(message,add_generation_prompt=True,tokenize=False,enable_thinking=False,tools=tools)
-    #     else:
-    #         formatted = self.tokenizer.apply_chat_template(message,add_generation_prompt=True,tokenize=False,tools=tools)
-    #     if encode:
-    #         return self.tokenizer(formatted,return_tensors = 'pt').to(self.model.device)
-    #     else:
-    #         return formatted
-    
     def query(
         self,
         query: str,
@@ -112,6 +103,7 @@ class LocalToolLLM(BasePipelineElement):
                 functions = format_tools(runtime.functions.values())
                 content = _make_system_prompt()
             if role == "tool":
+                role = self.tool_role
                 if "error" in m and m["error"] is not None:
                     content = m["error"]
                 else:

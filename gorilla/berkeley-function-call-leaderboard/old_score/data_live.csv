@@ -1,0 +1,5 @@
+Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Python Parallel AST,Python Parallel Multiple AST,Irrelevance Detection,Relevance Detection
+1,Qwen3-8B (FC),81.13%,81.13%,84.50%,80.34%,75.00%,83.33%,78.05%,87.50%
+2,Qwen3-8B (MetaSecAlign-DPO-1e6),80.46%,80.46%,84.11%,79.87%,75.00%,70.83%,76.58%,93.75%
+3,Qwen3-8B (Vanilla),71.65%,71.65%,78.29%,72.74%,0.00%,0.00%,6.22%,93.75%
+4,Qwen3-8B (MetaSecAlign-DPO-1e5),53.89%,53.89%,74.03%,48.62%,50.00%,70.83%,50.57%,87.50%

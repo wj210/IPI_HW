@@ -1,0 +1,39 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+ 10%|▉         | 14/146 [05:08<45:51, 20.84s/it] 
+[2025-10-02 22:10:13,410] [WARNING] [stage3.py:2171:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.6853, 'grad_norm': 52.13146209716797, 'learning_rate': 6e-07, 'rewards/chosen': 0.007659912109375, 'rewards/rejected': -0.0179443359375, 'rewards/accuracies': 0.3531250059604645, 'rewards/margins': 0.025634765625, 'logps/chosen': -176.0, 'logps/rejected': -190.0, 'logits/chosen': -3.609375, 'logits/rejected': -3.546875, 'epoch': 0.07}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 10%|▉         | 14/146 [05:45<45:51, 20.84s/it stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14
+{'eval_loss': 0.49290624260902405, 'eval_runtime': 36.9421, 'eval_samples_per_second': 13.535, 'eval_steps_per_second': 0.433, 'eval_rewards/chosen': 0.255859375, 'eval_rewards/rejected': -0.2333984375, 'eval_rewards/accuracies': 0.875, 'eval_rewards/margins': 0.48828125, 'eval_logps/chosen': -182.0, 'eval_logps/rejected': -227.0, 'eval_logits/chosen': -3.453125, 'eval_logits/rejected': -3.125, 'epoch': 0.1}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 19%|█▉        | 28/146 [14:01<41:17, 21.00s/it]  
+{'loss': 0.4642, 'grad_norm': 21.466995239257812, 'learning_rate': 9.977012904914132e-07, 'rewards/chosen': 0.341796875, 'rewards/rejected': -0.32421875, 'rewards/accuracies': 0.8843749761581421, 'rewards/margins': 0.66796875, 'logps/chosen': -178.0, 'logps/rejected': -175.0, 'logits/chosen': -3.40625, 'logits/rejected': -3.421875, 'epoch': 0.14}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 19%|█▉        | 28/146 [14:37<41:17, 21.00s/it stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28
+{'eval_loss': 0.09371191263198853, 'eval_runtime': 36.1914, 'eval_samples_per_second': 13.815, 'eval_steps_per_second': 0.442, 'eval_rewards/chosen': 0.89453125, 'eval_rewards/rejected': -2.6875, 'eval_rewards/accuracies': 0.9921875, 'eval_rewards/margins': 3.578125, 'eval_logps/chosen': -176.0, 'eval_logps/rejected': -252.0, 'eval_logits/chosen': -3.890625, 'eval_logits/rejected': -3.3125, 'epoch': 0.19}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-28/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-6_MetaSecAlign_DPO/checkpoint-14] due to args.save_total_limit
+ 26%|██▌       | 38/146 [21:45<44:24, 24.67s/it]  
+{'loss': 0.1818, 'grad_norm': 13.64987850189209, 'learning_rate': 9.720829318225897e-07, 'rewards/chosen': 0.73046875, 'rewards/rejected': -1.703125, 'rewards/accuracies': 0.940625011920929, 'rewards/margins': 2.421875, 'logps/chosen': -175.0, 'logps/rejected': -200.0, 'logits/chosen': -3.640625, 'logits/rejected': -3.546875, 'epoch': 0.21}

@@ -87,7 +87,7 @@ def main():
         data_dir = '/dataset/common/huggingface/model'
         torch_dtype = torch.bfloat16
         model_path = args.model_path
-        if 'tool' in model_path.lower():
+        if 'Qwen/' not in model_path.lower():
             model_path = os.path.join(data_dir, model_path)
         model,tokenizer,is_aside = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':False})
         
@@ -109,6 +109,7 @@ def main():
                     'additional_encode_fn': additional_encode_fn,
                     'gen_kwargs': {'max_new_tokens':512,'do_sample':False,'eos_token_id':[tokenizer.eos_token_id]} if not args.use_vllm else SamplingParams(max_tokens=512,temperature=0,stop_token_ids = [tokenizer.eos_token_id]),
                     'is_vllm': args.use_vllm,
+                    'tool_role':'input' if 'metasecalign' in model_path.lower() else 'tool'
                 },
             )
         )
@@ -189,7 +190,7 @@ def main():
                 
 
             print (f'{suite_name} Injection utility: {np.mean(list(injection_task_utility.values())):.2f}')
-            all_suite_results[suite_name]['injection_utility'] = np.mean(list(injection_task_utility.values()))
+            all_suite_results[suite_name]['injection_utility'] = np.round(np.mean(list(injection_task_utility.values())),2)
 
         #     # ## Non-injection utility
             task_utility = {}
@@ -200,7 +201,7 @@ def main():
                 
                 
             print (f'{suite_name} Task utility: {np.mean(list(task_utility.values())):.2f}')
-            all_suite_results[suite_name]['task_utility'] = np.mean(list(task_utility.values()))
+            all_suite_results[suite_name]['task_utility'] = np.round(np.mean(list(task_utility.values())),2)
             
             ## With attack
             utility_with_attack = {}
@@ -215,8 +216,8 @@ def main():
                     suite_security_results[(user_task.ID, injection_task_id)] = security
                     all_messages[(user_task.ID, injection_task_id)] = messages
             all_suite_asr_messages[suite_name] = all_messages
-            all_suite_results[suite_name]['asr'] = np.mean(list(suite_security_results.values()))
-            all_suite_results[suite_name]['attack_utility'] = np.mean(list(utility_with_attack.values()))
+            all_suite_results[suite_name]['asr'] = np.round(np.mean(list(suite_security_results.values())),2)
+            all_suite_results[suite_name]['attack_utility'] = np.round(np.mean(list(utility_with_attack.values())),2)
 
             print (f'{suite_name} Task with injection Utility: {np.mean(list(utility_with_attack.values())):.2f}')
             print (f'{suite_name} ASR: {np.mean(list(suite_security_results.values())):.2f}')

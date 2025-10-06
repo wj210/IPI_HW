@@ -57,6 +57,12 @@ def get_args():
         default=None,
         help="Specify the path to a local directory containing the model's config/tokenizer/weights for fully offline inference. Use this only if the model weights are stored in a location other than the default HF_HOME directory.",
     )
+    parser.add_argument(
+        "--tool-role",
+        type=str,
+        default='tool',
+        help="Specify the role of the tool being used.",
+    )
     args = parser.parse_args()
 
     return args
@@ -89,10 +95,7 @@ def get_involved_test_entries(test_category_args, run_ids):
 
 
 def collect_test_cases(args, model_name, all_test_categories, all_test_entries_involved):
-    if args.local_model_path is None:
-        model_name_dir = model_name.replace("/", "_")
-    else:
-        model_name_dir = args.local_model_path.split("/")[-1].strip()
+    model_name_dir = model_name.replace("/", "_")
     model_result_dir = args.result_dir / model_name_dir
     print (f"Results will be saved to {model_result_dir}")
 
@@ -204,6 +207,10 @@ def multi_threaded_inference(handler, test_case, include_input_log, exclude_stat
 
 def generate_results(args, model_name, test_cases_total):
     handler = build_handler(model_name, args.temperature)
+    handler.tool_role = args.tool_role # to differentiate.
+    if 'qwen' in model_name.lower() and handler.tool_role == 'input': # only supported for qwen now. to change the tool role token
+        handler.start_tokens =["\n<|im_start|>assistant","\n<|im_start|>user\n<reference_data>"]
+        handler.end_tokens = ["<|im_end|>\n","</reference_data><|im_end|>\n"]
     if args.local_model_path is not None:
         handler.is_aside = 'aside' in args.local_model_path.lower()
     else:

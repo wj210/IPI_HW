@@ -23,6 +23,7 @@ from bfcl_eval.model_handler.local_inference.emb_service import RotatingEmbeddin
 from transformers import AutoModelForCausalLM
 import io
 import base64
+from copy import deepcopy
 
 def to_base64_tensor_cpu(t: torch.Tensor) -> str:
     """Serialize a CPU tensor with torch.save and base64-encode it."""
@@ -357,33 +358,47 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         raise NotImplementedError(
             "OSS Models should implement their own prompt formatting."
         )
-    
+        
     def multiturn_aside_encode(self,input_ids):
         """
         we have a list of start and end_tokens, all of these should be rotated. This is to account for the uncontrollable turn order in agentic tool use, such as tool -> assistant or tool -> user
         """
+
         start_tokens = self.start_tokens
         end_tokens = self.end_tokens
-        until_last_token = self.start_tokens[0] # by default put as the first start token
+        until_last_token = self.start_tokens[0]
         
+        assert any([tool_t in start_tokens[-1] for tool_t in ['tool_response','reference_data']]),f'Last start and end token should point to the input/tool.' # ensure last is tool or input
         device = input_ids.device
         start_ids = [torch.tensor(self.tokenizer.encode(start_token,add_special_tokens=False)).to(device) for start_token in start_tokens]
         end_ids = [torch.tensor(self.tokenizer.encode(end_token,add_special_tokens=False)).to(device) for end_token in end_tokens]
         until_last_ids = torch.tensor(self.tokenizer.encode(until_last_token,add_special_tokens=False)).to(device) if until_last_token is not None else None
+        
+        # to ensure we first look for tool and note down which pos ids does it start from.
+        start_ids = start_ids[::-1] # reverse the order, so that we first look for the last start token, which should be the tool/input
+        end_ids = end_ids[::-1]
 
         assert len(start_tokens) == len(end_tokens) != 0, "start_tokens and end_tokens must be provided and of same length"
         # assert until_last_token is not None, "until_last_token must be provided, this is the start token that is allowed to be unclosed - should be the assistant token."
+
         mask = torch.zeros_like(input_ids)
+        curr_input_str = self.tokenizer.decode(input_ids)
+        if start_tokens[-1] not in curr_input_str: # no tool/input, skip the rotation
+            return mask 
+        tool_ids = -1 # note down where is the tool/input start
         for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
             i = 0
             while i <= len(input_ids) - len(curr_start_ids):
                 if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids):
-                    # locate matching end after this start
                     j = i + len(curr_start_ids)
                     found = False
                     while j <= len(input_ids) - len(curr_end_ids):
                         if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
-                            mask[i:j+len(curr_end_ids)] = 1
+                            if torch.equal(curr_start_ids, start_ids[0]): # mark when a complete tool span is found
+                                tool_ids = deepcopy(j+len(curr_end_ids))
+                                mask[i:j+len(curr_end_ids)] = 1
+                            elif torch.equal(curr_start_ids, start_ids[-1]) and i > tool_ids: # if we are only looking for assistant span, then look after the tool span
+                                mask[i:j+len(curr_end_ids)] = 1
                             i = j + len(curr_end_ids)
                             found = True
                             break
@@ -404,6 +419,15 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         # We use the OpenAI Completions API
         function: list[dict] = inference_data["function"]
         message: list[dict] = inference_data["message"]
+        
+        if self.tool_role == 'input':
+            new_message = []
+            for msg in message:
+                if msg['role'] == 'tool':
+                    new_message.append({'role':'input','content':msg['content']})
+                else:
+                    new_message.append(msg)
+            message = new_message
 
         formatted_prompt: str = self._format_prompt(message, function)
         inference_data["inference_input_log"] = {"formatted_prompt": formatted_prompt}

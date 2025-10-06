@@ -4,37 +4,42 @@ import os
 import json
 from tqdm import tqdm
 
-model_dir = "/dataset/common/huggingface/model/Qwen3-8B-Tool_Vanilla_SFT"
-index_path = os.path.join(model_dir, "pytorch_model.bin.index.json")
 
-# Load index JSON
-with open(index_path, "r") as f:
-    index = json.load(f)
+model_dirs = ["Qwen3-8B_ASIDE_MetaSecAlign_SFT"]
 
-shard_files = set(index["weight_map"].values())
+for model_dir in model_dirs:
+    model_dir = os.path.join("/dataset/common/huggingface/model",model_dir)
+    index_path = os.path.join(model_dir, "pytorch_model.bin.index.json")
+    # Load index JSON
+    with open(index_path, "r") as f:
+        index = json.load(f)
 
-# Convert all .bin shards to .safetensors
-for shard_file in tqdm(shard_files, total=len(shard_files)):
-    shard_path = os.path.join(model_dir, shard_file)
-    print(f"Converting {shard_path} ...")
-    
-    
-    # Load .bin
-    state_dict = torch.load(shard_path, map_location="cpu")
-    
-    # Save as .safetensors
-    safetensors_path = shard_path.replace(".bin", ".safetensors")
-    save_file(state_dict, safetensors_path)
-    print(f"Saved {safetensors_path}")
-    
-    # Delete .bin shard
-    os.remove(shard_path)
+    shard_files = set(index["weight_map"].values())
 
-# Update JSON index to point to .safetensors files instead of .bin
-index["weight_map"] = {
-    k: v.replace(".bin", ".safetensors") for k, v in index["weight_map"].items()
-}
+    # Convert all .bin shards to .safetensors
+    for shard_file in tqdm(shard_files, total=len(shard_files)):
+        shard_path = os.path.join(model_dir, shard_file)
+        print(f"Converting {shard_path} ...")
+        
+        # Load .bin
+        if not os.path.exists(shard_path):
+            print(f"File {shard_path} does not exist, skipping.")
+            continue
+        state_dict = torch.load(shard_path, map_location="cpu")
+        
+        # Save as .safetensors
+        safetensors_path = shard_path.replace(".bin", ".safetensors")
+        save_file(state_dict, safetensors_path)
+        print(f"Saved {safetensors_path}")
+        
+        # Delete .bin shard
+        os.remove(shard_path)
 
-# Save updated index JSON under safetensors name
-with open(index_path, "w") as f:
-    json.dump(index, f, indent=2)
+    # Update JSON index to point to .safetensors files instead of .bin
+    index["weight_map"] = {
+        k: v.replace(".bin", ".safetensors") for k, v in index["weight_map"].items()
+    }
+
+    # Save updated index JSON under safetensors name
+    with open(index_path, "w") as f:
+        json.dump(index, f, indent=2)

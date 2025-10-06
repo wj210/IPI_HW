@@ -10,23 +10,20 @@ else
 fi
 
 
-output_dir="/dataset/common/huggingface/model/IPI" # change to place to store large models
+output_dir="/dataset/common/huggingface/model" # change to place to store large models
 export WANDB_API_KEY="4d0cfb6b964e4092b544eaa50ffa07ae36cc5249"
-export WANDB_PROJECT="ToolLLM_SFT_Vanilla_TEST"
+export WANDB_PROJECT="MetaSecAlign_DPO_ASIDE_ISE"
 
-num_data=100000
+config_path='./configs/qwen/tool_and_alpaca_sft.json' # includes both alpaca and tool data
+extra_names="ToolAndAlpaca" # extra names to add to output dir
 
-deepspeed --master_port=29509 fine-tune.py \
---model_family qwen3_8b \
---train_version Tool_SFT \
---emb_type single_emb \
---model_ix 0 \
---run_number Vanilla_$num_data \
---train_type full \
---num_train_epochs 1 \
+deepspeed --master_port=29509 train.py \
+--config_path $config_path \
+--emb_type forward_rot \
+--num_train_epochs 2 \
 --per_device_train_batch_size 8 \
---gradient_accumulation_steps 4 \
---learning_rate 2e-6 \
+--gradient_accumulation_steps 2 \
+--learning_rate 2e-5 \
 --lr_scheduler_type cosine \
 --warmup_ratio 0.04 \
 --logging_steps 10 \
@@ -34,7 +31,7 @@ deepspeed --master_port=29509 fine-tune.py \
 --save_strategy steps \
 --eval_steps 1 \
 --save_steps 1 \
---save_total_limit 6 \
+--save_total_limit 1 \
 --load_best_model_at_end True \
 --prediction_loss_only True \
 --bf16 True \
@@ -46,7 +43,6 @@ deepspeed --master_port=29509 fine-tune.py \
 --gradual_rotation False \
 --output_dir $output_dir \
 --report_to wandb \
---max_length 4096 \
 --eval_percent 0.2 \
---completion_only \
---num_data $num_data \
+--extra_names $extra_names \
+--completion_only

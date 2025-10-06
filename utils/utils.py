@@ -5,9 +5,12 @@ import numpy as np
 import gc
 from tqdm import tqdm
 import concurrent.futures
+from copy import deepcopy
 
 qwen_tool_start_token = "<tool_response>"
 qwen_tool_end_token = "</tool_response>"
+
+alpaca_format = "Below is an instruction that describes a task, paired with an input that provides further context.\nWrite a response that appropriately completes the request.\n\nInstruction:\n{instruction}\n\nInput:\n{input}\n\nResponse:"
 
 def seed_all():
     torch.cuda.manual_seed(42)
@@ -115,27 +118,39 @@ def multiturn_aside_encode(encoded,tokenizer,start_tokens=[],end_tokens=[],until
             # until_last_token = qwen_start_tokens[0] if until_last_token is None else until_last_token
         if len(end_tokens) == 0:
             end_tokens = qwen_end_tokens
-        
+    
+    assert any([tool_t in start_tokens[-1] for tool_t in ['tool_response','reference_data']]),f'Last start and end token should point to the input/tool.' # ensure last is tool or input
     device = encoded['input_ids'].device
     start_ids = [torch.tensor(tokenizer.encode(start_token,add_special_tokens=False)).to(device) for start_token in start_tokens]
     end_ids = [torch.tensor(tokenizer.encode(end_token,add_special_tokens=False)).to(device) for end_token in end_tokens]
     until_last_ids = torch.tensor(tokenizer.encode(until_last_token,add_special_tokens=False)).to(device) if until_last_token is not None else None
+    
+    # to ensure we first look for tool and note down which pos ids does it start from.
+    start_ids = start_ids[::-1] # reverse the order, so that we first look for the last start token, which should be the tool/input
+    end_ids = end_ids[::-1]
 
     assert len(start_tokens) == len(end_tokens) != 0, "start_tokens and end_tokens must be provided and of same length"
     # assert until_last_token is not None, "until_last_token must be provided, this is the start token that is allowed to be unclosed - should be the assistant token."
 
     mask = torch.zeros_like(encoded['input_ids'])
     for jj, input_ids in enumerate(encoded['input_ids']):
+        curr_input_str = tokenizer.decode(input_ids)
+        if start_tokens[-1] not in curr_input_str:
+            continue # no tool/input, skip the rotation
+        tool_ids = -1 # note down where is the tool/input start
         for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
             i = 0
             while i <= len(input_ids) - len(curr_start_ids):
                 if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids):
-                    # locate matching end after this start
                     j = i + len(curr_start_ids)
                     found = False
                     while j <= len(input_ids) - len(curr_end_ids):
                         if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
-                            mask[jj,i:j+len(curr_end_ids)] = 1
+                            if torch.equal(curr_start_ids, start_ids[0]): # mark when a complete tool span is found
+                                tool_ids = deepcopy(j+len(curr_end_ids))
+                                mask[jj,i:j+len(curr_end_ids)] = 1
+                            elif torch.equal(curr_start_ids, start_ids[-1]) and i > tool_ids: # if we are only looking for assistant span, then look after the tool span
+                                mask[jj,i:j+len(curr_end_ids)] = 1
                             i = j + len(curr_end_ids)
                             found = True
                             break
@@ -199,19 +214,15 @@ def print_aside(encoded,tokenizer):
             pprint (f"SEGMENT {i}: {tokenizer.decode(seg)}")
 
 
-def generate_fn(model, tokenizer, inps, max_new_tokens: int = 512,do_sample: str = False) -> str:
+def generate_fn(model, inps,gen_kwargs,use_tqdm=False) -> str:
     with torch.no_grad():
         output_ids = model.generate(
             **inps,
-            max_new_tokens=max_new_tokens,
-            do_sample=do_sample,
-            eos_token_id=tokenizer.eos_token_id,
-            pad_token_id=tokenizer.pad_token_id if tokenizer.pad_token_id is not None else tokenizer.eos_token_id,
-            temperature = 0.
+            **gen_kwargs,
         )
     # Return only the newly generated tokens when possible
     gen_ids = output_ids[:, inps['input_ids'].shape[-1]:]
-    text = tokenizer.batch_decode(gen_ids, skip_special_tokens=True)
+    text = model.tokenizer.batch_decode(gen_ids, skip_special_tokens=True)
     return text
 
 def vllm_generate(model,texts,gen_kwargs,use_tqdm=False):

@@ -1,0 +1,63 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|          | 0/809 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 601, in <module>
+    main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+  File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 480, in main
+    trainer.train()
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+    batch_samples.append(next(epoch_iterator))
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+    current_batch = next(dataloader_iter)
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/export/home2/weijie210/ipi_huawei/aside/data_utils.py", line 139, in __getitem__
+    if not self.printed_input:
+          ^^^^^^^^^^^^^^^^^^
+AttributeError: 'Alpaca_Embedding_Dataset' object has no attribute 'printed_input'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 601, in <module>
+[rank0]:     main(model_family, emb_type, train_version, model_ix, run_number, user_hparams)
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/fine-tune.py", line 480, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+[rank0]:     batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+[rank0]:                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+[rank0]:     batch_samples.append(next(epoch_iterator))
+[rank0]:                          ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+[rank0]:     current_batch = next(dataloader_iter)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+[rank0]:     data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:             ~~~~~~~~~~~~^^^^^
+[rank0]:   File "/export/home2/weijie210/ipi_huawei/aside/data_utils.py", line 139, in __getitem__
+[rank0]:     if not self.printed_input:
+[rank0]:            ^^^^^^^^^^^^^^^^^^
+[rank0]: AttributeError: 'Alpaca_Embedding_Dataset' object has no attribute 'printed_input'

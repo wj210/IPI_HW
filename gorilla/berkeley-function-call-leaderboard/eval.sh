@@ -10,11 +10,25 @@ else
 fi
 
 
-# export BFCL_PROJECT_ROOT=/export/home2/weijie210/ipi_huawei/gorilla/berkeley-function-call-leaderboard
-model_name='Qwen/Qwen3-8B-FC'
+# model_name='Qwen/Qwen3-8B-MetaSecAlign-DPO-1e6' # ASIDE/Vanilla swapped with FC
+# test_category='all'
+# local_model_path='/dataset/common/huggingface/model/Qwen3-8B_1e-6_MetaSecAlign_DPO' # use for aside and use lower  gpu memory
+# gpu_memory=0.9
+# bfcl generate \
+#   --model $model_name \
+#   --test-category $test_category \
+#   --backend vllm \
+#   --num-gpus 1 \
+#   --gpu-memory-utilization $gpu_memory \
+#   --local-model-path $local_model_path \
+#   --tool-role input
+
+# bfcl evaluate --model $model_name --test-category $test_category 
+
+model_name='Qwen/Qwen3-8B-MetaSecAlign-DPO-1e5' # ASIDE/Vanilla swapped with FC
 test_category='all'
-local_model_path='/dataset/common/huggingface/model/Qwen3-8B-Tool_ASIDE_SFT' # use for aside and use lower  gpu memory
-gpu_memory=0.8
+local_model_path='/dataset/common/huggingface/model/Qwen3-8B_1e-5_MetaSecAlign_DPO' # use for aside and use lower  gpu memory
+gpu_memory=0.9
 bfcl generate \
   --model $model_name \
   --test-category $test_category \
@@ -22,5 +36,22 @@ bfcl generate \
   --num-gpus 1 \
   --gpu-memory-utilization $gpu_memory \
   --local-model-path $local_model_path \
+  --tool-role input
 
-# bfcl evaluate --model $model_name --test-category $test_category
+bfcl evaluate --model $model_name --test-category $test_category 
+
+model_name='Qwen/Qwen3-8B_ASIDE_MetaSecAlign_SFT' # ASIDE/Vanilla swapped with FC
+test_category='all'
+local_model_path='/dataset/common/huggingface/model/Qwen3-8B_ASIDE_MetaSecAlign_SFT' # use for aside and use lower  gpu memory
+gpu_memory=0.9
+bfcl generate \
+  --model $model_name \
+  --test-category $test_category \
+  --backend vllm \
+  --num-gpus 1 \
+  --gpu-memory-utilization $gpu_memory \
+  --local-model-path $local_model_path \
+  --tool-role input
+
+bfcl evaluate --model $model_name --test-category $test_category 
+

@@ -229,6 +229,18 @@ class QwenFCHandler(OSSHandler):
 
                 if idx == len(messages) - 1 or next_role != "tool":
                     formatted_prompt += "<|im_end|>\n"
+            
+            elif role == 'input':
+                prev_role = messages[idx - 1]["role"] if idx > 0 else None
+                next_role = messages[idx + 1]["role"] if idx < len(messages) - 1 else None
+
+                if idx == 0 or prev_role != "input":
+                    formatted_prompt += "<|im_start|>user"
+
+                formatted_prompt += f"\n<reference_data>\n{content}\n</reference_data>"
+
+                if idx == len(messages) - 1 or next_role != "input":
+                    formatted_prompt += "<|im_end|>\n"
 
         formatted_prompt += "<|im_start|>assistant\n"
         return formatted_prompt

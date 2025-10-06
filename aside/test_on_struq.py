@@ -47,7 +47,6 @@ from transformers import AutoModelForCausalLM, AutoConfig
 from model_api import CustomModelHandler, format_prompt
 from model import CustomLLaMA, CustomLlamaConfig
 from collections import defaultdict
-from eval import *
 from copy import deepcopy
 from functools import partial
 

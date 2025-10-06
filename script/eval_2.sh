@@ -9,10 +9,8 @@ else
   echo "cuda_visible_devices.txt file not found."
 fi
 
-model_path="Qwen/Qwen3-32B"
+model_path="Qwen3-8B_1e-5_MetaSecAlign_DPO"
 
-python src/eval_agentdojo.py \
+python src/eval_sep.py \
     --model_path $model_path \
-    --use_vllm \
-    --thinking
     

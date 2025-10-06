@@ -1,0 +1,232 @@
+wandb: Detected [huggingface_hub.inference, openai] in use.
+wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
+ 10%|▉         | 29/292 [05:40<50:34, 11.54s/it] 
+[2025-10-03 02:16:12,968] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-03 02:16:25,955] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.5722, 'grad_norm': 27.107656478881836, 'learning_rate': 3e-06, 'rewards/chosen': 0.1708984375, 'rewards/rejected': -0.181640625, 'rewards/accuracies': 0.581250011920929, 'rewards/margins': 0.353515625, 'logps/chosen': -165.0, 'logps/rejected': -201.0, 'logits/chosen': -3.484375, 'logits/rejected': -3.515625, 'epoch': 0.03}
+{'loss': 0.1021, 'grad_norm': 2.888491153717041, 'learning_rate': 6.333333333333333e-06, 'rewards/chosen': 0.205078125, 'rewards/rejected': -5.6875, 'rewards/accuracies': 0.925000011920929, 'rewards/margins': 5.875, 'logps/chosen': -182.0, 'logps/rejected': -237.0, 'logits/chosen': -4.21875, 'logits/rejected': -3.609375, 'epoch': 0.07}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 10%|▉         | 29/292 [06:16<50:34, 11.54s/it stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29
+{'eval_loss': 0.0031860913150012493, 'eval_runtime': 36.701, 'eval_samples_per_second': 13.624, 'eval_steps_per_second': 0.436, 'eval_rewards/chosen': 2.546875, 'eval_rewards/rejected': -33.0, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 35.75, 'eval_logps/chosen': -159.0, 'eval_logps/rejected': -556.0, 'eval_logits/chosen': -6.15625, 'eval_logits/rejected': -5.375, 'epoch': 0.1}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 20%|█▉        | 58/292 [15:04<41:30, 10.64s/it]  
+{'loss': 0.0135, 'grad_norm': 25.360572814941406, 'learning_rate': 9.666666666666667e-06, 'rewards/chosen': 0.625, 'rewards/rejected': -21.875, 'rewards/accuracies': 0.9937499761581421, 'rewards/margins': 22.5, 'logps/chosen': -171.0, 'logps/rejected': -390.0, 'logits/chosen': -5.59375, 'logits/rejected': -5.28125, 'epoch': 0.1}
+{'loss': 0.0042, 'grad_norm': 7.73475456237793, 'learning_rate': 9.970912884103365e-06, 'rewards/chosen': 1.21875, 'rewards/rejected': -28.75, 'rewards/accuracies': 1.0, 'rewards/margins': 30.0, 'logps/chosen': -173.0, 'logps/rejected': -458.0, 'logits/chosen': -5.4375, 'logits/rejected': -4.75, 'epoch': 0.14}
+{'loss': 0.0037, 'grad_norm': 0.04956020787358284, 'learning_rate': 9.870799237583586e-06, 'rewards/chosen': -3.40625, 'rewards/rejected': -34.75, 'rewards/accuracies': 1.0, 'rewards/margins': 31.375, 'logps/chosen': -219.0, 'logps/rejected': -532.0, 'logits/chosen': -5.375, 'logits/rejected': -4.9375, 'epoch': 0.17}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 20%|█▉        | 58/292 [15:41<41:30, 10.64s/it stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58
+{'eval_loss': 5.146837065694854e-05, 'eval_runtime': 36.2436, 'eval_samples_per_second': 13.796, 'eval_steps_per_second': 0.441, 'eval_rewards/chosen': 0.384765625, 'eval_rewards/rejected': -38.5, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 38.75, 'eval_logps/chosen': -181.0, 'eval_logps/rejected': -612.0, 'eval_logits/chosen': -6.0, 'eval_logits/rejected': -5.09375, 'epoch': 0.2}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-29] due to args.save_total_limit
+ 30%|██▉       | 87/292 [24:46<39:05, 11.44s/it]  
+{'loss': 0.008, 'grad_norm': 16.450580596923828, 'learning_rate': 9.700737321638185e-06, 'rewards/chosen': -1.7421875, 'rewards/rejected': -36.25, 'rewards/accuracies': 1.0, 'rewards/margins': 34.5, 'logps/chosen': -198.0, 'logps/rejected': -544.0, 'logits/chosen': -5.875, 'logits/rejected': -5.28125, 'epoch': 0.21}
+{'loss': 0.0034, 'grad_norm': 13.022624015808105, 'learning_rate': 9.463169350806369e-06, 'rewards/chosen': -5.71875, 'rewards/rejected': -37.25, 'rewards/accuracies': 0.9937499761581421, 'rewards/margins': 31.5, 'logps/chosen': -238.0, 'logps/rejected': -572.0, 'logits/chosen': -5.625, 'logits/rejected': -4.96875, 'epoch': 0.24}
+{'loss': 0.0002, 'grad_norm': 0.0003810178895946592, 'learning_rate': 9.161506976363438e-06, 'rewards/chosen': -0.271484375, 'rewards/rejected': -28.0, 'rewards/accuracies': 1.0, 'rewards/margins': 27.75, 'logps/chosen': -190.0, 'logps/rejected': -488.0, 'logits/chosen': -5.125, 'logits/rejected': -4.15625, 'epoch': 0.27}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 30%|██▉       | 87/292 [25:23<39:05, 11.44s/it stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87
+{'eval_loss': 4.906040703644976e-05, 'eval_runtime': 36.2825, 'eval_samples_per_second': 13.781, 'eval_steps_per_second': 0.441, 'eval_rewards/chosen': 4.25, 'eval_rewards/rejected': -21.875, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 26.125, 'eval_logps/chosen': -142.0, 'eval_logps/rejected': -444.0, 'eval_logits/chosen': -4.65625, 'eval_logits/rejected': -3.5, 'epoch': 0.3}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-58] due to args.save_total_limit
+ 40%|███▉      | 116/292 [34:04<34:56, 11.91s/it] 
+{'loss': 0.0014, 'grad_norm': 0.0009728996665216982, 'learning_rate': 8.800082292492274e-06, 'rewards/chosen': 4.78125, 'rewards/rejected': -20.625, 'rewards/accuracies': 1.0, 'rewards/margins': 25.375, 'logps/chosen': -144.0, 'logps/rejected': -382.0, 'logits/chosen': -4.59375, 'logits/rejected': -3.96875, 'epoch': 0.31}
+{'loss': 0.0, 'grad_norm': 9.635439710109495e-06, 'learning_rate': 8.384085624215801e-06, 'rewards/chosen': 4.6875, 'rewards/rejected': -24.0, 'rewards/accuracies': 1.0, 'rewards/margins': 28.75, 'logps/chosen': -148.0, 'logps/rejected': -422.0, 'logits/chosen': -4.65625, 'logits/rejected': -3.96875, 'epoch': 0.34}
+{'loss': 0.0002, 'grad_norm': 0.01363988034427166, 'learning_rate': 7.919490990501636e-06, 'rewards/chosen': 3.53125, 'rewards/rejected': -27.625, 'rewards/accuracies': 1.0, 'rewards/margins': 31.125, 'logps/chosen': -142.0, 'logps/rejected': -448.0, 'logits/chosen': -4.78125, 'logits/rejected': -4.21875, 'epoch': 0.38}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 40%|███▉      | 116/292 [34:41<34:56, 11.91s/i stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116
+{'eval_loss': 5.292450168781215e-06, 'eval_runtime': 36.1617, 'eval_samples_per_second': 13.827, 'eval_steps_per_second': 0.442, 'eval_rewards/chosen': 2.296875, 'eval_rewards/rejected': -38.25, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 40.5, 'eval_logps/chosen': -162.0, 'eval_logps/rejected': -608.0, 'eval_logits/chosen': -5.34375, 'eval_logits/rejected': -4.1875, 'epoch': 0.4}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-87] due to args.save_total_limit
+ 50%|████▉     | 145/292 [43:46<27:21, 11.17s/it]  
+{'loss': 0.0017, 'grad_norm': 0.12027943134307861, 'learning_rate': 7.412970312943672e-06, 'rewards/chosen': 3.140625, 'rewards/rejected': -33.5, 'rewards/accuracies': 1.0, 'rewards/margins': 36.75, 'logps/chosen': -159.0, 'logps/rejected': -520.0, 'logits/chosen': -5.25, 'logits/rejected': -4.40625, 'epoch': 0.41}
+{'loss': 0.0, 'grad_norm': 2.6477069695829414e-05, 'learning_rate': 6.871797602047221e-06, 'rewards/chosen': 1.9609375, 'rewards/rejected': -42.0, 'rewards/accuracies': 1.0, 'rewards/margins': 44.0, 'logps/chosen': -170.0, 'logps/rejected': -596.0, 'logits/chosen': -5.75, 'logits/rejected': -4.84375, 'epoch': 0.45}
+{'loss': 0.0, 'grad_norm': 0.00031540781492367387, 'learning_rate': 6.303744497073352e-06, 'rewards/chosen': 1.1171875, 'rewards/rejected': -44.25, 'rewards/accuracies': 1.0, 'rewards/margins': 45.25, 'logps/chosen': -161.0, 'logps/rejected': -616.0, 'logits/chosen': -5.78125, 'logits/rejected': -5.21875, 'epoch': 0.48}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 50%|████▉     | 145/292 [44:22<27:21, 11.17s/i stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145
+{'eval_loss': 3.72057115782809e-07, 'eval_runtime': 36.2683, 'eval_samples_per_second': 13.786, 'eval_steps_per_second': 0.441, 'eval_rewards/chosen': 0.5078125, 'eval_rewards/rejected': -55.75, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 56.25, 'eval_logps/chosen': -180.0, 'eval_logps/rejected': -784.0, 'eval_logits/chosen': -5.78125, 'eval_logits/rejected': -4.90625, 'epoch': 0.5}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-116] due to args.save_total_limit
+ 60%|█████▉    | 174/292 [53:19<21:04, 10.72s/it]  
+{'loss': 0.0005, 'grad_norm': 0.00020442479581106454, 'learning_rate': 5.716968659567256e-06, 'rewards/chosen': 1.09375, 'rewards/rejected': -48.0, 'rewards/accuracies': 1.0, 'rewards/margins': 49.0, 'logps/chosen': -173.0, 'logps/rejected': -656.0, 'logits/chosen': -5.84375, 'logits/rejected': -5.25, 'epoch': 0.51}
+{'loss': 0.0065, 'grad_norm': 9.927543578669429e-05, 'learning_rate': 5.11989662332191e-06, 'rewards/chosen': 1.265625, 'rewards/rejected': -51.25, 'rewards/accuracies': 1.0, 'rewards/margins': 52.5, 'logps/chosen': -183.0, 'logps/rejected': -684.0, 'logits/chosen': -5.21875, 'logits/rejected': -4.4375, 'epoch': 0.55}
+{'loss': 0.0129, 'grad_norm': 1.217638168071744e-08, 'learning_rate': 4.521102783137976e-06, 'rewards/chosen': 1.484375, 'rewards/rejected': -43.25, 'rewards/accuracies': 1.0, 'rewards/margins': 44.75, 'logps/chosen': -194.0, 'logps/rejected': -604.0, 'logits/chosen': -4.6875, 'logits/rejected': -3.875, 'epoch': 0.58}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 60%|█████▉    | 174/292 [53:56<21:04, 10.72s/i stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174
+{'eval_loss': 5.881131528440164e-07, 'eval_runtime': 36.3294, 'eval_samples_per_second': 13.763, 'eval_steps_per_second': 0.44, 'eval_rewards/chosen': 2.828125, 'eval_rewards/rejected': -46.0, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 49.0, 'eval_logps/chosen': -156.0, 'eval_logps/rejected': -684.0, 'eval_logits/chosen': -4.75, 'eval_logits/rejected': -3.375, 'epoch': 0.6}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 70%|██████▉   | 203/292 [1:02:27<15:13, 10.27s/it]
+{'loss': 0.0, 'grad_norm': 1.0371841199230403e-06, 'learning_rate': 3.92918626019056e-06, 'rewards/chosen': 2.65625, 'rewards/rejected': -43.0, 'rewards/accuracies': 1.0, 'rewards/margins': 45.5, 'logps/chosen': -152.0, 'logps/rejected': -612.0, 'logits/chosen': -4.78125, 'logits/rejected': -3.703125, 'epoch': 0.62}
+{'loss': 0.0156, 'grad_norm': 2.4417944587185048e-05, 'learning_rate': 3.352647412307002e-06, 'rewards/chosen': 4.625, 'rewards/rejected': -38.0, 'rewards/accuracies': 0.9937499761581421, 'rewards/margins': 42.5, 'logps/chosen': -154.0, 'logps/rejected': -552.0, 'logits/chosen': -4.71875, 'logits/rejected': -3.609375, 'epoch': 0.65}
+{'loss': 0.0, 'grad_norm': 1.1700667528202757e-05, 'learning_rate': 2.7997657625591866e-06, 'rewards/chosen': 5.25, 'rewards/rejected': -38.75, 'rewards/accuracies': 1.0, 'rewards/margins': 44.0, 'logps/chosen': -141.0, 'logps/rejected': -580.0, 'logits/chosen': -4.71875, 'logits/rejected': -3.703125, 'epoch': 0.68}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 70%|██████▉   | 203/292 [1:03:04<15:13, 10.27s stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203
+{'eval_loss': 1.1345844797006066e-07, 'eval_runtime': 36.2879, 'eval_samples_per_second': 13.779, 'eval_steps_per_second': 0.441, 'eval_rewards/chosen': 4.875, 'eval_rewards/rejected': -42.75, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 47.5, 'eval_logps/chosen': -136.0, 'eval_logps/rejected': -652.0, 'eval_logits/chosen': -4.90625, 'eval_logits/rejected': -3.4375, 'epoch': 0.7}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-145] due to args.save_total_limit
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-174] due to args.save_total_limit
+ 79%|███████▉  | 232/292 [1:12:10<11:09, 11.15s/it]  
+{'loss': 0.0, 'grad_norm': 4.97540042943001e-07, 'learning_rate': 2.2784810992058155e-06, 'rewards/chosen': 5.875, 'rewards/rejected': -40.5, 'rewards/accuracies': 1.0, 'rewards/margins': 46.5, 'logps/chosen': -133.0, 'logps/rejected': -608.0, 'logits/chosen': -4.71875, 'logits/rejected': -3.671875, 'epoch': 0.72}
+{'loss': 0.0, 'grad_norm': 6.176797796797473e-06, 'learning_rate': 1.7962794544771477e-06, 'rewards/chosen': 5.09375, 'rewards/rejected': -36.75, 'rewards/accuracies': 1.0, 'rewards/margins': 42.0, 'logps/chosen': -124.0, 'logps/rejected': -544.0, 'logits/chosen': -4.875, 'logits/rejected': -3.71875, 'epoch': 0.75}
+{'loss': 0.0, 'grad_norm': 9.65854269452393e-06, 'learning_rate': 1.3600855996309937e-06, 'rewards/chosen': 5.21875, 'rewards/rejected': -35.25, 'rewards/accuracies': 1.0, 'rewards/margins': 40.5, 'logps/chosen': -121.5, 'logps/rejected': -528.0, 'logits/chosen': -4.875, 'logits/rejected': -3.734375, 'epoch': 0.79}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 79%|███████▉  | 232/292 [1:12:46<11:09, 11.15s stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232
+{'eval_loss': 8.643937121632916e-08, 'eval_runtime': 36.2093, 'eval_samples_per_second': 13.809, 'eval_steps_per_second': 0.442, 'eval_rewards/chosen': 4.84375, 'eval_rewards/rejected': -43.25, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 48.25, 'eval_logps/chosen': -136.0, 'eval_logps/rejected': -656.0, 'eval_logits/chosen': -4.90625, 'eval_logits/rejected': -3.453125, 'epoch': 0.79}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-203] due to args.save_total_limit
+ 89%|████████▉ | 261/292 [1:21:38<05:57, 11.54s/it]  
+{'loss': 0.0, 'grad_norm': 5.99405393586494e-06, 'learning_rate': 9.761636001301872e-07, 'rewards/chosen': 5.3125, 'rewards/rejected': -36.75, 'rewards/accuracies': 1.0, 'rewards/margins': 42.0, 'logps/chosen': -127.5, 'logps/rejected': -540.0, 'logits/chosen': -4.78125, 'logits/rejected': -3.6875, 'epoch': 0.82}
+{'loss': 0.0004, 'grad_norm': 1.1376955626474228e-05, 'learning_rate': 6.500268590426107e-07, 'rewards/chosen': 5.03125, 'rewards/rejected': -38.0, 'rewards/accuracies': 1.0, 'rewards/margins': 43.0, 'logps/chosen': -129.0, 'logps/rejected': -548.0, 'logits/chosen': -4.78125, 'logits/rejected': -3.703125, 'epoch': 0.86}
+{'loss': 0.0, 'grad_norm': 5.097010102872446e-08, 'learning_rate': 3.863589405068047e-07, 'rewards/chosen': 5.1875, 'rewards/rejected': -38.5, 'rewards/accuracies': 1.0, 'rewards/margins': 43.75, 'logps/chosen': -123.5, 'logps/rejected': -564.0, 'logits/chosen': -5.0625, 'logits/rejected': -3.75, 'epoch': 0.89}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 89%|████████▉ | 261/292 [1:22:15<05:57, 11.54s stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261
+{'eval_loss': 1.1707123093174232e-07, 'eval_runtime': 36.2983, 'eval_samples_per_second': 13.775, 'eval_steps_per_second': 0.441, 'eval_rewards/chosen': 4.71875, 'eval_rewards/rejected': -45.5, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 50.25, 'eval_logps/chosen': -137.0, 'eval_logps/rejected': -680.0, 'eval_logits/chosen': -5.0, 'eval_logits/rejected': -3.5, 'epoch': 0.89}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 99%|█████████▉| 290/292 [1:31:16<00:22, 11.34s/it]
+{'loss': 0.0, 'grad_norm': 7.400833510473603e-06, 'learning_rate': 1.889463102966671e-07, 'rewards/chosen': 5.375, 'rewards/rejected': -40.5, 'rewards/accuracies': 1.0, 'rewards/margins': 45.75, 'logps/chosen': -137.0, 'logps/rejected': -592.0, 'logits/chosen': -4.65625, 'logits/rejected': -3.765625, 'epoch': 0.92}
+{'loss': 0.0, 'grad_norm': 3.1665940696257167e-06, 'learning_rate': 6.062395938029485e-08, 'rewards/chosen': 5.125, 'rewards/rejected': -39.75, 'rewards/accuracies': 1.0, 'rewards/margins': 44.75, 'logps/chosen': -153.0, 'logps/rejected': -576.0, 'logits/chosen': -4.84375, 'logits/rejected': -3.546875, 'epoch': 0.96}
+{'loss': 0.0, 'grad_norm': 5.36048537469469e-05, 'learning_rate': 3.2346913587816275e-09, 'rewards/chosen': 5.28125, 'rewards/rejected': -39.75, 'rewards/accuracies': 1.0, 'rewards/margins': 45.0, 'logps/chosen': -119.5, 'logps/rejected': -564.0, 'logits/chosen': -5.15625, 'logits/rejected': -3.90625, 'epoch': 0.99}
+***** Running Evaluation *****
+  Num examples = 500
+  Batch size = 8
+ 99%|█████████▉| 290/292 [1:31:52<00:22, 11.34s stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290
+{'eval_loss': 1.2122396242375544e-07, 'eval_runtime': 36.2482, 'eval_samples_per_second': 13.794, 'eval_steps_per_second': 0.441, 'eval_rewards/chosen': 4.71875, 'eval_rewards/rejected': -45.75, 'eval_rewards/accuracies': 1.0, 'eval_rewards/margins': 50.5, 'eval_logps/chosen': -137.0, 'eval_logps/rejected': -684.0, 'eval_logits/chosen': -5.0, 'eval_logits/rejected': -3.5, 'epoch': 0.99}
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-261] due to args.save_total_limit
+100%|██████████| 292/292 [1:35:47<00:00, 63.39s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292/special_tokens_map.json
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-290] due to args.save_total_limit
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/export/home2/weijie210/miniconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232 (score: 8.643937121632916e-08).
+Attempting to resume from /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-232
+100%|██████████| 292/292 [1:40:52<00:00, 63.39s/it]Deleting older checkpoint [/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/checkpoint-292] due to args.save_total_limit
+{'train_runtime': 6054.8563, 'train_samples_per_second': 3.081, 'train_steps_per_second': 0.048, 'train_loss': 0.025571764102002754, 'epoch': 1.0}
+100%|██████████| 292/292 [1:40:56<00:00, 20.74s/it]
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/config.json
+Configuration saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/generation_config.json
+Model weights saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/model.safetensors
+chat template saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/chat_template.jinja
+tokenizer config file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/tokenizer_config.json
+Special tokens file saved in /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/special_tokens_map.json
+Processing zero checkpoint '/dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO/global_step232'
+Loading checkpoint shards: 100%|██████████| 4/4 [00:06<00:00,  1.54s/it]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 4
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|██████████| 399/399 [00:00<00:00, 1092380.74it/s]
+Reconstructed Trainable fp32 state dict with 399 params 8188564480 elements
+Saving checkpoint shards: 100%|██████████| 7/7 [02:11<00:00, 18.85s/it]
+Saved merged FP32 checkpoint to /dataset/common/huggingface/model/qwen3_8b_1e-5_MetaSecAlign_DPO

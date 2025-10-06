@@ -10,9 +10,9 @@ else
 fi
 
 model_path="Qwen/Qwen3-8B"
-
-python src/eval_agentdojo.py \
---model_path $model_path \
---use_vllm \
---thinking
-    
+for model_path in Qwen3-8B_5e-7_MetaSecAlign_DPO Qwen3-8B_1e-5_MetaSecAlign_DPO
+do
+  python src/eval_agentdojo.py \
+  --model_path $model_path \
+  --use_vllm 
+done    

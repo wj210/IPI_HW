@@ -1,0 +1,6 @@
+{"time":"2025-10-04T16:22:18.430485682+08:00","level":"INFO","msg":"stream: starting","core version":"0.22.0"}
+{"time":"2025-10-04T16:22:18.94030743+08:00","level":"INFO","msg":"stream: created new stream","id":"hewldsoz"}
+{"time":"2025-10-04T16:22:18.940402591+08:00","level":"INFO","msg":"stream: started","id":"hewldsoz"}
+{"time":"2025-10-04T16:22:18.940584181+08:00","level":"INFO","msg":"writer: started","stream_id":"hewldsoz"}
+{"time":"2025-10-04T16:22:18.940807313+08:00","level":"INFO","msg":"handler: started","stream_id":"hewldsoz"}
+{"time":"2025-10-04T16:22:18.940938296+08:00","level":"INFO","msg":"sender: started","stream_id":"hewldsoz"}
