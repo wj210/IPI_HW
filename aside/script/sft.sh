@@ -16,12 +16,12 @@ export WANDB_API_KEY="4d0cfb6b964e4092b544eaa50ffa07ae36cc5249"
 export WANDB_PROJECT="MetaSecAlign_SFT_ASIDE_ISE"
 
 config_path='./configs/qwen/tool_and_alpaca_sft.json' # includes both alpaca and tool data
-extra_names="ToolAndAlpaca" # extra names to add to output dir
+extra_names="ToolAndAlpaca_LARGE" # extra names to add to output dir
 
 deepspeed --master_port=29509 train.py \
 --config_path $config_path \
 --emb_type forward_rot \
---num_train_epochs 2 \
+--num_train_epochs 1 \
 --per_device_train_batch_size 8 \
 --gradient_accumulation_steps 4 \
 --learning_rate 1e-5 \
@@ -52,7 +52,7 @@ deepspeed --master_port=29509 train.py \
 deepspeed --master_port=29509 train.py \
 --config_path $config_path \
 --emb_type ise \
---num_train_epochs 2 \
+--num_train_epochs 1 \
 --per_device_train_batch_size 8 \
 --gradient_accumulation_steps 4 \
 --learning_rate 1e-5 \

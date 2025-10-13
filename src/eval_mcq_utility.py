@@ -41,7 +41,7 @@ def main():
     seed_all()
     
     model_path = args.model_path
-    if '/' not in model_path:
+    if 'Qwen/' not in model_path:
         model_path = os.path.join(MODEL_DIR,model_path)
     torch_dtype = torch.bfloat16
     model,tokenizer,is_aside = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
