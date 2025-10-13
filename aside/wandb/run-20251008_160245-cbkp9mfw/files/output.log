@@ -1,0 +1,435 @@
+[34m[1mwandb[0m: Detected [huggingface_hub.inference, openai] in use.
+[34m[1mwandb[0m: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+[34m[1mwandb[0m: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|                                                                                                                                                                 | 0/606 [00:00<?, ?it/s]
+Input Prompt : <|im_start|>user
+Turn this statement into a question:
+Flying is fun.<|im_end|>
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+The decision displeases me.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+The decision displeases me.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<think>
+
+</think>
+
+The decision displeases me.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "think-tool-server-think", "description": "Use this tool to think about something. It will not obtain new information or change anything, \n            but just append the thought to the log. Use it when complex reasoning or cache memory is needed.\n\n            Args:\n                thought: A thought to think about. This can be structured reasoning, step-by-step analysis,\n                        policy verification, or any other mental process that helps with problem-solving, with a strict requirement to record the source URL immediately after each piece of evidence that could be used as a reference citation for the final action.\n            ", "parameters": {"properties": {"thought": {"default": "", "title": "Thought", "type": "string"}}, "title": "thinkArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "think-tool-server-get_thoughts", "description": "Retrieve all thoughts recorded in the current session.\n            \n            This tool helps review the thinking process that has occurred so far.\n            ", "parameters": {"properties": {}, "title": "get_thoughtsArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "think-tool-server-clear_thoughts", "description": "Clear all recorded thoughts from the current session.\n            \n            Use this to start fresh if the thinking process needs to be reset.\n            ", "parameters": {"properties": {}, "title": "clear_thoughtsArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "think-tool-server-get_thought_stats", "description": "Get statistics about the thoughts recorded in the current session.", "parameters": {"properties": {}, "title": "get_thought_statsArguments", "type": "object"}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I've been brainstorming multiple scenarios for a complex negotiation strategy. I've logged several thoughts so far, both for and against the proposed terms. I need to review all my thoughts to ensure I haven't missed any critical points. After that, I want to clear my thought history and start over with a clean slate to approach the strategy from a fresh perspective.<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "think-tool-server-get_thoughts", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+No thoughts have been recorded yet.
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "think-tool-server-clear_thoughts", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+Cleared 0 recorded thoughts.
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+I see that your thought history is currently empty - no thoughts have been recorded yet. I've cleared the history (though it was already empty), so you now have a clean slate to approach your negotiation strategy from a fresh perspective.
+
+You're all set to start brainstorming your negotiation scenarios without any previous thoughts in the log.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<tool_response>
+No thoughts have been recorded yet.
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "think-tool-server-clear_thoughts", "arguments": {}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+Cleared 0 recorded thoughts.
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+I see that your thought history is currently empty - no thoughts have been recorded yet. I've cleared the history (though it was already empty), so you now have a clean slate to approach your negotiation strategy from a fresh perspective.
+
+You're all set to start brainstorming your negotiation scenarios without any previous thoughts in the log.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+[2025-10-08 16:03:10,703] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+ 20%|█████████████████████████████▊                                                                                                                       | 121/606 [43:57<2:40:30, 19.86s/it]
+[2025-10-08 16:04:45,737] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 16.0905, 'grad_norm': 64.14680480957031, 'learning_rate': 7.2000000000000005e-06, 'epoch': 0.03}
+{'loss': 7.8242, 'grad_norm': 8.347921371459961, 'learning_rate': 1.5200000000000002e-05, 'epoch': 0.07}
+{'loss': 5.8899, 'grad_norm': 6.860352993011475, 'learning_rate': 1.9997661052159323e-05, 'epoch': 0.1}
+{'loss': 4.3102, 'grad_norm': 7.020877361297607, 'learning_rate': 1.9971360452796523e-05, 'epoch': 0.13}
+{'loss': 3.5948, 'grad_norm': 6.181621551513672, 'learning_rate': 1.9915912704641115e-05, 'epoch': 0.17}
+{'loss': 3.1368, 'grad_norm': 5.732720851898193, 'learning_rate': 1.983147988625533e-05, 'epoch': 0.2}
+{'loss': 2.624, 'grad_norm': 5.8766584396362305, 'learning_rate': 1.971830880206793e-05, 'epoch': 0.23}
+[2025-10-08 16:30:45,792] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 2.5391, 'grad_norm': 9.617712020874023, 'learning_rate': 1.9576730260943503e-05, 'epoch': 0.26}
+{'loss': 2.1415, 'grad_norm': 4.337427616119385, 'learning_rate': 1.9407158109199567e-05, 'epoch': 0.3}
+{'loss': 1.9486, 'grad_norm': 3.625237464904785, 'learning_rate': 1.9210088020897978e-05, 'epoch': 0.33}
+{'loss': 1.7813, 'grad_norm': 3.300568103790283, 'learning_rate': 1.8986096048946826e-05, 'epoch': 0.36}
+{'loss': 1.6316, 'grad_norm': 3.1092944145202637, 'learning_rate': 1.873583694124792e-05, 'epoch': 0.4}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+Input Prompt : <|im_start|>user
+Translate this sentence into German: “That is a very nice car"<|im_end|>
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To make the sentence more descriptive, we can rearrange the adjectives to follow the typical order: **opinion, size, age, color**.
+
+Original sentence:
+**The family had a small brown old house.**
+
+Rearranged adjectives:
+**old**, **small**, **brown**
+
+So the more descriptive phrase becomes:
+**The family had an old small brown house.**
+
+Alternatively, for a more natural and poetic flow, you might say:
+**The family had an old, small, brown house.**<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To make the sentence more descriptive, we can rearrange the adjectives to follow the typical order: **opinion, size, age, color**.
+
+Original sentence:
+**The family had a small brown old house.**
+
+Rearranged adjectives:
+**old**, **small**, **brown**
+
+So the more descriptive phrase becomes:
+**The family had an old small brown house.**
+
+Alternatively, for a more natural and poetic flow, you might say:
+**The family had an old, small, brown house.**<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<think>
+
+</think>
+
+To make the sentence more descriptive, we can rearrange the adjectives to follow the typical order: **opinion, size, age, color**.
+
+Original sentence:
+**The family had a small brown old house.**
+
+Rearranged adjectives:
+**old**, **small**, **brown**
+
+So the more descriptive phrase becomes:
+**The family had an old small brown house.**
+
+Alternatively, for a more natural and poetic flow, you might say:
+**The family had an old, small, brown house.**<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 47%|███████████████████████████████████████████████████████████████████████▋                                                                                 | 15/32 [00:07<00:10,  1.62it/s]
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "cooking-units-converter-convert_temperature", "description": "Convert between Celsius (C) and Fahrenheit (F) temperatures", "parameters": {"type": "object", "properties": {"value": {"type": "number", "description": "Temperature value to convert"}, "from_unit": {"type": "string", "enum": ["C", "F"], "description": "Source temperature unit (C or F)"}, "to_unit": {"type": "string", "enum": ["C", "F"], "description": "Target temperature unit (C or F)"}}, "required": ["value", "from_unit", "to_unit"]}}}
+{"type": "function", "function": {"name": "cooking-units-converter-convert_volume", "description": "Convert between volume units (ml, l, cup, tbsp, tsp)", "parameters": {"type": "object", "properties": {"value": {"type": "number", "description": "Volume value to convert"}, "from_unit": {"type": "string", "enum": ["ml", "l", "cup", "tbsp", "tsp"], "description": "Source volume unit (ml, l, cup, tbsp, tsp)"}, "to_unit": {"type": "string", "enum": ["ml", "l", "cup", "tbsp", "tsp"], "description": "Target volume unit (ml, l, cup, tbsp, tsp)"}}, "required": ["value", "from_unit", "to_unit"]}}}
+{"type": "function", "function": {"name": "cooking-units-converter-convert_weight", "description": "Convert between weight units (g, kg, oz, lb)", "parameters": {"type": "object", "properties": {"value": {"type": "number", "description": "Weight value to convert"}, "from_unit": {"type": "string", "enum": ["g", "kg", "oz", "lb"], "description": "Source weight unit (g, kg, oz, lb)"}, "to_unit": {"type": "string", "enum": ["g", "kg", "oz", "lb"], "description": "Target weight unit (g, kg, oz, lb)"}}, "required": ["value", "from_unit", "to_unit"]}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I'm trying to make some banana bread from my grandmother's old cookbook, but the measurements are confusing me. The recipe calls for 250ml of milk and 350ml of flour, but all my measuring cups are standard US cups and tablespoons. How much should I use for each ingredient?<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{"name": "cooking-units-converter-convert_volume", "arguments": {"value": 250, "from_unit": "ml", "to_unit": "cup"}}
+</tool_call>
+<tool_call>
+{"name": "cooking-units-converter-convert_volume", "arguments": {"value": 350, "from_unit": "ml", "to_unit": "cup"}}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "value": 1.0567,
+  "from_unit": "ml",
+  "to_unit": "cup"
+}
+</tool_response>
+<tool_response>
+{
+  "value": 1.4794,
+  "from_unit": "ml",
+  "to_unit": "cup"
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Perfect! Here are the converted measurements for your grandmother's banana bread recipe:
+
+**Milk:** 250ml = approximately **1 cup + 1 tablespoon** (1.06 cups)
+
+**Flour:** 350ml = approximately **1½ cups + 2 tablespoons** (1.48 cups)
+
+These conversions should help you measure the ingredients accurately with your standard US measuring cups. The flour measurement is just shy of 1½ cups, so 1½ cups plus 2 extra tablespoons should give you the right amount.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<tool_response>
+{
+  "value": 1.0567,
+  "from_unit": "ml",
+  "to_unit": "cup"
+}
+</tool_response>
+<tool_response>
+{
+  "value": 1.4794,
+  "from_unit": "ml",
+  "to_unit": "cup"
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Perfect! Here are the converted measurements for your grandmother's banana bread recipe:
+
+**Milk:** 250ml = approximately **1 cup + 1 tablespoon** (1.06 cups)
+
+**Flour:** 350ml = approximately **1½ cups + 2 tablespoons** (1.48 cups)
+
+These conversions should help you measure the ingredients accurately with your standard US measuring cups. The flour measurement is just shy of 1½ cups, so 1½ cups plus 2 extra tablespoons should give you the right amount.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+{'eval_loss': 1.6402491331100464, 'eval_runtime': 35.3662, 'eval_samples_per_second': 28.276, 'eval_steps_per_second': 0.905, 'epoch': 0.4}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+ 40%|███████████████████████████████████████████████████████████████                                                                                               | 242/606 [1:27:16<2:07:06, 20.95s/it]
+{'loss': 1.5606, 'grad_norm': 2.8842360973358154, 'learning_rate': 1.8460042226812117e-05, 'epoch': 0.43}
+{'loss': 1.4533, 'grad_norm': 2.556950569152832, 'learning_rate': 1.8159518077436718e-05, 'epoch': 0.46}
+{'loss': 1.4266, 'grad_norm': 2.5084993839263916, 'learning_rate': 1.7835142951195644e-05, 'epoch': 0.5}
+{'loss': 1.3642, 'grad_norm': 2.2782909870147705, 'learning_rate': 1.7487865024630485e-05, 'epoch': 0.53}
+{'loss': 1.3213, 'grad_norm': 2.3487155437469482, 'learning_rate': 1.711869942114852e-05, 'epoch': 0.56}
+{'loss': 1.2514, 'grad_norm': 2.282780885696411, 'learning_rate': 1.672872524372919e-05, 'epoch': 0.6}
+{'loss': 1.1274, 'grad_norm': 1.8109965324401855, 'learning_rate': 1.6319082420612823e-05, 'epoch': 0.63}
+{'loss': 1.1138, 'grad_norm': 2.005793571472168, 'learning_rate': 1.5890968373191783e-05, 'epoch': 0.66}
+{'loss': 1.0709, 'grad_norm': 1.937658667564392, 'learning_rate': 1.544563451584422e-05, 'epoch': 0.69}
+{'loss': 1.046, 'grad_norm': 1.8723119497299194, 'learning_rate': 1.498438259794165e-05, 'epoch': 0.73}
+{'loss': 0.9811, 'grad_norm': 1.7642760276794434, 'learning_rate': 1.4508560898722952e-05, 'epoch': 0.76}
+{'loss': 0.9599, 'grad_norm': 1.6207237243652344, 'learning_rate': 1.4019560286157607e-05, 'epoch': 0.79}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+ 40%|███████████████████████████████████████████████████████████████                                                                                               | 242/606 [1:29:46<2:07:06, 20.95s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242                                                                                                 
+{'eval_loss': 1.1119351387023926, 'eval_runtime': 149.7055, 'eval_samples_per_second': 6.68, 'eval_steps_per_second': 0.214, 'epoch': 0.8}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-121] due to args.save_total_limit
+ 60%|██████████████████████████████████████████████████████████████████████████████████████████████▋                                                               | 363/606 [2:12:09<1:21:32, 20.14s/it]
+{'loss': 1.0137, 'grad_norm': 2.0146689414978027, 'learning_rate': 1.351881015131833e-05, 'epoch': 0.83}
+{'loss': 0.982, 'grad_norm': 2.1351027488708496, 'learning_rate': 1.3007774230147402e-05, 'epoch': 0.86}
+{'loss': 0.9176, 'grad_norm': 1.626903772354126, 'learning_rate': 1.2487946324829905e-05, 'epoch': 0.89}
+{'loss': 0.9298, 'grad_norm': 1.5269358158111572, 'learning_rate': 1.1960845937280807e-05, 'epoch': 0.93}
+{'loss': 0.9484, 'grad_norm': 1.7608006000518799, 'learning_rate': 1.1428013827509468e-05, 'epoch': 0.96}
+{'loss': 0.8999, 'grad_norm': 1.8280965089797974, 'learning_rate': 1.0891007509844895e-05, 'epoch': 0.99}
+{'loss': 0.8257, 'grad_norm': 1.5794014930725098, 'learning_rate': 1.0351396700186704e-05, 'epoch': 1.02}
+{'loss': 0.8014, 'grad_norm': 1.7257205247879028, 'learning_rate': 9.810758727589814e-06, 'epoch': 1.06}
+{'loss': 0.8194, 'grad_norm': 1.6352479457855225, 'learning_rate': 9.27067392359521e-06, 'epoch': 1.09}
+{'loss': 0.8271, 'grad_norm': 1.2891590595245361, 'learning_rate': 8.732721002784247e-06, 'epoch': 1.12}
+{'loss': 0.7623, 'grad_norm': 1.553570032119751, 'learning_rate': 8.198472448059385e-06, 'epoch': 1.16}
+{'loss': 0.8344, 'grad_norm': 1.5863451957702637, 'learning_rate': 7.669489914140701e-06, 'epoch': 1.19}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+ 60%|██████████████████████████████████████████████████████████████████████████████████████████████▋                                                               | 363/606 [2:12:45<1:21:32, 20.14s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363                                                                                                 
+{'eval_loss': 1.0079545974731445, 'eval_runtime': 35.3555, 'eval_samples_per_second': 28.284, 'eval_steps_per_second': 0.905, 'epoch': 1.2}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-242] due to args.save_total_limit
+ 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊                                | 484/606 [2:55:43<41:55, 20.62s/it]
+{'loss': 0.7757, 'grad_norm': 1.5110971927642822, 'learning_rate': 7.147319662714145e-06, 'epoch': 1.22}
+{'loss': 0.7682, 'grad_norm': 1.7162286043167114, 'learning_rate': 6.633488042574883e-06, 'epoch': 1.25}
+{'loss': 0.7808, 'grad_norm': 1.2862576246261597, 'learning_rate': 6.129497027977829e-06, 'epoch': 1.29}
+{'loss': 0.7021, 'grad_norm': 1.6270030736923218, 'learning_rate': 5.636819828237017e-06, 'epoch': 1.32}
+{'loss': 0.7068, 'grad_norm': 1.440566062927246, 'learning_rate': 5.156896581407378e-06, 'epoch': 1.35}
+{'loss': 0.7415, 'grad_norm': 1.567910075187683, 'learning_rate': 4.691130144636708e-06, 'epoch': 1.39}
+{'loss': 0.7447, 'grad_norm': 1.4224908351898193, 'learning_rate': 4.240881993492892e-06, 'epoch': 1.42}
+{'loss': 0.7298, 'grad_norm': 1.5183106660842896, 'learning_rate': 3.8074682422531317e-06, 'epoch': 1.45}
+{'loss': 0.6575, 'grad_norm': 1.4892385005950928, 'learning_rate': 3.3921557967880914e-06, 'epoch': 1.49}
+{'loss': 0.6541, 'grad_norm': 1.4123597145080566, 'learning_rate': 2.9961586512864947e-06, 'epoch': 1.52}
+{'loss': 0.7297, 'grad_norm': 1.4506983757019043, 'learning_rate': 2.6206343396451427e-06, 'epoch': 1.55}
+{'loss': 0.6935, 'grad_norm': 1.5252450704574585, 'learning_rate': 2.2666805518972634e-06, 'epoch': 1.59}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+ 80%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▊                                | 484/606 [2:56:18<41:55, 20.62s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484                                                                                                 
+{'eval_loss': 0.9767839312553406, 'eval_runtime': 35.3667, 'eval_samples_per_second': 28.275, 'eval_steps_per_second': 0.905, 'epoch': 1.6}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-363] due to args.save_total_limit
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋| 605/606 [3:39:00<00:20, 20.33s/it]
+{'loss': 0.7138, 'grad_norm': 1.43429434299469, 'learning_rate': 1.935331925569599e-06, 'epoch': 1.62}
+{'loss': 0.7085, 'grad_norm': 1.4999126195907593, 'learning_rate': 1.6275570213474713e-06, 'epoch': 1.65}
+{'loss': 0.6822, 'grad_norm': 1.4565173387527466, 'learning_rate': 1.3442554918881634e-06, 'epoch': 1.68}
+{'loss': 0.7043, 'grad_norm': 1.543444037437439, 'learning_rate': 1.0862554520583856e-06, 'epoch': 1.72}
+[2025-10-08 19:13:12,167] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.7257, 'grad_norm': 1.4438236951828003, 'learning_rate': 8.543110582829272e-07, 'epoch': 1.75}
+{'loss': 0.6784, 'grad_norm': 1.3616468906402588, 'learning_rate': 6.491003040802324e-07, 'epoch': 1.78}
+{'loss': 0.6713, 'grad_norm': 1.576223611831665, 'learning_rate': 4.712230382286942e-07, 'epoch': 1.82}
+{'loss': 0.7022, 'grad_norm': 1.448901891708374, 'learning_rate': 3.2119921135683406e-07, 'epoch': 1.85}
+{'loss': 0.6531, 'grad_norm': 1.5282803773880005, 'learning_rate': 1.9946735608263547e-07, 'epoch': 1.88}
+{'loss': 0.6742, 'grad_norm': 1.859231948852539, 'learning_rate': 1.0638330514480155e-07, 'epoch': 1.92}
+{'loss': 0.6661, 'grad_norm': 1.516145944595337, 'learning_rate': 4.221915127287757e-08, 'epoch': 1.95}
+{'loss': 0.7057, 'grad_norm': 1.2927883863449097, 'learning_rate': 7.162451836685291e-09, 'epoch': 1.98}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████▋| 605/606 [3:39:35<00:20, 20.33s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605                                                                                                 
+{'eval_loss': 0.9705283045768738, 'eval_runtime': 35.3521, 'eval_samples_per_second': 28.287, 'eval_steps_per_second': 0.905, 'epoch': 2.0}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-484] due to args.save_total_limit
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 606/606 [3:41:06<00:00, 52.09s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605 (score: 0.9705283045768738).
+Attempting to resume from /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-605
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 606/606 [3:42:26<00:00, 52.09s/it]Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/checkpoint-606] due to args.save_total_limit
+{'train_runtime': 13349.0454, 'train_samples_per_second': 5.792, 'train_steps_per_second': 0.045, 'train_loss': 1.5846322468011687, 'epoch': 2.0}
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 606/606 [3:42:37<00:00, 22.04s/it]
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/special_tokens_map.json
+Processing zero checkpoint '/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE/global_step605'
+Loading checkpoint shards: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 1682.43it/s]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 4
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 399/399 [00:00<00:00, 955755.17it/s]
+Reconstructed Trainable fp32 state dict with 399 params 8188564480 elements
+Saving checkpoint shards: 100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 7/7 [01:11<00:00, 10.19s/it]
+Saved merged FP32 checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ASIDE_ToolAndAlpaca_ASIDE

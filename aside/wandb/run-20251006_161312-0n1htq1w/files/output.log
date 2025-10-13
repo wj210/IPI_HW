@@ -1,0 +1,63 @@
+[34m[1mwandb[0m: Detected [huggingface_hub.inference, openai] in use.
+[34m[1mwandb[0m: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+[34m[1mwandb[0m: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|                                                                                                                                                                            | 0/2372 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/home/wjyeo/IPI_HW/aside/train.py", line 428, in <module>
+    main(config_path, emb_type,user_hparams)
+  File "/home/wjyeo/IPI_HW/aside/train.py", line 331, in main
+    trainer.train()
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+    batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+    batch_samples.append(next(epoch_iterator))
+                         ^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+    current_batch = next(dataloader_iter)
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/home/wjyeo/IPI_HW/aside/data_utils.py", line 206, in __getitem__
+    labels[~assistant_mask.bool()] = -100  # Only compute loss on assistant parts
+    ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+IndexError: The shape of the mask [386] at index 0 does not match the shape of the indexed tensor [1, 386] at index 0
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/train.py", line 428, in <module>
+[rank0]:     main(config_path, emb_type,user_hparams)
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/train.py", line 331, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2623, in _inner_training_loop
+[rank0]:     batch_samples, num_items_in_batch = self.get_batch_samples(epoch_iterator, num_batches, args.device)
+[rank0]:                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 5581, in get_batch_samples
+[rank0]:     batch_samples.append(next(epoch_iterator))
+[rank0]:                          ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+[rank0]:     current_batch = next(dataloader_iter)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+[rank0]:     data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:             ~~~~~~~~~~~~^^^^^
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/data_utils.py", line 206, in __getitem__
+[rank0]:     labels[~assistant_mask.bool()] = -100  # Only compute loss on assistant parts
+[rank0]:     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: IndexError: The shape of the mask [386] at index 0 does not match the shape of the indexed tensor [1, 386] at index 0

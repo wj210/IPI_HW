@@ -1,0 +1,1086 @@
+[34m[1mwandb[0m: Detected [huggingface_hub.inference, openai] in use.
+[34m[1mwandb[0m: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+[34m[1mwandb[0m: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|                                                                                          | 0/2372 [00:00<?, ?it/s]
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "currency-converter-mcp-convert_currency", "description": "", "parameters": {"properties": {"amount": {"title": "Amount", "type": "number"}, "from_currency": {"title": "From Currency", "type": "string"}, "to_currency": {"title": "To Currency", "type": "string"}}, "required": ["amount", "from_currency", "to_currency"], "title": "convert_currencyArguments", "type": "object"}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I have to buy a required textbook that costs £85, but my bank account is in Australian Dollars. What exact amount in AUD should I transfer right now to cover this purchase at today’s exchange rate?<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{'name': 'currency-converter-mcp-convert_currency', 'arguments': '{"amount": 85, "from_currency": "GBP", "to_currency": "AUD"}'}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "converted_amount": 176.8,
+  "exchange_rate": 2.08,
+  "from_currency": "GBP",
+  "to_currency": "AUD",
+  "original_amount": 85.0
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<tool_response>
+{
+  "converted_amount": 176.8,
+  "exchange_rate": 2.08,
+  "from_currency": "GBP",
+  "to_currency": "AUD",
+  "original_amount": 85.0
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<tool_call>
+{'name': 'currency-converter-mcp-convert_currency', 'arguments': '{"amount": 85, "from_currency": "GBP", "to_currency": "AUD"}'}
+</tool_call><|im_end|>
+Assistant loss chunk 1: <|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Input Prompt : <|im_start|>user
+Generate a story about a hardworking scientist who builds a time machine.<|im_end|>
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To determine the validity of the claim that **"people who eat breakfast perform better in school,"** you can design a **controlled experiment** that measures the relationship between breakfast consumption and academic performance. Here's a suggested experiment:
+
+---
+
+### **Experiment Title:**
+**The Impact of Breakfast on Academic Performance in Students**
+
+---
+
+### **Objective:**
+To determine whether eating breakfast is associated with improved academic performance in students.
+
+---
+
+### **Hypothesis:**
+Students who eat breakfast will perform better in school (e.g., higher test scores, better grades, or improved attention and focus) compared to those who skip breakfast.
+
+---
+
+### **Participants:**
+- A sample of students from the same school or grade level (e.g., middle school or high school).
+- Ideally, a **randomized controlled trial** (RCT) where students are randomly assigned to either a **breakfast group** or a **no-breakfast group**.
+
+---
+
+### **Procedure:**
+
+#### **1. Recruitment and Randomization:**
+- Recruit a group of students (e.g., 100 students).
+- Randomly assign them to two groups:
+  - **Group A (Breakfast Group):** Students are given a healthy breakfast (e.g., cereal, toast, fruit, milk).
+  - **Group B (No-Breakfast Group):** Students are instructed to skip breakfast for a set period (e.g., one week).
+
+#### **2. Control Variables:**
+- Ensure both groups are similar in terms of age, gender, academic background, and prior performance.
+- Keep other factors constant (e.g., same school, same schedule, same tests).
+
+#### **3. Data Collection:**
+- **Pre-test:** Administer a standardized academic test (e.g., math or reading comprehension) to both groups before the experiment.
+- **During the experiment:** Monitor and record whether students eat breakfast (Group A) or skip it (Group B).
+- **Post-test:** Administer the same test again after the experimental period (e.g., one week later).
+
+#### **4. Additional Measures (Optional):**
+- Use surveys or questionnaires to assess students’ energy levels, concentration, and mood.
+- Track attendance and participation in class.
+
+---
+
+### **Data Analysis:**
+- Compare the **pre-test and post-test scores** of both groups.
+- Use statistical methods (e.g., t-test, ANOVA) to determine if there is a **significant difference** in academic performance between the two groups.
+- Control for variables like prior academic performance, sleep, and extracurricular activities.
+
+---
+
+### **Ethical Considerations:**
+- Ensure that students are not harmed or deprived of necessary nutrition.
+- Obtain **informed consent** from parents or guardians.
+- Provide a **nutritious alternative** for students who skip breakfast (e.g., a healthy snack) to avoid malnutrition.
+
+---
+
+### **Conclusion:**
+- If the **breakfast group** shows significantly better academic performance, this supports the claim.
+- If no significant difference is found, the claim may not be valid or may require further investigation.
+
+---
+
+### **Limitations:**
+- The experiment may not account for individual differences in metabolism, learning styles, or home environment.
+- Long-term effects of breakfast on academic performance may not be captured in a short-term study.
+
+---
+
+### **Alternative Approach (Observational Study):**
+If a randomized trial is not feasible, you could conduct an **observational study** by:
+- Surveying students about their breakfast habits.
+- Collecting academic records (e.g., grades, test scores).
+- Using statistical analysis to look for a correlation between breakfast consumption and academic performance.
+
+---
+
+This experiment provides a structured way to test the claim and determine whether eating breakfast has a measurable impact on school performance.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To determine the validity of the claim that **"people who eat breakfast perform better in school,"** you can design a **controlled experiment** that measures the relationship between breakfast consumption and academic performance. Here's a suggested experiment:
+
+---
+
+### **Experiment Title:**
+**The Impact of Breakfast on Academic Performance in Students**
+
+---
+
+### **Objective:**
+To determine whether eating breakfast is associated with improved academic performance in students.
+
+---
+
+### **Hypothesis:**
+Students who eat breakfast will perform better in school (e.g., higher test scores, better grades, or improved attention and focus) compared to those who skip breakfast.
+
+---
+
+### **Participants:**
+- A sample of students from the same school or grade level (e.g., middle school or high school).
+- Ideally, a **randomized controlled trial** (RCT) where students are randomly assigned to either a **breakfast group** or a **no-breakfast group**.
+
+---
+
+### **Procedure:**
+
+#### **1. Recruitment and Randomization:**
+- Recruit a group of students (e.g., 100 students).
+- Randomly assign them to two groups:
+  - **Group A (Breakfast Group):** Students are given a healthy breakfast (e.g., cereal, toast, fruit, milk).
+  - **Group B (No-Breakfast Group):** Students are instructed to skip breakfast for a set period (e.g., one week).
+
+#### **2. Control Variables:**
+- Ensure both groups are similar in terms of age, gender, academic background, and prior performance.
+- Keep other factors constant (e.g., same school, same schedule, same tests).
+
+#### **3. Data Collection:**
+- **Pre-test:** Administer a standardized academic test (e.g., math or reading comprehension) to both groups before the experiment.
+- **During the experiment:** Monitor and record whether students eat breakfast (Group A) or skip it (Group B).
+- **Post-test:** Administer the same test again after the experimental period (e.g., one week later).
+
+#### **4. Additional Measures (Optional):**
+- Use surveys or questionnaires to assess students’ energy levels, concentration, and mood.
+- Track attendance and participation in class.
+
+---
+
+### **Data Analysis:**
+- Compare the **pre-test and post-test scores** of both groups.
+- Use statistical methods (e.g., t-test, ANOVA) to determine if there is a **significant difference** in academic performance between the two groups.
+- Control for variables like prior academic performance, sleep, and extracurricular activities.
+
+---
+
+### **Ethical Considerations:**
+- Ensure that students are not harmed or deprived of necessary nutrition.
+- Obtain **informed consent** from parents or guardians.
+- Provide a **nutritious alternative** for students who skip breakfast (e.g., a healthy snack) to avoid malnutrition.
+
+---
+
+### **Conclusion:**
+- If the **breakfast group** shows significantly better academic performance, this supports the claim.
+- If no significant difference is found, the claim may not be valid or may require further investigation.
+
+---
+
+### **Limitations:**
+- The experiment may not account for individual differences in metabolism, learning styles, or home environment.
+- Long-term effects of breakfast on academic performance may not be captured in a short-term study.
+
+---
+
+### **Alternative Approach (Observational Study):**
+If a randomized trial is not feasible, you could conduct an **observational study** by:
+- Surveying students about their breakfast habits.
+- Collecting academic records (e.g., grades, test scores).
+- Using statistical analysis to look for a correlation between breakfast consumption and academic performance.
+
+---
+
+This experiment provides a structured way to test the claim and determine whether eating breakfast has a measurable impact on school performance.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                        
+[2025-10-07 18:31:44,458] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-07 18:32:24,759] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 2.0486, 'grad_norm': 20.86046600341797, 'learning_rate': 1.8947368421052634e-06, 'epoch': 0.01}
+{'loss': 1.4045, 'grad_norm': 2.6636998653411865, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.02}
+{'loss': 1.1695, 'grad_norm': 1.2124533653259277, 'learning_rate': 6.105263157894738e-06, 'epoch': 0.03}
+[2025-10-07 18:38:08,225] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 1.1025, 'grad_norm': 0.9857636094093323, 'learning_rate': 8.210526315789475e-06, 'epoch': 0.03}
+{'loss': 1.0441, 'grad_norm': 1.289635181427002, 'learning_rate': 1.0315789473684213e-05, 'epoch': 0.04}
+{'loss': 0.9469, 'grad_norm': 1.0574673414230347, 'learning_rate': 1.2421052631578949e-05, 'epoch': 0.05}
+{'loss': 0.9904, 'grad_norm': 1.13602614402771, 'learning_rate': 1.4526315789473687e-05, 'epoch': 0.06}
+{'loss': 1.0236, 'grad_norm': 0.9170921444892883, 'learning_rate': 1.6631578947368423e-05, 'epoch': 0.07}
+{'loss': 1.0085, 'grad_norm': 1.0070894956588745, 'learning_rate': 1.873684210526316e-05, 'epoch': 0.08}
+{'loss': 1.0288, 'grad_norm': 0.8762493133544922, 'learning_rate': 1.9999847713092034e-05, 'epoch': 0.08}
+{'loss': 0.9653, 'grad_norm': 0.9100419878959656, 'learning_rate': 1.9998134538644454e-05, 'epoch': 0.09}
+[2025-10-07 18:56:03,860] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9671, 'grad_norm': 0.9826164841651917, 'learning_rate': 1.9994518158314634e-05, 'epoch': 0.1}
+{'loss': 0.9509, 'grad_norm': 1.0140763521194458, 'learning_rate': 1.9988999260502623e-05, 'epoch': 0.11}
+[2025-10-07 18:58:30,236] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9519, 'grad_norm': 1.1421149969100952, 'learning_rate': 1.9981578895764272e-05, 'epoch': 0.12}
+{'loss': 0.9589, 'grad_norm': 0.8687429428100586, 'learning_rate': 1.997225847661127e-05, 'epoch': 0.13}
+{'loss': 0.9997, 'grad_norm': 0.9417141675949097, 'learning_rate': 1.9961039777242234e-05, 'epoch': 0.13}
+[2025-10-07 19:04:18,876] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9962, 'grad_norm': 0.9552729725837708, 'learning_rate': 1.994792493320501e-05, 'epoch': 0.14}
+{'loss': 0.9512, 'grad_norm': 1.0667150020599365, 'learning_rate': 1.9932916440990137e-05, 'epoch': 0.15}
+{'loss': 0.9491, 'grad_norm': 0.8636655807495117, 'learning_rate': 1.991601715755564e-05, 'epoch': 0.16}
+{'loss': 0.985, 'grad_norm': 0.8906052112579346, 'learning_rate': 1.9897230299783177e-05, 'epoch': 0.17}
+{'loss': 0.9296, 'grad_norm': 0.9230716824531555, 'learning_rate': 1.9876559443865695e-05, 'epoch': 0.18}
+{'loss': 0.9742, 'grad_norm': 0.8799737095832825, 'learning_rate': 1.985400852462668e-05, 'epoch': 0.19}
+{'loss': 0.9404, 'grad_norm': 0.9587977528572083, 'learning_rate': 1.982958183477113e-05, 'epoch': 0.19}
+{'loss': 0.9788, 'grad_norm': 0.8311841487884521, 'learning_rate': 1.9803284024068428e-05, 'epoch': 0.2}
+{'loss': 0.929, 'grad_norm': 0.8703629374504089, 'learning_rate': 1.9775120098467212e-05, 'epoch': 0.21}
+{'loss': 0.94, 'grad_norm': 0.9350339770317078, 'learning_rate': 1.9745095419142478e-05, 'epoch': 0.22}
+[2025-10-07 19:25:13,002] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9323, 'grad_norm': 0.926124095916748, 'learning_rate': 1.971321570147504e-05, 'epoch': 0.23}
+{'loss': 0.9011, 'grad_norm': 0.917079746723175, 'learning_rate': 1.9679487013963566e-05, 'epoch': 0.24}
+{'loss': 0.9205, 'grad_norm': 0.8708434104919434, 'learning_rate': 1.964391577706942e-05, 'epoch': 0.24}
+{'loss': 0.9234, 'grad_norm': 0.7714444398880005, 'learning_rate': 1.9606508761994473e-05, 'epoch': 0.25}
+{'loss': 0.9288, 'grad_norm': 0.8536885380744934, 'learning_rate': 1.956727308939217e-05, 'epoch': 0.26}
+{'loss': 0.9752, 'grad_norm': 0.9020531177520752, 'learning_rate': 1.952621622801206e-05, 'epoch': 0.27}
+{'loss': 0.936, 'grad_norm': 0.8957001566886902, 'learning_rate': 1.948334599327809e-05, 'epoch': 0.28}
+{'loss': 0.9471, 'grad_norm': 0.9445933103561401, 'learning_rate': 1.9438670545800894e-05, 'epoch': 0.29}
+{'loss': 1.0279, 'grad_norm': 0.8742348551750183, 'learning_rate': 1.9392198389824334e-05, 'epoch': 0.3}
+{'loss': 0.9563, 'grad_norm': 0.8119281530380249, 'learning_rate': 1.9343938371606714e-05, 'epoch': 0.3}
+{'loss': 0.9339, 'grad_norm': 0.9502592086791992, 'learning_rate': 1.929389967773681e-05, 'epoch': 0.31}
+{'loss': 0.9423, 'grad_norm': 0.9003068804740906, 'learning_rate': 1.9242091833385155e-05, 'epoch': 0.32}
+{'loss': 0.8819, 'grad_norm': 0.853675365447998, 'learning_rate': 1.918852470049087e-05, 'epoch': 0.33}
+{'loss': 0.8953, 'grad_norm': 0.8751250505447388, 'learning_rate': 1.9133208475884374e-05, 'epoch': 0.34}
+{'loss': 0.9156, 'grad_norm': 0.9383190870285034, 'learning_rate': 1.907615368934637e-05, 'epoch': 0.35}
+{'loss': 0.9452, 'grad_norm': 1.0112971067428589, 'learning_rate': 1.901737120160341e-05, 'epoch': 0.35}
+{'loss': 0.9504, 'grad_norm': 0.869455099105835, 'learning_rate': 1.895687220226052e-05, 'epoch': 0.36}
+{'loss': 0.9964, 'grad_norm': 0.8492237329483032, 'learning_rate': 1.889466820767117e-05, 'epoch': 0.37}
+{'loss': 0.9489, 'grad_norm': 0.8862776756286621, 'learning_rate': 1.8830771058745082e-05, 'epoch': 0.38}
+{'loss': 0.9134, 'grad_norm': 0.8693337440490723, 'learning_rate': 1.876519291869422e-05, 'epoch': 0.39}
+{'loss': 0.9601, 'grad_norm': 0.8481653332710266, 'learning_rate': 1.8697946270717468e-05, 'epoch': 0.4}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+Input Prompt : <|im_start|>user
+Translate this sentence into German: “That is a very nice car"<|im_end|>
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To make the sentence more descriptive, we can rearrange the adjectives to follow the typical order: **opinion, size, age, color**.
+
+Original sentence:
+**The family had a small brown old house.**
+
+Rearranged adjectives:
+**old**, **small**, **brown**
+
+So the more descriptive phrase becomes:
+**The family had an old small brown house.**
+
+Alternatively, for a more natural and poetic flow, you might say:
+**The family had an old, small, brown house.**<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To make the sentence more descriptive, we can rearrange the adjectives to follow the typical order: **opinion, size, age, color**.
+
+Original sentence:
+**The family had a small brown old house.**
+
+Rearranged adjectives:
+**old**, **small**, **brown**
+
+So the more descriptive phrase becomes:
+**The family had an old small brown house.**
+
+Alternatively, for a more natural and poetic flow, you might say:
+**The family had an old, small, brown house.**<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<think>
+
+</think>
+
+To make the sentence more descriptive, we can rearrange the adjectives to follow the typical order: **opinion, size, age, color**.
+
+Original sentence:
+**The family had a small brown old house.**
+
+Rearranged adjectives:
+**old**, **small**, **brown**
+
+So the more descriptive phrase becomes:
+**The family had an old small brown house.**
+
+Alternatively, for a more natural and poetic flow, you might say:
+**The family had an old, small, brown house.**<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+ 47%|██████████████████████████████████████▉                                            | 15/32 [00:07<00:10,  1.63it/s]
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "weather-information-server-get_current_weather_tool", "description": "\n    Get current weather information for a specific city.\n\n    Args:\n        city: Name of the city to get weather for\n\n    Returns:\n        Current weather data including temperature, conditions, humidity, wind, etc.\n    ", "parameters": {"properties": {"city": {"title": "City", "type": "string"}}, "required": ["city"], "title": "get_current_weather_toolArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "weather-information-server-get_weather_forecast_tool", "description": "\n    Get weather forecast for a specific city.\n\n    Args:\n        city: Name of the city to get forecast for\n        days: Number of days to forecast (1-10, default: 3)\n\n    Returns:\n        Weather forecast data for the specified number of days\n    ", "parameters": {"properties": {"city": {"title": "City", "type": "string"}, "days": {"default": 3, "title": "Days", "type": "integer"}}, "required": ["city"], "title": "get_weather_forecast_toolArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "weather-information-server-search_locations_tool", "description": "\n    Search for locations by name.\n\n    Args:\n        query: Location name or partial name to search for\n\n    Returns:\n        List of matching locations with their details\n    ", "parameters": {"properties": {"query": {"title": "Query", "type": "string"}}, "required": ["query"], "title": "search_locations_toolArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "weather-information-server-get_live_temp", "description": "\n    Legacy tool: Get current temperature for a city (for backward compatibility).\n    Use get_current_weather_tool for more detailed information.\n    ", "parameters": {"properties": {"city": {"title": "City", "type": "string"}}, "required": ["city"], "title": "get_live_tempArguments", "type": "object"}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I’m planning a weekend getaway to a town called “Springfield,” but I know there are several Springfields across the U.S. Could you first find the Springfield that is located in the Midwest (e.g., Illinois or Missouri), then tell me the current temperature, humidity, and wind conditions there, and finally give me a three‑day weather forecast so I can decide what to pack?<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{'name': 'weather-information-server-search_locations_tool', 'arguments': '{"query": "Springfield"}'}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "locations": [
+    {
+      "name": "Springfield",
+      "region": "Massachusetts",
+      "country": "United States of America",
+      "lat": 42.1,
+      "lon": -72.59,
+      "url": "springfield-massachusetts-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Missouri",
+      "country": "United States of America",
+      "lat": 37.22,
+      "lon": -93.3,
+      "url": "springfield-missouri-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Ohio",
+      "country": "United States of America",
+      "lat": 39.92,
+      "lon": -83.81,
+      "url": "springfield-ohio-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Virginia",
+      "country": "United States of America",
+      "lat": 38.79,
+      "lon": -77.19,
+      "url": "springfield-virginia-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Tennessee",
+      "country": "United States of America",
+      "lat": 36.51,
+      "lon": -86.89,
+      "url": "springfield-tennessee-united-states-of-america"
+    }
+  ]
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{'name': 'weather-information-server-get_current_weather_tool', 'arguments': '{"city": "Springfield Missouri"}'}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "city": "Springfield",
+  "country": "United States of America",
+  "region": "Missouri",
+  "weather": "Parçalı Bulutlu",
+  "temperature_c": 32.2,
+  "temperature_f": 90.0,
+  "feelslike_c": 37.6,
+  "feelslike_f": 99.7,
+  "humidity": 49,
+  "wind_kph": 20.2,
+  "wind_mph": 12.5,
+  "wind_dir": "S",
+  "pressure_mb": 1017.0,
+  "visibility_km": 16.0,
+  "uv_index": 7.6,
+  "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+  "last_updated": "2025-08-08 12:15"
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<tool_call>
+{'name': 'weather-information-server-get_weather_forecast_tool', 'arguments': '{"city": "Springfield Missouri", "days": 3}'}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "city": "Springfield",
+  "country": "United States of America",
+  "region": "Missouri",
+  "forecast": [
+    {
+      "date": "2025-08-08",
+      "max_temp_c": 35.8,
+      "min_temp_c": 22.2,
+      "max_temp_f": 96.4,
+      "min_temp_f": 72.0,
+      "condition": "Güneşli",
+      "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      "chance_of_rain": 0,
+      "chance_of_snow": 0,
+      "max_wind_kph": 22.0,
+      "avg_humidity": 69,
+      "uv_index": 2.2
+    },
+    {
+      "date": "2025-08-09",
+      "max_temp_c": 36.0,
+      "min_temp_c": 23.8,
+      "max_temp_f": 96.8,
+      "min_temp_f": 74.9,
+      "condition": "Güneşli",
+      "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      "chance_of_rain": 0,
+      "chance_of_snow": 0,
+      "max_wind_kph": 30.2,
+      "avg_humidity": 65,
+      "uv_index": 2.2
+    },
+    {
+      "date": "2025-08-10",
+      "max_temp_c": 35.1,
+      "min_temp_c": 23.5,
+      "max_temp_f": 95.2,
+      "min_temp_f": 74.3,
+      "condition": "Güneşli",
+      "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      "chance_of_rain": 0,
+      "chance_of_snow": 0,
+      "max_wind_kph": 28.4,
+      "avg_humidity": 66,
+      "uv_index": 2.1
+    }
+  ]
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+Weekend getaway snapshot – Springfield, Missouri
+
+- Current weather right now (as of 12:15 p.m. Central):
+  – Temperature: 90 °F; feels like 100 °F
+  – Humidity: 49 %
+  – Wind: 12–13 mph from the south
+
+- 3-day forecast (Aug 8–10):
+  – **Friday 8/8:** Sunny, 96 °F / 72 °F, winds up to 14 mph, humidity ~69 %, no rain expected.
+  – **Saturday 8/9:** Mostly sunny and hot, 97 °F / 75 °F, breezier with gusts up to 19 mph, humidity ~65 %.
+  – **Sunday 8/10:** Continued sunshine, 95 °F / 74 °F, similar breeze, humidity ~66 %.
+
+Packing suggestions
+Expect very warm, mostly clear conditions: bring lightweight, breathable clothing, a wide-brim hat, sunscreen, and comfortable sandals or shoes. Evenings stay warm (low 70s), so a light hoodie or long-sleeve shirt should suffice if you’ll be out after dark. A reusable water bottle will come in handy, and sunglasses are a must given the strong August sun.<|im_end|>
+<|im_start|>user
+Thanks for the weather info! Could you recommend some must‑see attractions or fun outdoor activities in Springfield, Missouri this weekend?<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Below are some Springfield, Missouri favorites that pair well with the warm, mostly sunny, low-humidity weekend the weather data is predicting. Because you’ll be outside most of the time and highs will be in the mid-90 °Fs (32–36 °C), the list is weighted toward spots where you can duck into shade or A/C trade-offs.
+
+1. Nathanael Greene / Close Memorial Park (and nearby gardens)
+   • 160-acre green-space with botanical gardens, a lake loop trail, and plenty of shade.
+   • Morning visit = cooler temps; they open at 6 a.m.
+   • Free admission; the Mizumoto Japanese Stroll Garden has a modest entrance fee if you want extra shade and running water features.
+
+2. Wilson’s Creek National Battlefield
+   • Great for a self-guided driving tour (all windows-down, warm-breeze type of fun).
+   • Visitor center (air-conditioned) opens 8 a.m.–5 p.m., plus you can hop out for 15-minute trail segments to see cannon emplacements and the iconic “Bloody Hill” overlook.
+
+3. Fantastic Caverns
+   • 58 °F year-round—perfect natural air-conditioning for 45–60 minutes.
+   • Tours depart every 20–30 minutes; book early because they fill up fast on summer weekends.
+
+4. Rutledge-Wilson Farm Community Park
+   • Open dawn–dusk trails, sunflower fields in bloom, goat barns with misting fans.
+   • Free unless you spring for funnel cake or fresh peaches at their produce stand.
+
+5. Lake Springfield Park and South Creek Greenway Trail
+   • Rent a kayak or paddleboard 9 a.m.–4 p.m. (Saturday & Sunday). The water temp is pleasant (mid-80 °Fs) and the tree-lined coves block a lot of wind.
+   • 8-mile paved greenway connects to Sequiota Park if you want to bike the whole corridor—bring extra water, and start before 10 a.m.
+
+6. Downtown mural & coffee hop
+   • Start at Kingdom Coffee downtown, 8 a.m.; they have high-ABV cold brew on nitro for a mid-morning pick-me-up.
+   • Then wander Commercial and Patton streets on foot—most murals are on the shaded, north-facing walls during the heat of the day.
+
+7. Wonders of Wildlife National Museum & Aquarium
+   • Technically indoors—classic A/C plus immersive wildlife dioramas and a massive freshwater-to-ocean aquarium tunnel.
+   • Reserve backed-up weekend slots online; give yourself 3–4 hours.
+
+Evening-only add-ons
+• Ozark Empire Fairgrounds Swap Meet (Sat 6 a.m.–4 p.m. if you’re an early-bird treasure hunter).
+• Springfield Cardinals baseball (Hammons Field, 6:30 p.m. first pitch Saturday) — lawn seats pair nicely with sunset and a cool breeze once the sun dips.
+• Bass Pro Outdoor World’s 6-story indoor waterfall and archery showroom doubles as an evening “walk-through attraction” – air-conditioned, free, and always open.
+
+Pack recap reminder (travel light, beat the heat): refillable bottle, wide-brim or cap, SPF 50 reapplied every 2 hrs, quick-dry shirt, and one light layer in case the caverns or the 6 p.m. stadium breeze gets chillier than you expect.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<tool_response>
+{
+  "locations": [
+    {
+      "name": "Springfield",
+      "region": "Massachusetts",
+      "country": "United States of America",
+      "lat": 42.1,
+      "lon": -72.59,
+      "url": "springfield-massachusetts-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Missouri",
+      "country": "United States of America",
+      "lat": 37.22,
+      "lon": -93.3,
+      "url": "springfield-missouri-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Ohio",
+      "country": "United States of America",
+      "lat": 39.92,
+      "lon": -83.81,
+      "url": "springfield-ohio-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Virginia",
+      "country": "United States of America",
+      "lat": 38.79,
+      "lon": -77.19,
+      "url": "springfield-virginia-united-states-of-america"
+    },
+    {
+      "name": "Springfield",
+      "region": "Tennessee",
+      "country": "United States of America",
+      "lat": 36.51,
+      "lon": -86.89,
+      "url": "springfield-tennessee-united-states-of-america"
+    }
+  ]
+}
+</tool_response><|im_end|>
+
+Rotated chunk 1:
+<|im_start|>user
+<tool_response>
+{
+  "city": "Springfield",
+  "country": "United States of America",
+  "region": "Missouri",
+  "weather": "Parçalı Bulutlu",
+  "temperature_c": 32.2,
+  "temperature_f": 90.0,
+  "feelslike_c": 37.6,
+  "feelslike_f": 99.7,
+  "humidity": 49,
+  "wind_kph": 20.2,
+  "wind_mph": 12.5,
+  "wind_dir": "S",
+  "pressure_mb": 1017.0,
+  "visibility_km": 16.0,
+  "uv_index": 7.6,
+  "icon": "//cdn.weatherapi.com/weather/64x64/day/116.png",
+  "last_updated": "2025-08-08 12:15"
+}
+</tool_response><|im_end|>
+
+Rotated chunk 2:
+<|im_start|>user
+<tool_response>
+{
+  "city": "Springfield",
+  "country": "United States of America",
+  "region": "Missouri",
+  "forecast": [
+    {
+      "date": "2025-08-08",
+      "max_temp_c": 35.8,
+      "min_temp_c": 22.2,
+      "max_temp_f": 96.4,
+      "min_temp_f": 72.0,
+      "condition": "Güneşli",
+      "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      "chance_of_rain": 0,
+      "chance_of_snow": 0,
+      "max_wind_kph": 22.0,
+      "avg_humidity": 69,
+      "uv_index": 2.2
+    },
+    {
+      "date": "2025-08-09",
+      "max_temp_c": 36.0,
+      "min_temp_c": 23.8,
+      "max_temp_f": 96.8,
+      "min_temp_f": 74.9,
+      "condition": "Güneşli",
+      "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      "chance_of_rain": 0,
+      "chance_of_snow": 0,
+      "max_wind_kph": 30.2,
+      "avg_humidity": 65,
+      "uv_index": 2.2
+    },
+    {
+      "date": "2025-08-10",
+      "max_temp_c": 35.1,
+      "min_temp_c": 23.5,
+      "max_temp_f": 95.2,
+      "min_temp_f": 74.3,
+      "condition": "Güneşli",
+      "icon": "//cdn.weatherapi.com/weather/64x64/day/113.png",
+      "chance_of_rain": 0,
+      "chance_of_snow": 0,
+      "max_wind_kph": 28.4,
+      "avg_humidity": 66,
+      "uv_index": 2.1
+    }
+  ]
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+Weekend getaway snapshot – Springfield, Missouri
+
+- Current weather right now (as of 12:15 p.m. Central):
+  – Temperature: 90 °F; feels like 100 °F
+  – Humidity: 49 %
+  – Wind: 12–13 mph from the south
+
+- 3-day forecast (Aug 8–10):
+  – **Friday 8/8:** Sunny, 96 °F / 72 °F, winds up to 14 mph, humidity ~69 %, no rain expected.
+  – **Saturday 8/9:** Mostly sunny and hot, 97 °F / 75 °F, breezier with gusts up to 19 mph, humidity ~65 %.
+  – **Sunday 8/10:** Continued sunshine, 95 °F / 74 °F, similar breeze, humidity ~66 %.
+
+Packing suggestions
+Expect very warm, mostly clear conditions: bring lightweight, breathable clothing, a wide-brim hat, sunscreen, and comfortable sandals or shoes. Evenings stay warm (low 70s), so a light hoodie or long-sleeve shirt should suffice if you’ll be out after dark. A reusable water bottle will come in handy, and sunglasses are a must given the strong August sun.<|im_end|>
+Rotated chunk 3: <|im_start|>assistant
+<think>
+
+</think>
+
+Below are some Springfield, Missouri favorites that pair well with the warm, mostly sunny, low-humidity weekend the weather data is predicting. Because you’ll be outside most of the time and highs will be in the mid-90 °Fs (32–36 °C), the list is weighted toward spots where you can duck into shade or A/C trade-offs.
+
+1. Nathanael Greene / Close Memorial Park (and nearby gardens)
+   • 160-acre green-space with botanical gardens, a lake loop trail, and plenty of shade.
+   • Morning visit = cooler temps; they open at 6 a.m.
+   • Free admission; the Mizumoto Japanese Stroll Garden has a modest entrance fee if you want extra shade and running water features.
+
+2. Wilson’s Creek National Battlefield
+   • Great for a self-guided driving tour (all windows-down, warm-breeze type of fun).
+   • Visitor center (air-conditioned) opens 8 a.m.–5 p.m., plus you can hop out for 15-minute trail segments to see cannon emplacements and the iconic “Bloody Hill” overlook.
+
+3. Fantastic Caverns
+   • 58 °F year-round—perfect natural air-conditioning for 45–60 minutes.
+   • Tours depart every 20–30 minutes; book early because they fill up fast on summer weekends.
+
+4. Rutledge-Wilson Farm Community Park
+   • Open dawn–dusk trails, sunflower fields in bloom, goat barns with misting fans.
+   • Free unless you spring for funnel cake or fresh peaches at their produce stand.
+
+5. Lake Springfield Park and South Creek Greenway Trail
+   • Rent a kayak or paddleboard 9 a.m.–4 p.m. (Saturday & Sunday). The water temp is pleasant (mid-80 °Fs) and the tree-lined coves block a lot of wind.
+   • 8-mile paved greenway connects to Sequiota Park if you want to bike the whole corridor—bring extra water, and start before 10 a.m.
+
+6. Downtown mural & coffee hop
+   • Start at Kingdom Coffee downtown, 8 a.m.; they have high-ABV cold brew on nitro for a mid-morning pick-me-up.
+   • Then wander Commercial and Patton streets on foot—most murals are on the shaded, north-facing walls during the heat of the day.
+
+7. Wonders of Wildlife National Museum & Aquarium
+   • Technically indoors—classic A/C plus immersive wildlife dioramas and a massive freshwater-to-ocean aquarium tunnel.
+   • Reserve backed-up weekend slots online; give yourself 3–4 hours.
+
+Evening-only add-ons
+• Ozark Empire Fairgrounds Swap Meet (Sat 6 a.m.–4 p.m. if you’re an early-bird treasure hunter).
+• Springfield Cardinals baseball (Hammons Field, 6:30 p.m. first pitch Saturday) — lawn seats pair nicely with sunset and a cool breeze once the sun dips.
+• Bass Pro Outdoor World’s 6-story indoor waterfall and archery showroom doubles as an evening “walk-through attraction” – air-conditioned, free, and always open.
+
+Pack recap reminder (travel light, beat the heat): refillable bottle, wide-brim or cap, SPF 50 reapplied every 2 hrs, quick-dry shirt, and one light layer in case the caverns or the 6 p.m. stadium breeze gets chillier than you expect.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+{'eval_loss': 0.7434068322181702, 'eval_runtime': 34.4129, 'eval_samples_per_second': 29.059, 'eval_steps_per_second': 0.93, 'epoch': 0.4}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+                                                                                                                        
+{'loss': 0.9409, 'grad_norm': 0.8863120675086975, 'learning_rate': 1.8629043915624366e-05, 'epoch': 0.4}
+{'loss': 0.9324, 'grad_norm': 0.8327714800834656, 'learning_rate': 1.8558498969398403e-05, 'epoch': 0.41}
+{'loss': 0.9806, 'grad_norm': 0.9797970652580261, 'learning_rate': 1.848632486070031e-05, 'epoch': 0.42}
+{'loss': 0.9786, 'grad_norm': 0.7518393993377686, 'learning_rate': 1.8412535328311813e-05, 'epoch': 0.43}
+{'loss': 0.9168, 'grad_norm': 0.7577639222145081, 'learning_rate': 1.833714441852041e-05, 'epoch': 0.44}
+{'loss': 0.9937, 'grad_norm': 0.8190732598304749, 'learning_rate': 1.8260166482445547e-05, 'epoch': 0.45}
+{'loss': 0.9286, 'grad_norm': 0.9234541654586792, 'learning_rate': 1.8181616173306796e-05, 'epoch': 0.46}
+{'loss': 0.8882, 'grad_norm': 0.822016179561615, 'learning_rate': 1.8101508443634534e-05, 'epoch': 0.46}
+{'loss': 0.9216, 'grad_norm': 0.800689697265625, 'learning_rate': 1.8019858542423635e-05, 'epoch': 0.47}
+{'loss': 0.9512, 'grad_norm': 0.8438445329666138, 'learning_rate': 1.7936682012230734e-05, 'epoch': 0.48}
+{'loss': 0.9038, 'grad_norm': 0.8586057424545288, 'learning_rate': 1.7851994686215592e-05, 'epoch': 0.49}
+{'loss': 0.9643, 'grad_norm': 0.8553268313407898, 'learning_rate': 1.776581268512717e-05, 'epoch': 0.5}
+{'loss': 0.8947, 'grad_norm': 0.8649205565452576, 'learning_rate': 1.767815241423497e-05, 'epoch': 0.51}
+{'loss': 0.9175, 'grad_norm': 0.8566972613334656, 'learning_rate': 1.7589030560206123e-05, 'epoch': 0.51}
+{'loss': 0.8953, 'grad_norm': 0.9112713932991028, 'learning_rate': 1.749846408792906e-05, 'epoch': 0.52}
+{'loss': 0.8982, 'grad_norm': 0.8859853148460388, 'learning_rate': 1.7406470237284084e-05, 'epoch': 0.53}
+{'loss': 0.9459, 'grad_norm': 0.868295431137085, 'learning_rate': 1.7313066519861683e-05, 'epoch': 0.54}
+{'loss': 0.9845, 'grad_norm': 0.8790592551231384, 'learning_rate': 1.7218270715629083e-05, 'epoch': 0.55}
+{'loss': 0.9655, 'grad_norm': 0.9831525683403015, 'learning_rate': 1.7122100869545728e-05, 'epoch': 0.56}
+{'loss': 0.9285, 'grad_norm': 0.8400644063949585, 'learning_rate': 1.7024575288128304e-05, 'epoch': 0.56}
+{'loss': 0.9534, 'grad_norm': 0.825547456741333, 'learning_rate': 1.692571253596598e-05, 'epoch': 0.57}
+{'loss': 0.9495, 'grad_norm': 0.8404486179351807, 'learning_rate': 1.6825531432186545e-05, 'epoch': 0.58}
+{'loss': 0.9384, 'grad_norm': 0.8266611099243164, 'learning_rate': 1.6724051046874038e-05, 'epoch': 0.59}
+{'loss': 0.9289, 'grad_norm': 0.9246658086776733, 'learning_rate': 1.6621290697438684e-05, 'epoch': 0.6}
+{'loss': 0.9677, 'grad_norm': 0.8084174990653992, 'learning_rate': 1.651726994493967e-05, 'epoch': 0.61}
+{'loss': 0.8578, 'grad_norm': 0.8476852774620056, 'learning_rate': 1.641200859036159e-05, 'epoch': 0.62}
+{'loss': 0.851, 'grad_norm': 0.7845321893692017, 'learning_rate': 1.6305526670845225e-05, 'epoch': 0.62}
+{'loss': 0.9238, 'grad_norm': 0.709984302520752, 'learning_rate': 1.6197844455873325e-05, 'epoch': 0.63}
+{'loss': 0.8714, 'grad_norm': 0.868495762348175, 'learning_rate': 1.60889824434122e-05, 'epoch': 0.64}
+{'loss': 0.919, 'grad_norm': 0.8244634866714478, 'learning_rate': 1.59789613560098e-05, 'epoch': 0.65}
+{'loss': 0.8618, 'grad_norm': 0.8990784287452698, 'learning_rate': 1.5867802136851078e-05, 'epoch': 0.66}
+{'loss': 0.861, 'grad_norm': 0.744391679763794, 'learning_rate': 1.5755525945771294e-05, 'epoch': 0.67}
+{'loss': 0.8944, 'grad_norm': 0.8645942211151123, 'learning_rate': 1.5642154155228124e-05, 'epoch': 0.67}
+{'loss': 0.9573, 'grad_norm': 0.8780812621116638, 'learning_rate': 1.5527708346233285e-05, 'epoch': 0.68}
+{'loss': 0.9129, 'grad_norm': 1.0973279476165771, 'learning_rate': 1.5412210304244462e-05, 'epoch': 0.69}
+{'loss': 0.8918, 'grad_norm': 1.116226315498352, 'learning_rate': 1.52956820150183e-05, 'epoch': 0.7}
+{'loss': 0.8795, 'grad_norm': 0.8902942538261414, 'learning_rate': 1.5178145660425297e-05, 'epoch': 0.71}
+{'loss': 0.8791, 'grad_norm': 0.7865524291992188, 'learning_rate': 1.505962361422733e-05, 'epoch': 0.72}
+{'loss': 0.9523, 'grad_norm': 0.8957246541976929, 'learning_rate': 1.494013843781869e-05, 'epoch': 0.73}
+{'loss': 0.8963, 'grad_norm': 0.8391035795211792, 'learning_rate': 1.481971287593138e-05, 'epoch': 0.73}
+{'loss': 0.9172, 'grad_norm': 0.8657630085945129, 'learning_rate': 1.4698369852305507e-05, 'epoch': 0.74}
+{'loss': 0.8881, 'grad_norm': 0.8498501777648926, 'learning_rate': 1.4576132465325624e-05, 'epoch': 0.75}
+{'loss': 0.83, 'grad_norm': 0.8494508266448975, 'learning_rate': 1.4453023983623793e-05, 'epoch': 0.76}
+{'loss': 0.8314, 'grad_norm': 0.8837637901306152, 'learning_rate': 1.4329067841650274e-05, 'epoch': 0.77}
+{'loss': 0.8892, 'grad_norm': 0.8905986547470093, 'learning_rate': 1.420428763521263e-05, 'epoch': 0.78}
+{'loss': 0.8641, 'grad_norm': 0.8102555274963379, 'learning_rate': 1.4078707116984114e-05, 'epoch': 0.78}
+{'loss': 0.864, 'grad_norm': 0.8626266121864319, 'learning_rate': 1.395235019198222e-05, 'epoch': 0.79}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+ 40%|██████████████████████████████▎                                             | 948/2372 [3:15:07<4:48:40, 12.16s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948                        
+{'eval_loss': 0.715597927570343, 'eval_runtime': 35.0925, 'eval_samples_per_second': 28.496, 'eval_steps_per_second': 0.912, 'epoch': 0.8}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-474] due to args.save_total_limit
+                                                                                                                        
+{'loss': 0.9002, 'grad_norm': 0.7805863618850708, 'learning_rate': 1.3825240913018195e-05, 'epoch': 0.8}
+{'loss': 0.9141, 'grad_norm': 0.9530587792396545, 'learning_rate': 1.3697403476118453e-05, 'epoch': 0.81}
+{'loss': 0.9318, 'grad_norm': 0.8625927567481995, 'learning_rate': 1.356886221591872e-05, 'epoch': 0.82}
+{'loss': 0.931, 'grad_norm': 0.8256062865257263, 'learning_rate': 1.343964160103177e-05, 'epoch': 0.83}
+{'loss': 0.8781, 'grad_norm': 0.7375540137290955, 'learning_rate': 1.3309766229389691e-05, 'epoch': 0.83}
+{'loss': 0.9363, 'grad_norm': 0.8185898065567017, 'learning_rate': 1.3179260823561503e-05, 'epoch': 0.84}
+{'loss': 0.8509, 'grad_norm': 0.9197684526443481, 'learning_rate': 1.304815022604709e-05, 'epoch': 0.85}
+{'loss': 0.933, 'grad_norm': 0.8358182311058044, 'learning_rate': 1.291645939454825e-05, 'epoch': 0.86}
+{'loss': 0.8972, 'grad_norm': 0.762751042842865, 'learning_rate': 1.2784213397217868e-05, 'epoch': 0.87}
+{'loss': 0.8983, 'grad_norm': 0.8433944582939148, 'learning_rate': 1.2651437407888028e-05, 'epoch': 0.88}
+{'loss': 0.8608, 'grad_norm': 0.7969589233398438, 'learning_rate': 1.251815670127802e-05, 'epoch': 0.89}
+{'loss': 0.9175, 'grad_norm': 0.741000235080719, 'learning_rate': 1.238439664818315e-05, 'epoch': 0.89}
+{'loss': 0.9037, 'grad_norm': 0.8177754878997803, 'learning_rate': 1.2250182710645248e-05, 'epoch': 0.9}
+{'loss': 0.9368, 'grad_norm': 0.8915013670921326, 'learning_rate': 1.211554043710582e-05, 'epoch': 0.91}
+{'loss': 0.9176, 'grad_norm': 0.8350911140441895, 'learning_rate': 1.1980495457542739e-05, 'epoch': 0.92}
+{'loss': 0.9275, 'grad_norm': 0.8433462977409363, 'learning_rate': 1.184507347859142e-05, 'epoch': 0.93}
+{'loss': 0.8469, 'grad_norm': 0.8561112284660339, 'learning_rate': 1.1709300278651425e-05, 'epoch': 0.94}
+{'loss': 0.9076, 'grad_norm': 0.8429317474365234, 'learning_rate': 1.1573201702979356e-05, 'epoch': 0.94}
+{'loss': 0.8844, 'grad_norm': 0.788689136505127, 'learning_rate': 1.1436803658769082e-05, 'epoch': 0.95}
+{'loss': 0.9017, 'grad_norm': 0.818718671798706, 'learning_rate': 1.1300132110220135e-05, 'epoch': 0.96}
+{'loss': 0.8776, 'grad_norm': 0.8190067410469055, 'learning_rate': 1.1163213073595256e-05, 'epoch': 0.97}
+{'loss': 0.8754, 'grad_norm': 0.9122467041015625, 'learning_rate': 1.1026072612268055e-05, 'epoch': 0.98}
+{'loss': 0.8469, 'grad_norm': 0.7864482402801514, 'learning_rate': 1.088873683176169e-05, 'epoch': 0.99}
+{'loss': 0.8348, 'grad_norm': 0.8423395156860352, 'learning_rate': 1.0751231874779512e-05, 'epoch': 0.99}
+{'loss': 0.7735, 'grad_norm': 0.8846139311790466, 'learning_rate': 1.061358391622864e-05, 'epoch': 1.0}
+{'loss': 0.6518, 'grad_norm': 0.8754171133041382, 'learning_rate': 1.0475819158237426e-05, 'epoch': 1.01}
+{'loss': 0.6287, 'grad_norm': 0.9432295560836792, 'learning_rate': 1.0337963825167692e-05, 'epoch': 1.02}
+{'loss': 0.5958, 'grad_norm': 0.8339858651161194, 'learning_rate': 1.0200044158622795e-05, 'epoch': 1.03}
+{'loss': 0.6335, 'grad_norm': 0.8263378143310547, 'learning_rate': 1.0062086412452353e-05, 'epoch': 1.04}
+{'loss': 0.6434, 'grad_norm': 0.8507093191146851, 'learning_rate': 9.92411684775467e-06, 'epoch': 1.05}
+{'loss': 0.6255, 'grad_norm': 0.8052859306335449, 'learning_rate': 9.786161727877785e-06, 'epoch': 1.05}
+{'loss': 0.6064, 'grad_norm': 0.8262338638305664, 'learning_rate': 9.64824731342007e-06, 'epoch': 1.06}
+{'loss': 0.6546, 'grad_norm': 0.881702184677124, 'learning_rate': 9.510399857231385e-06, 'epoch': 1.07}
+{'loss': 0.639, 'grad_norm': 0.9054573178291321, 'learning_rate': 9.372645599415661e-06, 'epoch': 1.08}
+{'loss': 0.6886, 'grad_norm': 0.8704697489738464, 'learning_rate': 9.235010762335959e-06, 'epoch': 1.09}
+{'loss': 0.6501, 'grad_norm': 0.7807909846305847, 'learning_rate': 9.097521545622868e-06, 'epoch': 1.1}
+{'loss': 0.6415, 'grad_norm': 0.9532409906387329, 'learning_rate': 8.960204121187262e-06, 'epoch': 1.1}
+{'loss': 0.6382, 'grad_norm': 0.9244102835655212, 'learning_rate': 8.8230846282383e-06, 'epoch': 1.11}
+{'loss': 0.6216, 'grad_norm': 0.9273444414138794, 'learning_rate': 8.686189168307672e-06, 'epoch': 1.12}
+{'loss': 0.6488, 'grad_norm': 0.8449931740760803, 'learning_rate': 8.549543800281027e-06, 'epoch': 1.13}
+{'loss': 0.6591, 'grad_norm': 0.8441843390464783, 'learning_rate': 8.413174535437486e-06, 'epoch': 1.14}
+{'loss': 0.6015, 'grad_norm': 0.9146398305892944, 'learning_rate': 8.277107332498255e-06, 'epoch': 1.15}
+{'loss': 0.6633, 'grad_norm': 0.871466338634491, 'learning_rate': 8.141368092685202e-06, 'epoch': 1.16}
+{'loss': 0.6182, 'grad_norm': 0.8669317364692688, 'learning_rate': 8.00598265479042e-06, 'epoch': 1.16}
+{'loss': 0.6339, 'grad_norm': 1.010271668434143, 'learning_rate': 7.870976790257651e-06, 'epoch': 1.17}
+{'loss': 0.6215, 'grad_norm': 0.8292871713638306, 'learning_rate': 7.736376198276534e-06, 'epoch': 1.18}
+{'loss': 0.6397, 'grad_norm': 0.8096563816070557, 'learning_rate': 7.6022065008906e-06, 'epoch': 1.19}
+[2025-10-07 23:22:09,510] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.6125, 'grad_norm': 0.8179758787155151, 'learning_rate': 7.4684932381199695e-06, 'epoch': 1.2}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+ 60%|████████████████████████████████████████████▉                              | 1422/2372 [4:53:20<3:11:21, 12.09s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422                       
+{'eval_loss': 0.7162526249885559, 'eval_runtime': 34.3777, 'eval_samples_per_second': 29.089, 'eval_steps_per_second': 0.931, 'epoch': 1.2}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+                                                                                                                        
+{'loss': 0.6408, 'grad_norm': 0.8762696385383606, 'learning_rate': 7.335261863099652e-06, 'epoch': 1.21}
+{'loss': 0.6006, 'grad_norm': 0.9720857739448547, 'learning_rate': 7.202537737234381e-06, 'epoch': 1.21}
+{'loss': 0.6192, 'grad_norm': 0.9090468883514404, 'learning_rate': 7.070346125370924e-06, 'epoch': 1.22}
+{'loss': 0.6227, 'grad_norm': 0.886540949344635, 'learning_rate': 6.93871219098876e-06, 'epoch': 1.23}
+{'loss': 0.625, 'grad_norm': 0.8170098066329956, 'learning_rate': 6.807660991410057e-06, 'epoch': 1.24}
+{'loss': 0.6268, 'grad_norm': 0.9375426173210144, 'learning_rate': 6.677217473029854e-06, 'epoch': 1.25}
+{'loss': 0.6094, 'grad_norm': 0.8806763887405396, 'learning_rate': 6.547406466567383e-06, 'epoch': 1.26}
+{'loss': 0.6061, 'grad_norm': 0.8768121004104614, 'learning_rate': 6.418252682339362e-06, 'epoch': 1.26}
+{'loss': 0.5875, 'grad_norm': 0.8068998456001282, 'learning_rate': 6.289780705556252e-06, 'epoch': 1.27}
+{'loss': 0.6118, 'grad_norm': 0.9188200235366821, 'learning_rate': 6.162014991642311e-06, 'epoch': 1.28}
+{'loss': 0.6545, 'grad_norm': 0.9218010902404785, 'learning_rate': 6.0349798615803475e-06, 'epoch': 1.29}
+{'loss': 0.6098, 'grad_norm': 0.8345195055007935, 'learning_rate': 5.9086994972820874e-06, 'epoch': 1.3}
+{'loss': 0.5912, 'grad_norm': 0.838574230670929, 'learning_rate': 5.783197936984981e-06, 'epoch': 1.31}
+{'loss': 0.6419, 'grad_norm': 0.8038614988327026, 'learning_rate': 5.658499070676398e-06, 'epoch': 1.32}
+{'loss': 0.5956, 'grad_norm': 0.9590455889701843, 'learning_rate': 5.534626635546e-06, 'epoch': 1.32}
+{'loss': 0.6073, 'grad_norm': 0.9661107063293457, 'learning_rate': 5.411604211467243e-06, 'epoch': 1.33}
+{'loss': 0.6152, 'grad_norm': 0.7936323881149292, 'learning_rate': 5.289455216508792e-06, 'epoch': 1.34}
+{'loss': 0.5625, 'grad_norm': 0.768283486366272, 'learning_rate': 5.168202902476753e-06, 'epoch': 1.35}
+{'loss': 0.6112, 'grad_norm': 0.8657451868057251, 'learning_rate': 5.047870350488548e-06, 'epoch': 1.36}
+{'loss': 0.6073, 'grad_norm': 0.8732857704162598, 'learning_rate': 4.9284804665792905e-06, 'epoch': 1.37}
+{'loss': 0.6059, 'grad_norm': 0.9512242674827576, 'learning_rate': 4.8100559773414676e-06, 'epoch': 1.37}
+{'loss': 0.6363, 'grad_norm': 0.8589839339256287, 'learning_rate': 4.692619425598806e-06, 'epoch': 1.38}
+{'loss': 0.6138, 'grad_norm': 0.8728809356689453, 'learning_rate': 4.576193166115115e-06, 'epoch': 1.39}
+{'loss': 0.6093, 'grad_norm': 0.838930606842041, 'learning_rate': 4.460799361338898e-06, 'epoch': 1.4}
+{'loss': 0.5776, 'grad_norm': 0.9765864014625549, 'learning_rate': 4.346459977184615e-06, 'epoch': 1.41}
+{'loss': 0.6438, 'grad_norm': 0.9179472923278809, 'learning_rate': 4.2331967788513295e-06, 'epoch': 1.42}
+{'loss': 0.6319, 'grad_norm': 0.8655136823654175, 'learning_rate': 4.121031326679571e-06, 'epoch': 1.42}
+{'loss': 0.6037, 'grad_norm': 0.838492214679718, 'learning_rate': 4.009984972047191e-06, 'epoch': 1.43}
+{'loss': 0.6365, 'grad_norm': 0.9802845120429993, 'learning_rate': 3.900078853305002e-06, 'epoch': 1.44}
+{'loss': 0.5806, 'grad_norm': 0.7443427443504333, 'learning_rate': 3.7913338917529583e-06, 'epoch': 1.45}
+{'loss': 0.6234, 'grad_norm': 0.8876286745071411, 'learning_rate': 3.6837707876576667e-06, 'epoch': 1.46}
+{'loss': 0.6228, 'grad_norm': 0.9442286491394043, 'learning_rate': 3.5774100163119505e-06, 'epoch': 1.47}
+{'loss': 0.6357, 'grad_norm': 0.9578236937522888, 'learning_rate': 3.4722718241372766e-06, 'epoch': 1.48}
+{'loss': 0.59, 'grad_norm': 0.8230797648429871, 'learning_rate': 3.368376224829697e-06, 'epoch': 1.48}
+{'loss': 0.6704, 'grad_norm': 0.9376779794692993, 'learning_rate': 3.2657429955501396e-06, 'epoch': 1.49}
+{'loss': 0.5977, 'grad_norm': 0.8355461359024048, 'learning_rate': 3.164391673159699e-06, 'epoch': 1.5}
+{'loss': 0.6095, 'grad_norm': 0.8676599264144897, 'learning_rate': 3.0643415505006733e-06, 'epoch': 1.51}
+{'loss': 0.5746, 'grad_norm': 0.850979745388031, 'learning_rate': 2.965611672724059e-06, 'epoch': 1.52}
+{'loss': 0.6084, 'grad_norm': 0.7304463386535645, 'learning_rate': 2.868220833664188e-06, 'epoch': 1.53}
+{'loss': 0.5895, 'grad_norm': 0.8703057765960693, 'learning_rate': 2.7721875722612035e-06, 'epoch': 1.53}
+{'loss': 0.6286, 'grad_norm': 0.9206993579864502, 'learning_rate': 2.677530169032063e-06, 'epoch': 1.54}
+{'loss': 0.5961, 'grad_norm': 0.861644446849823, 'learning_rate': 2.584266642590738e-06, 'epoch': 1.55}
+{'loss': 0.6329, 'grad_norm': 0.9378628730773926, 'learning_rate': 2.4924147462182422e-06, 'epoch': 1.56}
+{'loss': 0.6214, 'grad_norm': 0.9309083819389343, 'learning_rate': 2.4019919644832023e-06, 'epoch': 1.57}
+{'loss': 0.5926, 'grad_norm': 0.8928622007369995, 'learning_rate': 2.3130155099135576e-06, 'epoch': 1.58}
+{'loss': 0.5821, 'grad_norm': 0.8300529718399048, 'learning_rate': 2.225502319720051e-06, 'epoch': 1.59}
+{'loss': 0.5807, 'grad_norm': 0.9150421023368835, 'learning_rate': 2.1394690525721275e-06, 'epoch': 1.59}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+ 80%|███████████████████████████████████████████████████████████▉               | 1896/2372 [6:31:12<1:36:39, 12.18s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896                       
+{'eval_loss': 0.7020394206047058, 'eval_runtime': 35.1367, 'eval_samples_per_second': 28.46, 'eval_steps_per_second': 0.911, 'epoch': 1.6}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-948] due to args.save_total_limit
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1422] due to args.save_total_limit
+                                                                                                                        
+{'loss': 0.6542, 'grad_norm': 0.9941567182540894, 'learning_rate': 2.054932085426856e-06, 'epoch': 1.6}
+{'loss': 0.5928, 'grad_norm': 0.9234967231750488, 'learning_rate': 1.9719075104114747e-06, 'epoch': 1.61}
+{'loss': 0.6036, 'grad_norm': 0.8762316107749939, 'learning_rate': 1.8904111317601525e-06, 'epoch': 1.62}
+{'loss': 0.641, 'grad_norm': 0.8087466359138489, 'learning_rate': 1.8104584628055721e-06, 'epoch': 1.63}
+{'loss': 0.6222, 'grad_norm': 0.7841373682022095, 'learning_rate': 1.732064723025849e-06, 'epoch': 1.64}
+{'loss': 0.6011, 'grad_norm': 0.9969659447669983, 'learning_rate': 1.6552448351474305e-06, 'epoch': 1.64}
+{'loss': 0.621, 'grad_norm': 0.8845945000648499, 'learning_rate': 1.5800134223044517e-06, 'epoch': 1.65}
+{'loss': 0.6448, 'grad_norm': 0.9294419288635254, 'learning_rate': 1.506384805255141e-06, 'epoch': 1.66}
+{'loss': 0.591, 'grad_norm': 0.8832963705062866, 'learning_rate': 1.434372999655772e-06, 'epoch': 1.67}
+{'loss': 0.5888, 'grad_norm': 0.9646492004394531, 'learning_rate': 1.3639917133926983e-06, 'epoch': 1.68}
+{'loss': 0.5852, 'grad_norm': 0.9157353639602661, 'learning_rate': 1.2952543439729749e-06, 'epoch': 1.69}
+{'loss': 0.6085, 'grad_norm': 0.8879743218421936, 'learning_rate': 1.2281739759740575e-06, 'epoch': 1.69}
+{'loss': 0.6061, 'grad_norm': 0.9249969124794006, 'learning_rate': 1.1627633785530846e-06, 'epoch': 1.7}
+{'loss': 0.6371, 'grad_norm': 0.8744075894355774, 'learning_rate': 1.0990350030161722e-06, 'epoch': 1.71}
+{'loss': 0.6162, 'grad_norm': 0.8267762064933777, 'learning_rate': 1.0370009804482483e-06, 'epoch': 1.72}
+{'loss': 0.5927, 'grad_norm': 0.7728220820426941, 'learning_rate': 9.766731194038171e-07, 'epoch': 1.73}
+{'loss': 0.5877, 'grad_norm': 0.8602545261383057, 'learning_rate': 9.180629036591316e-07, 'epoch': 1.74}
+{'loss': 0.616, 'grad_norm': 0.8717818260192871, 'learning_rate': 8.611814900261906e-07, 'epoch': 1.75}
+{'loss': 0.5964, 'grad_norm': 0.9406462907791138, 'learning_rate': 8.060397062289649e-07, 'epoch': 1.75}
+{'loss': 0.5807, 'grad_norm': 0.8524345755577087, 'learning_rate': 7.526480488422783e-07, 'epoch': 1.76}
+{'loss': 0.6304, 'grad_norm': 0.9398634433746338, 'learning_rate': 7.010166812937158e-07, 'epoch': 1.77}
+{'loss': 0.573, 'grad_norm': 0.8913615942001343, 'learning_rate': 6.511554319289659e-07, 'epoch': 1.78}
+{'loss': 0.592, 'grad_norm': 0.9080268144607544, 'learning_rate': 6.030737921409169e-07, 'epoch': 1.79}
+{'loss': 0.6246, 'grad_norm': 0.9020261168479919, 'learning_rate': 5.567809145629244e-07, 'epoch': 1.8}
+{'loss': 0.5832, 'grad_norm': 0.9167129397392273, 'learning_rate': 5.122856113265484e-07, 'epoch': 1.8}
+{'loss': 0.6045, 'grad_norm': 0.9032722115516663, 'learning_rate': 4.6959635238411184e-07, 'epoch': 1.81}
+{'loss': 0.6119, 'grad_norm': 0.90952068567276, 'learning_rate': 4.2872126389639e-07, 'epoch': 1.82}
+{'loss': 0.5779, 'grad_norm': 0.8626707196235657, 'learning_rate': 3.8966812668575163e-07, 'epoch': 1.83}
+{'loss': 0.5928, 'grad_norm': 1.008628487586975, 'learning_rate': 3.5244437475502657e-07, 'epoch': 1.84}
+{'loss': 0.5397, 'grad_norm': 0.8785913586616516, 'learning_rate': 3.1705709387239936e-07, 'epoch': 1.85}
+{'loss': 0.6461, 'grad_norm': 0.8582313656806946, 'learning_rate': 2.835130202225944e-07, 'epoch': 1.85}
+{'loss': 0.6336, 'grad_norm': 0.87587970495224, 'learning_rate': 2.518185391245964e-07, 'epoch': 1.86}
+{'loss': 0.6507, 'grad_norm': 0.9942418932914734, 'learning_rate': 2.2197968381616807e-07, 'epoch': 1.87}
+{'loss': 0.6388, 'grad_norm': 0.8807424306869507, 'learning_rate': 1.9400213430538773e-07, 'epoch': 1.88}
+{'loss': 0.645, 'grad_norm': 0.9419749975204468, 'learning_rate': 1.6789121628942305e-07, 'epoch': 1.89}
+{'loss': 0.6018, 'grad_norm': 0.8568909168243408, 'learning_rate': 1.4365190014075435e-07, 'epoch': 1.9}
+{'loss': 0.6434, 'grad_norm': 0.9776092171669006, 'learning_rate': 1.2128879996103125e-07, 'epoch': 1.91}
+{'loss': 0.6126, 'grad_norm': 0.8368583917617798, 'learning_rate': 1.0080617270275316e-07, 'epoch': 1.91}
+{'loss': 0.6092, 'grad_norm': 0.8671424388885498, 'learning_rate': 8.220791735892964e-08, 'epoch': 1.92}
+{'loss': 0.5682, 'grad_norm': 0.8740999102592468, 'learning_rate': 6.549757422088521e-08, 'epoch': 1.93}
+{'loss': 0.6121, 'grad_norm': 0.8592356443405151, 'learning_rate': 5.067832420434404e-08, 'epoch': 1.94}
+{'loss': 0.5927, 'grad_norm': 0.8885587453842163, 'learning_rate': 3.7752988243919817e-08, 'epoch': 1.95}
+{'loss': 0.6228, 'grad_norm': 0.9269464015960693, 'learning_rate': 2.672402675613639e-08, 'epoch': 1.96}
+{'loss': 0.6205, 'grad_norm': 0.8227687478065491, 'learning_rate': 1.7593539171073538e-08, 'epoch': 1.96}
+{'loss': 0.5653, 'grad_norm': 0.9152626395225525, 'learning_rate': 1.0363263532724433e-08, 'epoch': 1.97}
+{'loss': 0.6074, 'grad_norm': 0.8564074635505676, 'learning_rate': 5.034576168149175e-09, 'epoch': 1.98}
+{'loss': 0.6076, 'grad_norm': 0.8814451098442078, 'learning_rate': 1.6084914254832496e-09, 'epoch': 1.99}
+{'loss': 0.6058, 'grad_norm': 0.9464511275291443, 'learning_rate': 8.566148085309422e-11, 'epoch': 2.0}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+100%|████████████████████████████████████████████████████████████████████████████▉| 2370/2372 [8:09:28<00:24, 12.40s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370                       
+{'eval_loss': 0.6985874176025391, 'eval_runtime': 34.3979, 'eval_samples_per_second': 29.072, 'eval_steps_per_second': 0.93, 'epoch': 2.0}
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-1896] due to args.save_total_limit
+100%|█████████████████████████████████████████████████████████████████████████████| 2372/2372 [8:11:20<00:00, 37.87s/it] stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372/special_tokens_map.json
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+
+
+Training completed. Do not forget to share your model on huggingface.co/models =)
+
+
+/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/distributed/distributed_c10d.py:4807: UserWarning: No device id is provided via `init_process_group` or `barrier `. Using the current device set by the user.
+  warnings.warn(  # warn only once
+Loading best model from /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370 (score: 0.6985874176025391).
+Attempting to resume from /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2370
+100%|█████████████████████████████████████████████████████████████████████████████| 2372/2372 [8:12:49<00:00, 37.87s/it]Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/checkpoint-2372] due to args.save_total_limit
+{'train_runtime': 29571.2905, 'train_samples_per_second': 5.133, 'train_steps_per_second': 0.08, 'train_loss': 0.7793021852913835, 'epoch': 2.0}
+100%|█████████████████████████████████████████████████████████████████████████████| 2372/2372 [8:13:01<00:00, 12.47s/it]
+Custom impl., saving last checkpoint
+ stage3_gather_16bit_weights_on_model_save=false. Saving the full checkpoint instead, use zero_to_fp32.py to recover weights
+Saving model checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/config.json
+Configuration saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/generation_config.json
+Model weights saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/model.safetensors
+chat template saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/chat_template.jinja
+tokenizer config file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/tokenizer_config.json
+Special tokens file saved in /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/special_tokens_map.json
+Processing zero checkpoint '/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca/global_step2370'
+Loading checkpoint shards: 100%|████████████████████████████████████████████████████████| 4/4 [00:00<00:00, 1444.32it/s]
+Detected checkpoint of type zero stage ZeroStageEnum.weights, world_size: 4
+Parsing checkpoint created by deepspeed==0.17.6
+Gathering sharded weights: 100%|██████████████████████████████████████████████████| 400/400 [00:00<00:00, 984000.94it/s]
+Reconstructed Trainable fp32 state dict with 400 params 8188572672 elements
+Saving checkpoint shards: 100%|███████████████████████████████████████████████████████████| 7/7 [01:30<00:00, 12.96s/it]
+Saved merged FP32 checkpoint to /mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpaca

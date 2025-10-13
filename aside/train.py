@@ -3,13 +3,10 @@ import json
 import torch
 import sys
 sys.path.append(os.path.abspath("..")) 
-from utils.utils import aside_encode,get_aside_segments,aside_encode_start,multiturn_aside_encode
-
 from typing import Any, Dict, List
 
 from datasets import load_dataset
-from transformers import TrainingArguments, DataCollatorForLanguageModeling,DataCollatorWithPadding, Trainer
-from transformers import TrainerCallback, TrainerState, TrainerControl
+from transformers import TrainingArguments, DataCollatorForLanguageModeling
 
 import math
 from transformers.trainer_utils import is_main_process
@@ -21,18 +18,15 @@ import logging
 from trl import SFTTrainer,DPOTrainer,DPOConfig
 from model import *
 from typing import List, Dict
-from torch.utils.data import Dataset
 from datasets import Dataset as HFDataset
 
 from model_api import *
 import torch.distributed as dist
 from torch.nn.utils.rnn import pad_sequence
-from aside_dpo import DPOTrainerWithSegments,apply_chat_tool_template,apply_standard_chat_template
+from aside_dpo import DPOTrainerWithSegments,apply_dpo_chat_template
 from data_utils import *
 
 from deepspeed.utils.zero_to_fp32 import convert_zero_checkpoint_to_fp32_state_dict
-from embeddings_init import generate_isoclinic_rotation_matrix
-import re
 
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -94,8 +88,10 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
     eval_dataset_path = config["eval_dataset_path"]
     output_dir = args.output_dir
     
-    if 'emb_type' == 'forward_rot':
+    if emb_type == 'forward_rot':
         architecture_name = 'ASIDE'
+    elif emb_type == 'ise':
+        architecture_name = 'ISE'
     else:
         architecture_name = 'Vanilla'
     
@@ -103,7 +99,8 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
         hparams['extra_names'] = '_' + hparams['extra_names']
     ## Output path name
     output_dir = os.path.join(output_dir,f"Qwen3-8B_{hparams['mode']}_{architecture_name}{hparams['extra_names']}")
-    
+    print (f'Output dir: {output_dir}')
+
     ## Logging
     # Include hyperparams in run name
     run_name = f"{instruct_model_path.split('/')[0].strip()}_train_alpha={hparams['rotation_alpha']}"
@@ -118,37 +115,6 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
             logging.StreamHandler()  # Print to console
         ]
     )
-
-    # Load dataset
-    all_train_data,all_eval_data = [],[]
-    assert len(train_dataset_path) == len(eval_dataset_path), "Train and Eval dataset paths must have the same length"
-    assert len(train_dataset_path[0]) == 2 and len(eval_dataset_path[0]) == 2, "should include both the path and whether it is input or tool data" # input is alpaca and tool is regular tool agentic use
-    for train_info,eval_info in zip(train_dataset_path,eval_dataset_path): # train type is either 'input' or 'tool'
-        train_path, train_type = train_info
-        eval_path, eval_type = eval_info
-        train_data = json.load(open(train_path))
-        eval_data = json.load(open(eval_path))
-        if hparams['num_data'] > 0:
-            if isinstance(train_data, HFDataset):
-                train_data = train_data.select(range(hparams['num_data']))
-            else:
-                random_ids = torch.randperm(len(train_data))[:hparams['num_data']]
-                train_data = [train_data[i] for i in random_ids]
-            print (f'Using only {len(train_data)} data samples for training')
-        
-        # only need to check for input
-        if train_type == 'input' and not check_input_format(train_data[0]): # convert to suitable format
-            train_data = input_formatting_fn(train_data)
-        if eval_type == 'input' and not check_input_format(eval_data[0]):
-            eval_data = input_formatting_fn(eval_data)
-            
-        all_train_data.extend(train_data)
-        all_eval_data.extend(eval_data)
-    train_data = all_train_data
-    eval_data = all_eval_data
-    print (f'Number of training samples: {len(train_data)}')
-    print (f'Number of evaluation samples: {len(eval_data)}')
-        
 
     init_handler_count = 1 if hparams['mode'] == 'sft' else 2
     handlers = []
@@ -178,11 +144,66 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
     if len(handlers) > 1: # this is just for DPO
         ref_model = handlers[1].model
 
+
     # add additional tokens to delimiter input data field
-    handler.tokenizer.chat_template = open('./data/chat_template.jinja','r').read()
+    handler.tokenizer.chat_template = open('chat_template.jinja','r').read()
     ## add the special tokens
     handler.tokenizer.add_tokens(['<reference_data>','</reference_data>'])
     handler.model.resize_token_embeddings(len(handler.tokenizer))
+    if hparams['mode'] == 'dpo':
+        ref_model.resize_token_embeddings(len(handler.tokenizer))
+
+    # Load dataset
+    all_train_data,all_eval_data = [],[]
+    assert len(train_dataset_path) == len(eval_dataset_path), "Train and Eval dataset paths must have the same length"
+    assert len(train_dataset_path[0]) == 2 and len(eval_dataset_path[0]) == 2, "should include both the path and whether it is input or tool data" # input is alpaca and tool is regular tool agentic use
+    all_train_types = []
+    for train_info,eval_info in zip(train_dataset_path,eval_dataset_path): # train type is either 'input' or 'tool'
+        train_path, train_type = train_info
+        eval_path, eval_type = eval_info
+        all_train_types.append(train_type)
+        train_data = json.load(open(train_path))
+        eval_data = json.load(open(eval_path))
+        if hparams['num_data'] > 0:
+            if isinstance(train_data, HFDataset):
+                train_data = train_data.select(range(hparams['num_data']))
+            else:
+                random_ids = torch.randperm(len(train_data))[:hparams['num_data']]
+                train_data = [train_data[i] for i in random_ids]
+            print (f'Using only {len(train_data)} data samples for training')
+        
+        # only need to check for input
+        
+        if hparams['mode'] == 'sft': ## SFT needs to have conversation field.
+            if train_type == 'input' and not check_input_format(train_data[0]): # convert to suitable format
+                train_data = input_formatting_fn(train_data)
+            if eval_type == 'input' and not check_input_format(eval_data[0]):
+                eval_data = input_formatting_fn(eval_data)
+            assert all(['conversations' in x for x in train_data]), f"{train_type} data must have conversations key"
+            assert all(['conversations' in x for x in eval_data]), f"{eval_type} data must have conversations key"
+        else: # dpo needs prompt,chosen and rejected field
+            if 'metasecalign' in train_path.lower() and train_type == 'input': # is alpaca
+                if not check_alpaca_dpo_format(train_data[0]):
+                    train_data = convert_alpaca_to_dpo(train_data)
+                if not check_alpaca_dpo_format(eval_data[0]):
+                    eval_data = convert_alpaca_to_dpo(eval_data)
+            
+            # if chosen and rejected is str, need to convert to list of assistant dict
+            if not check_dpo_format(train_data[0]):
+                train_data = convert_str_to_list(train_data)
+            if not check_dpo_format(eval_data[0]):
+                eval_data = convert_str_to_list(eval_data)
+
+            # apply chat template for dpo
+            train_data = [apply_dpo_chat_template(x,tokenizer=handler.tokenizer) for x in train_data] # tokenizer is only needed for adding tool desc
+            eval_data = [apply_dpo_chat_template(x,tokenizer=handler.tokenizer) for x in eval_data]
+
+        all_train_data.extend(train_data)
+        all_eval_data.extend(eval_data)
+    train_data = all_train_data
+    eval_data = all_eval_data
+    print (f'Number of training samples: {len(train_data)}')
+    print (f'Number of evaluation samples: {len(eval_data)}')
     
     ## Set up train dataset
     token_args = {
@@ -191,48 +212,17 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
         'user_token': config.get('user_token',None),
         'tool_token': config.get('tool_token',None),
     }
-    
-
     #########
-    ## sft ##
+    ## SFT ##
     #########
     if hparams['mode'] == 'sft':
-        train_dataset = Tool_Input_Dataset(train_data, handler.tokenizer, handler.embedding_type,token_args,completion_only=hparams.get('completion_only',True))
-        eval_dataset = Tool_Input_Dataset(eval_data, handler.tokenizer, handler.embedding_type,token_args,completion_only=hparams.get('completion_only',True))
+        train_dataset = Tool_Input_Dataset(train_data, handler.tokenizer, handler.embedding_type,token_args,completion_only=hparams.get('completion_only',True),last_completion_only = hparams.get('last_completion_only',True))
+        eval_dataset = Tool_Input_Dataset(eval_data, handler.tokenizer, handler.embedding_type,token_args,completion_only=hparams.get('completion_only',True),last_completion_only = hparams.get('last_completion_only',True))
     #########
     ## DPO ##
     #########
     else: 
-        def convert_str_to_list(examples): # if chosen and rejected are str, while prompt is list of dict alr
-            for e in examples:
-                e['chosen'] = [{'role':'assistant','content':e['chosen']}]
-                e['rejected'] = [{'role':'assistant','content':e['rejected']}]
-            return examples
-        
-        def convert_metasecalign(examples):
-            new_examples = []
-            for e in examples:
-                new_examples.append(
-                    {
-                        'prompt': [{'role':'user','content':e['instruction']},
-                                   {'role':'input','content':e['input']}], # need to change the chat template 
-                        'chosen': [{'role':'assistant','content':e['chosen']}],
-                        'rejected': [{'role':'assistant','content':e['rejected']}],
-                    }
-                )
-            return new_examples
-        
-        if 'metasecalign' not in train_dataset_path.lower():
-            train_data = convert_str_to_list(train_data)
-            train_data = [apply_chat_tool_template(x,tokenizer=handler.tokenizer) for x in train_data]
-            eval_data = convert_str_to_list(eval_data)
-            eval_data = [apply_chat_tool_template(x,tokenizer=handler.tokenizer) for x in eval_data]
-        else: # use the default apply chat template
-            ref_model.resize_token_embeddings(len(handler.tokenizer)) # set the ref model as well
-            train_data = convert_metasecalign(train_data)
-            train_data = [apply_standard_chat_template(x,tokenizer=handler.tokenizer) for x in train_data]
-            eval_data = convert_metasecalign(eval_data)
-            eval_data = [apply_standard_chat_template(x,tokenizer=handler.tokenizer) for x in eval_data]
+        if dist.get_rank() == 0:
             print (f'Example prompt: {train_data[0]["prompt"]}')
             print (f'Example chosen: {train_data[0]["chosen"]}')
             print (f'Example rejected: {train_data[0]["rejected"]}')
@@ -327,7 +317,7 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
             assistant_token,tool_token = config['assistant_token'],config['tool_token']
             dpo_args['start_tokens'] = [assistant_token[0],tool_token[0]]
             dpo_args['end_tokens'] = [assistant_token[1],tool_token[1]]
-            if 'metasecalign' in train_dataset_path.lower(): # simialr to alpaca, only take from data token onwards (include assistant)
+            if all_train_types == ['input']: # if only alpaca 
                 dpo_args['start_from'] = tool_token[0]
         else:
             dpo_trainer_class = DPOTrainer # use the one with segment ids
@@ -417,6 +407,8 @@ if __name__ == "__main__":
     parser.add_argument("--mode", default = 'sft',type = str, help="sft or dpo")
     parser.add_argument("--beta", type=float, default=0.1, help="DPO beta value")
     parser.add_argument("--completion_only", action = 'store_true', help="If true, only compute loss on the assistant part of the output")
+    parser.add_argument("--last_completion_only", action = 'store_true', help="If true, only compute loss on the last assistant part of the output")
+    parser.add_argument("--extra_names",default = "")
     
     # Parse the arguments
     args = parser.parse_args()

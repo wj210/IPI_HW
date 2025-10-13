@@ -1,8 +1,8 @@
 {
-    "train_dataset_path": [["./data/train_data/metasecalign_train.json", "input"]],
-    "eval_dataset_path": [["./data/train_data/metasecalign_val.json"," input"]],
+    "train_dataset_path": [["/mnt/disk1/wjyeo/data/alpaca_aside_train.json", "input"],["/mnt/disk1/wjyeo/data/toucan_aside_train.json", "tool"]],
+    "eval_dataset_path": [["/mnt/disk1/wjyeo/data/alpaca_aside_val.json","input"],["/mnt/disk1/wjyeo/data/toucan_aside_val.json","tool"]],
     "train_logs_path": "./model_outputs/train_logs/",
-    "model_path": "Qwen/Qwen3-8B",
+    "model_path": "/mnt/disk1/xulin/models/Qwen3-8B",
     "assistant_token": ["<|im_start|>assistant","<|im_end|>"],
     "input_token": ["\n<|im_start|>user\n<reference_data>","</reference_data><|im_end|>\n"],
     "user_token": ["<|im_start|>user","<|im_end|>"],

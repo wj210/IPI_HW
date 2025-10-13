@@ -1,0 +1,68 @@
+[34m[1mwandb[0m: Detected [huggingface_hub.inference, openai] in use.
+[34m[1mwandb[0m: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+[34m[1mwandb[0m: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|                                                                                                                                                       | 0/1210 [00:00<?, ?it/s]
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "citeassist-mcp-get_citeas_data", "description": "Retrieve BibTeX-formatted citation for the specified `resource` (e.g., DOI, URL, keyword) from the CiteAs", "parameters": {"properties": {"resource": {"title": "Resource", "type": "string"}}, "required": ["resource"], "title": "get_citeas_dataArguments", "type": "object"}}}
+{"type": "function", "function": {"name": "citeassist-mcp-get_scholar_data", "description": "Retrieve `results` BibTeX-formatted citations for publications matching the `query` from the Google Scholar", "parameters": {"properties": {"query": {"title": "Query", "type": "string"}, "results": {"default": 2, "title": "Results", "type": "integer"}}, "required": ["query"], "title": "get_scholar_dataArguments", "type": "object"}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I need to format a citation for the article I just read. Can you help me get a BibTeX citation for the following DOI: 10.1038/nature12373?<|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "citeassist-mcp-get_citeas_data", "arguments": {"resource": "10.1038/nature12373"}}
+</tool_call><|im_end|>
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<think>
+
+</think>
+
+<tool_call>
+{"name": "citeassist-mcp-get_citeas_data", "arguments": {"resource": "10.1038/nature12373"}}
+</tool_call><|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Input Prompt : <|im_start|>user
+Rewrite the sentence to make its meaning clearer without changing its main point.<|im_end|>
+<|im_start|>user
+<reference_data>
+It was clear the politician didn't have the solutions to address the issue.
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+It was clear that the politician did not have the solutions needed to address the issue.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+It was clear the politician didn't have the solutions to address the issue.
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+It was clear that the politician did not have the solutions needed to address the issue.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+  1%|█▌                                                                                                                                          | 14/1210 [04:42<6:28:44, 19.50s/it]
+[2025-10-09 17:59:13,909] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 8.8083, 'grad_norm': 194.0021514892578, 'learning_rate': 1.8367346938775512e-06, 'epoch': 0.02}

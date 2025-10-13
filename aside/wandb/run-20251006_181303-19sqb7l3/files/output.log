@@ -1,0 +1,391 @@
+[34m[1mwandb[0m: Detected [huggingface_hub.inference, openai] in use.
+[34m[1mwandb[0m: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+[34m[1mwandb[0m: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|                                                                                                                                                                                | 0/2372 [00:00<?, ?it/s]
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "currency-converter-mcp-convert_currency", "description": "", "parameters": {"properties": {"amount": {"title": "Amount", "type": "number"}, "from_currency": {"title": "From Currency", "type": "string"}, "to_currency": {"title": "To Currency", "type": "string"}}, "required": ["amount", "from_currency", "to_currency"], "title": "convert_currencyArguments", "type": "object"}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I have to buy a required textbook that costs £85, but my bank account is in Australian Dollars. What exact amount in AUD should I transfer right now to cover this purchase at today’s exchange rate?<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{'name': 'currency-converter-mcp-convert_currency', 'arguments': '{"amount": 85, "from_currency": "GBP", "to_currency": "AUD"}'}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "converted_amount": 176.8,
+  "exchange_rate": 2.08,
+  "from_currency": "GBP",
+  "to_currency": "AUD",
+  "original_amount": 85.0
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<tool_response>
+{
+  "converted_amount": 176.8,
+  "exchange_rate": 2.08,
+  "from_currency": "GBP",
+  "to_currency": "AUD",
+  "original_amount": 85.0
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<tool_call>
+{'name': 'currency-converter-mcp-convert_currency', 'arguments': '{"amount": 85, "from_currency": "GBP", "to_currency": "AUD"}'}
+</tool_call><|im_end|>
+Assistant loss chunk 1: <|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Input Prompt : <|im_start|>user
+Generate a story about a hardworking scientist who builds a time machine.<|im_end|>
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To determine the validity of the claim that **"people who eat breakfast perform better in school,"** you can design a **controlled experiment** that measures the relationship between breakfast consumption and academic performance. Here's a suggested experiment:
+
+---
+
+### **Experiment Title:**
+**The Impact of Breakfast on Academic Performance in Students**
+
+---
+
+### **Objective:**
+To determine whether eating breakfast is associated with improved academic performance in students.
+
+---
+
+### **Hypothesis:**
+Students who eat breakfast will perform better in school (e.g., higher test scores, better grades, or improved attention and focus) compared to those who skip breakfast.
+
+---
+
+### **Participants:**
+- A sample of students from the same school or grade level (e.g., middle school or high school).
+- Ideally, a **randomized controlled trial** (RCT) where students are randomly assigned to either a **breakfast group** or a **no-breakfast group**.
+
+---
+
+### **Procedure:**
+
+#### **1. Recruitment and Randomization:**
+- Recruit a group of students (e.g., 100 students).
+- Randomly assign them to two groups:
+  - **Group A (Breakfast Group):** Students are given a healthy breakfast (e.g., cereal, toast, fruit, milk).
+  - **Group B (No-Breakfast Group):** Students are instructed to skip breakfast for a set period (e.g., one week).
+
+#### **2. Control Variables:**
+- Ensure both groups are similar in terms of age, gender, academic background, and prior performance.
+- Keep other factors constant (e.g., same school, same schedule, same tests).
+
+#### **3. Data Collection:**
+- **Pre-test:** Administer a standardized academic test (e.g., math or reading comprehension) to both groups before the experiment.
+- **During the experiment:** Monitor and record whether students eat breakfast (Group A) or skip it (Group B).
+- **Post-test:** Administer the same test again after the experimental period (e.g., one week later).
+
+#### **4. Additional Measures (Optional):**
+- Use surveys or questionnaires to assess students’ energy levels, concentration, and mood.
+- Track attendance and participation in class.
+
+---
+
+### **Data Analysis:**
+- Compare the **pre-test and post-test scores** of both groups.
+- Use statistical methods (e.g., t-test, ANOVA) to determine if there is a **significant difference** in academic performance between the two groups.
+- Control for variables like prior academic performance, sleep, and extracurricular activities.
+
+---
+
+### **Ethical Considerations:**
+- Ensure that students are not harmed or deprived of necessary nutrition.
+- Obtain **informed consent** from parents or guardians.
+- Provide a **nutritious alternative** for students who skip breakfast (e.g., a healthy snack) to avoid malnutrition.
+
+---
+
+### **Conclusion:**
+- If the **breakfast group** shows significantly better academic performance, this supports the claim.
+- If no significant difference is found, the claim may not be valid or may require further investigation.
+
+---
+
+### **Limitations:**
+- The experiment may not account for individual differences in metabolism, learning styles, or home environment.
+- Long-term effects of breakfast on academic performance may not be captured in a short-term study.
+
+---
+
+### **Alternative Approach (Observational Study):**
+If a randomized trial is not feasible, you could conduct an **observational study** by:
+- Surveying students about their breakfast habits.
+- Collecting academic records (e.g., grades, test scores).
+- Using statistical analysis to look for a correlation between breakfast consumption and academic performance.
+
+---
+
+This experiment provides a structured way to test the claim and determine whether eating breakfast has a measurable impact on school performance.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To determine the validity of the claim that **"people who eat breakfast perform better in school,"** you can design a **controlled experiment** that measures the relationship between breakfast consumption and academic performance. Here's a suggested experiment:
+
+---
+
+### **Experiment Title:**
+**The Impact of Breakfast on Academic Performance in Students**
+
+---
+
+### **Objective:**
+To determine whether eating breakfast is associated with improved academic performance in students.
+
+---
+
+### **Hypothesis:**
+Students who eat breakfast will perform better in school (e.g., higher test scores, better grades, or improved attention and focus) compared to those who skip breakfast.
+
+---
+
+### **Participants:**
+- A sample of students from the same school or grade level (e.g., middle school or high school).
+- Ideally, a **randomized controlled trial** (RCT) where students are randomly assigned to either a **breakfast group** or a **no-breakfast group**.
+
+---
+
+### **Procedure:**
+
+#### **1. Recruitment and Randomization:**
+- Recruit a group of students (e.g., 100 students).
+- Randomly assign them to two groups:
+  - **Group A (Breakfast Group):** Students are given a healthy breakfast (e.g., cereal, toast, fruit, milk).
+  - **Group B (No-Breakfast Group):** Students are instructed to skip breakfast for a set period (e.g., one week).
+
+#### **2. Control Variables:**
+- Ensure both groups are similar in terms of age, gender, academic background, and prior performance.
+- Keep other factors constant (e.g., same school, same schedule, same tests).
+
+#### **3. Data Collection:**
+- **Pre-test:** Administer a standardized academic test (e.g., math or reading comprehension) to both groups before the experiment.
+- **During the experiment:** Monitor and record whether students eat breakfast (Group A) or skip it (Group B).
+- **Post-test:** Administer the same test again after the experimental period (e.g., one week later).
+
+#### **4. Additional Measures (Optional):**
+- Use surveys or questionnaires to assess students’ energy levels, concentration, and mood.
+- Track attendance and participation in class.
+
+---
+
+### **Data Analysis:**
+- Compare the **pre-test and post-test scores** of both groups.
+- Use statistical methods (e.g., t-test, ANOVA) to determine if there is a **significant difference** in academic performance between the two groups.
+- Control for variables like prior academic performance, sleep, and extracurricular activities.
+
+---
+
+### **Ethical Considerations:**
+- Ensure that students are not harmed or deprived of necessary nutrition.
+- Obtain **informed consent** from parents or guardians.
+- Provide a **nutritious alternative** for students who skip breakfast (e.g., a healthy snack) to avoid malnutrition.
+
+---
+
+### **Conclusion:**
+- If the **breakfast group** shows significantly better academic performance, this supports the claim.
+- If no significant difference is found, the claim may not be valid or may require further investigation.
+
+---
+
+### **Limitations:**
+- The experiment may not account for individual differences in metabolism, learning styles, or home environment.
+- Long-term effects of breakfast on academic performance may not be captured in a short-term study.
+
+---
+
+### **Alternative Approach (Observational Study):**
+If a randomized trial is not feasible, you could conduct an **observational study** by:
+- Surveying students about their breakfast habits.
+- Collecting academic records (e.g., grades, test scores).
+- Using statistical analysis to look for a correlation between breakfast consumption and academic performance.
+
+---
+
+This experiment provides a structured way to test the claim and determine whether eating breakfast has a measurable impact on school performance.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+                                                                                                                                                                                                              
+[2025-10-06 18:13:35,973] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2025-10-06 18:14:14,908] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 2.0503, 'grad_norm': 21.17034339904785, 'learning_rate': 1.8947368421052634e-06, 'epoch': 0.01}
+{'loss': 1.4085, 'grad_norm': 2.6262240409851074, 'learning_rate': 4.000000000000001e-06, 'epoch': 0.02}
+{'loss': 1.1688, 'grad_norm': 1.2096165418624878, 'learning_rate': 6.105263157894738e-06, 'epoch': 0.03}
+[2025-10-06 18:19:48,054] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 1.1025, 'grad_norm': 0.96059250831604, 'learning_rate': 8.210526315789475e-06, 'epoch': 0.03}
+{'loss': 1.044, 'grad_norm': 1.217607021331787, 'learning_rate': 1.0315789473684213e-05, 'epoch': 0.04}
+{'loss': 0.9469, 'grad_norm': 1.037810206413269, 'learning_rate': 1.2421052631578949e-05, 'epoch': 0.05}
+{'loss': 0.9905, 'grad_norm': 1.1270099878311157, 'learning_rate': 1.4526315789473687e-05, 'epoch': 0.06}
+{'loss': 1.0235, 'grad_norm': 0.973224401473999, 'learning_rate': 1.6631578947368423e-05, 'epoch': 0.07}
+{'loss': 1.0077, 'grad_norm': 1.0031592845916748, 'learning_rate': 1.873684210526316e-05, 'epoch': 0.08}
+{'loss': 1.0285, 'grad_norm': 0.8835523128509521, 'learning_rate': 1.9999847713092034e-05, 'epoch': 0.08}
+{'loss': 0.9651, 'grad_norm': 0.929122269153595, 'learning_rate': 1.9998134538644454e-05, 'epoch': 0.09}
+[2025-10-06 18:37:08,476] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9667, 'grad_norm': 0.9941369891166687, 'learning_rate': 1.9994518158314634e-05, 'epoch': 0.1}
+{'loss': 0.9499, 'grad_norm': 1.0083414316177368, 'learning_rate': 1.9988999260502623e-05, 'epoch': 0.11}
+[2025-10-06 18:39:29,898] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9518, 'grad_norm': 1.1728298664093018, 'learning_rate': 1.9981578895764272e-05, 'epoch': 0.12}
+{'loss': 0.9591, 'grad_norm': 0.8509556651115417, 'learning_rate': 1.997225847661127e-05, 'epoch': 0.13}
+{'loss': 0.9997, 'grad_norm': 1.1644593477249146, 'learning_rate': 1.9961039777242234e-05, 'epoch': 0.13}
+[2025-10-06 18:45:06,692] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9967, 'grad_norm': 0.9715959429740906, 'learning_rate': 1.994792493320501e-05, 'epoch': 0.14}
+{'loss': 0.9504, 'grad_norm': 1.064299464225769, 'learning_rate': 1.9932916440990137e-05, 'epoch': 0.15}
+{'loss': 0.9491, 'grad_norm': 0.8732187151908875, 'learning_rate': 1.991601715755564e-05, 'epoch': 0.16}
+{'loss': 0.9852, 'grad_norm': 0.9311388731002808, 'learning_rate': 1.9897230299783177e-05, 'epoch': 0.17}
+{'loss': 0.9295, 'grad_norm': 0.9418035745620728, 'learning_rate': 1.9876559443865695e-05, 'epoch': 0.18}
+{'loss': 0.9736, 'grad_norm': 0.8830893039703369, 'learning_rate': 1.985400852462668e-05, 'epoch': 0.19}
+{'loss': 0.9407, 'grad_norm': 1.0069286823272705, 'learning_rate': 1.982958183477113e-05, 'epoch': 0.19}
+{'loss': 0.9791, 'grad_norm': 0.8206433057785034, 'learning_rate': 1.9803284024068428e-05, 'epoch': 0.2}
+{'loss': 0.9299, 'grad_norm': 0.8493008613586426, 'learning_rate': 1.9775120098467212e-05, 'epoch': 0.21}
+{'loss': 0.9402, 'grad_norm': 0.9697717428207397, 'learning_rate': 1.9745095419142478e-05, 'epoch': 0.22}
+[2025-10-06 19:05:19,585] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+{'loss': 0.9327, 'grad_norm': 0.9179054498672485, 'learning_rate': 1.971321570147504e-05, 'epoch': 0.23}
+{'loss': 0.9018, 'grad_norm': 0.9275435209274292, 'learning_rate': 1.9679487013963566e-05, 'epoch': 0.24}
+{'loss': 0.9216, 'grad_norm': 0.891396164894104, 'learning_rate': 1.964391577706942e-05, 'epoch': 0.24}
+{'loss': 0.9235, 'grad_norm': 0.777725875377655, 'learning_rate': 1.9606508761994473e-05, 'epoch': 0.25}
+{'loss': 0.9288, 'grad_norm': 0.8548822402954102, 'learning_rate': 1.956727308939217e-05, 'epoch': 0.26}
+{'loss': 0.9753, 'grad_norm': 0.9012678861618042, 'learning_rate': 1.952621622801206e-05, 'epoch': 0.27}
+{'loss': 0.9371, 'grad_norm': 0.8862360119819641, 'learning_rate': 1.948334599327809e-05, 'epoch': 0.28}
+{'loss': 0.9469, 'grad_norm': 0.8567727208137512, 'learning_rate': 1.9438670545800894e-05, 'epoch': 0.29}
+{'loss': 1.0276, 'grad_norm': 0.8430743217468262, 'learning_rate': 1.9392198389824334e-05, 'epoch': 0.3}
+{'loss': 0.9571, 'grad_norm': 0.8197736144065857, 'learning_rate': 1.9343938371606714e-05, 'epoch': 0.3}
+{'loss': 0.9336, 'grad_norm': 0.9755423665046692, 'learning_rate': 1.929389967773681e-05, 'epoch': 0.31}
+{'loss': 0.9427, 'grad_norm': 0.8946425318717957, 'learning_rate': 1.9242091833385155e-05, 'epoch': 0.32}
+{'loss': 0.882, 'grad_norm': 0.8480390310287476, 'learning_rate': 1.918852470049087e-05, 'epoch': 0.33}
+{'loss': 0.8953, 'grad_norm': 0.8668455481529236, 'learning_rate': 1.9133208475884374e-05, 'epoch': 0.34}
+{'loss': 0.9157, 'grad_norm': 0.8793968558311462, 'learning_rate': 1.907615368934637e-05, 'epoch': 0.35}
+{'loss': 0.9454, 'grad_norm': 1.0015780925750732, 'learning_rate': 1.901737120160341e-05, 'epoch': 0.35}
+{'loss': 0.9509, 'grad_norm': 0.8544285893440247, 'learning_rate': 1.895687220226052e-05, 'epoch': 0.36}
+{'loss': 0.9968, 'grad_norm': 0.8827341198921204, 'learning_rate': 1.889466820767117e-05, 'epoch': 0.37}
+{'loss': 0.9485, 'grad_norm': 0.895442008972168, 'learning_rate': 1.8830771058745082e-05, 'epoch': 0.38}
+{'loss': 0.914, 'grad_norm': 0.889324426651001, 'learning_rate': 1.876519291869422e-05, 'epoch': 0.39}
+{'loss': 0.9598, 'grad_norm': 0.8608185648918152, 'learning_rate': 1.8697946270717468e-05, 'epoch': 0.4}
+***** Running Evaluation *****
+  Num examples = 1000
+  Batch size = 8
+Traceback (most recent call last):
+  File "/home/wjyeo/IPI_HW/aside/train.py", line 428, in <module>
+    main(config_path, emb_type,user_hparams)
+  File "/home/wjyeo/IPI_HW/aside/train.py", line 331, in main
+    trainer.train()
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2754, in _inner_training_loop
+    self._maybe_log_save_evaluate(
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 3227, in _maybe_log_save_evaluate
+    metrics = self._evaluate(trial, ignore_keys_for_eval)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 3176, in _evaluate
+    metrics = self.evaluate(ignore_keys=ignore_keys_for_eval)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4469, in evaluate
+    output = eval_loop(
+             ^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4655, in evaluation_loop
+    for step, inputs in enumerate(dataloader):
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+    current_batch = next(dataloader_iter)
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+    data = self._next_data()
+           ^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+    data = [self.dataset[idx] for idx in possibly_batched_index]
+            ~~~~~~~~~~~~^^^^^
+  File "/home/wjyeo/IPI_HW/aside/data_utils.py", line 187, in __getitem__
+    conv = data_point['conversations']
+           ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyError: 'conversations'
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/train.py", line 428, in <module>
+[rank0]:     main(config_path, emb_type,user_hparams)
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/train.py", line 331, in main
+[rank0]:     trainer.train()
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2754, in _inner_training_loop
+[rank0]:     self._maybe_log_save_evaluate(
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 3227, in _maybe_log_save_evaluate
+[rank0]:     metrics = self._evaluate(trial, ignore_keys_for_eval)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 3176, in _evaluate
+[rank0]:     metrics = self.evaluate(ignore_keys=ignore_keys_for_eval)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4469, in evaluate
+[rank0]:     output = eval_loop(
+[rank0]:              ^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4655, in evaluation_loop
+[rank0]:     for step, inputs in enumerate(dataloader):
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/accelerate/data_loader.py", line 567, in __iter__
+[rank0]:     current_batch = next(dataloader_iter)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 734, in __next__
+[rank0]:     data = self._next_data()
+[rank0]:            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/dataloader.py", line 790, in _next_data
+[rank0]:     data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/data/_utils/fetch.py", line 52, in fetch
+[rank0]:     data = [self.dataset[idx] for idx in possibly_batched_index]
+[rank0]:             ~~~~~~~~~~~~^^^^^
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/data_utils.py", line 187, in __getitem__
+[rank0]:     conv = data_point['conversations']
+[rank0]:            ~~~~~~~~~~^^^^^^^^^^^^^^^^^
+[rank0]: KeyError: 'conversations'

@@ -5,10 +5,10 @@ import json
 from tqdm import tqdm
 
 
-model_dirs = ["Qwen3-8B_ASIDE_MetaSecAlign_SFT"]
+model_dirs = ["Qwen3-8B_sft_ASIDE_ToolAndAlpaca","Qwen3-8B_sft_ISE_ToolAndAlpaca","Qwen3-8B_dpo_Vanilla_MetaSecAlign_lr1e-6_b0.01"]
 
 for model_dir in model_dirs:
-    model_dir = os.path.join("/dataset/common/huggingface/model",model_dir)
+    model_dir = os.path.join("/mnt/disk1/wjyeo/models",model_dir)
     index_path = os.path.join(model_dir, "pytorch_model.bin.index.json")
     # Load index JSON
     with open(index_path, "r") as f:

@@ -155,19 +155,56 @@ def check_input_format(sample): # needs to be a list of dict with conversations 
         return False
     return True
 
-def input_formatting_fn(dataset):
+def input_formatting_fn(dataset): # some do not have input
     alpaca_conversation_dataset = []
     for sample in dataset:
+        if sample.get('input','').strip() != '':
+            conversations = [
+                {'role':'user','content':sample['instruction']},
+           {'role':'input','content':sample['input']},
+             {'role':'assistant','content':sample['output']}
+             ]
+        else:
+            conversations = [
+                {'role':'user','content':sample['instruction']},
+             {'role':'assistant','content':sample['output']}
+             ]
         alpaca_conversation_dataset.append({'conversations':
-            [{'role':'user','content':sample['instruction']},
-             {'role':'input','content':sample.get('input','')}, # some datasets do not have input
-             {'role':'assistant','content':sample['output']},],
+            conversations,
             'tools': None})
     return alpaca_conversation_dataset
-    
+
+def check_alpaca_dpo_format(sample):
+    if 'prompt' not in sample or 'chosen' not in sample or 'rejected' not in sample:
+        return False
+    return True
+
+def convert_alpaca_to_dpo(dataset):
+    dpo_dataset = []
+    for e in dataset:
+        dpo_dataset.append(
+            {
+                'prompt': [{'role':'user','content':e['instruction']},
+                            {'role':'input','content':e['input']}], # need to change the chat template 
+                'chosen': [{'role':'assistant','content':e['chosen']}],
+                'rejected': [{'role':'assistant','content':e['rejected']}],
+            }
+        )
+    return dpo_dataset
+
+def check_dpo_format(sample):
+    if not isinstance(sample['prompt'],list) or not isinstance(sample['chosen'],list) or not isinstance(sample['rejected'],list):
+        return False
+    return True
+
+def convert_str_to_list(examples): # if chosen and rejected are str, while prompt is list of dict alr
+    for e in examples:
+        e['chosen'] = [{'role':'assistant','content':e['chosen']}]
+        e['rejected'] = [{'role':'assistant','content':e['rejected']}]
+    return examples
     
 class Tool_Input_Dataset(Dataset): # allows both input and tool roles
-    def __init__(self, data: List[Dict],tokenizer,embedding_type,token_args,completion_only=False):
+    def __init__(self, data: List[Dict],tokenizer,embedding_type,token_args,completion_only=False,last_completion_only=False):
         self.data = data
         self.tokenizer = tokenizer
         self.input_token = token_args['input_token']
@@ -176,9 +213,10 @@ class Tool_Input_Dataset(Dataset): # allows both input and tool roles
         self.user_token = token_args['user_token']
         self.completion_only = completion_only
         self.tokenizer.padding_side = "right" # right padding for SFT
-        self.printed_input = False
+        self.printed = {'input':False,'tool':False,'completion':False}
         self.embedding_type = embedding_type
         self.label_span = ([self.assistant_token[0]],[self.assistant_token[1]]) # for completion only
+        self.last_completion_only = last_completion_only
     def __len__(self):
         return len(self.data)
     
@@ -188,32 +226,58 @@ class Tool_Input_Dataset(Dataset): # allows both input and tool roles
         roles = [x['role'] for x in data_point['conversations']]
         if 'input' in roles:
             rotate_start,rotate_end = [self.assistant_token[0],self.input_token[0]], [self.assistant_token[1],self.input_token[1]]
+            role_type = 'input'
         else:
             rotate_start,rotate_end = [self.assistant_token[0],self.tool_token[0]], [self.assistant_token[1],self.tool_token[1]]
+            role_type = 'tool'
         
         encoded = tool_prompt_format(conv,data_point.get('tools',None),self.tokenizer,encode=True) 
-        input_ids,attention_mask = encoded['input_ids'],encoded['attention_mask']
+        input_ids,attention_mask = encoded['input_ids'][0],encoded['attention_mask'][0]
 
         segment_ids = None
         # split into assistant and tool (tool is for ASIDE)
         to_iter = 2 if self.embedding_type in ['ise','forward_rot'] else 1
         for token_type in range(to_iter):
             if token_type == 0:
-                assistant_mask = multiturn_aside_encode(encoded,self.tokenizer,self.label_span[0],self.label_span[1])[0]
-                labels = input_ids.clone()
-                labels[~assistant_mask.bool()] = -100  # Only compute loss on assistant parts
+                if self.completion_only and self.last_completion_only: # only compute loss on assistant parts
+                    _,assistant_spans = multiturn_aside_encode(encoded,self.tokenizer,self.label_span[0],self.label_span[1],return_spans=True) 
+                    assistant_spans = assistant_spans[0][-1] # take 1st sample, last assistant span
+                    labels = torch.ones_like(input_ids)*-100
+                    labels[assistant_spans[0]:assistant_spans[1]] = input_ids[assistant_spans[0]:assistant_spans[1]] # only these are not -100
+                else:
+                    labels = input_ids.clone()
+                    assistant_mask = multiturn_aside_encode(encoded,self.tokenizer,self.label_span[0],self.label_span[1])[0] # 0 to get the only sample
+                    labels[~assistant_mask.bool()] = -100  # Only compute loss on assistant parts
             else: # both
                 segment_ids = multiturn_aside_encode(encoded,self.tokenizer,rotate_start,rotate_end)[0]
         
         ## Demo 1 example
-        if not self.printed_input:
+        if not self.printed[role_type]:
             if dist.get_rank() == 0: 
-                print (f'Prompt : {self.tokenizer.decode(input_ids.tolist())}')
+                print (f'{role_type.capitalize()} Prompt : {self.tokenizer.decode(input_ids.tolist())}')
                 if segment_ids is not None:
                     chunks = get_aside_segments({'input_ids':[input_ids],'segment_ids':[segment_ids]},self.tokenizer)
                     for j,chunk in enumerate(chunks):
                         print (f'Rotated chunk {j}: {chunk}')
-            self.printed_input = True
+                print (f'--'*80)
+            self.printed[role_type] = True
+
+        if self.completion_only and not self.printed['completion']:
+            if dist.get_rank() == 0: 
+                assistant_chunks = []
+                start = False
+                for l in labels.tolist():
+                    if l != -100 and not start:
+                        start = True
+                        assistant_chunks.append([l])
+                    elif l != -100 and start:
+                        assistant_chunks[-1].append(l)
+                    else:
+                        start = False
+                for j,chunk in enumerate(assistant_chunks):
+                    print (f'Assistant loss chunk {j}: {self.tokenizer.decode(chunk)}')
+                print (f'--'*80)
+            self.printed['completion'] = True
         
         
         batch = {

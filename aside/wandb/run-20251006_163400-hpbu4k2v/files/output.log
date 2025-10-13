@@ -1,0 +1,590 @@
+[34m[1mwandb[0m: Detected [huggingface_hub.inference, openai] in use.
+[34m[1mwandb[0m: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
+[34m[1mwandb[0m: For more information, check out the docs at: https://weave-docs.wandb.ai/
+  0%|                                                                                                                                                                                | 0/2372 [00:00<?, ?it/s]
+HAS ASSISTANT MASK 84
+Tool Prompt : <|im_start|>system
+# Tools
+
+You may call one or more functions to assist with the user query.
+
+You are provided with function signatures within <tools></tools> XML tags:
+<tools>
+{"type": "function", "function": {"name": "currency-converter-mcp-convert_currency", "description": "", "parameters": {"properties": {"amount": {"title": "Amount", "type": "number"}, "from_currency": {"title": "From Currency", "type": "string"}, "to_currency": {"title": "To Currency", "type": "string"}}, "required": ["amount", "from_currency", "to_currency"], "title": "convert_currencyArguments", "type": "object"}}}
+</tools>
+
+For each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:
+<tool_call>
+{"name": <function-name>, "arguments": <args-json-object>}
+</tool_call><|im_end|>
+<|im_start|>user
+I have to buy a required textbook that costs £85, but my bank account is in Australian Dollars. What exact amount in AUD should I transfer right now to cover this purchase at today’s exchange rate?<|im_end|>
+<|im_start|>assistant
+<tool_call>
+{'name': 'currency-converter-mcp-convert_currency', 'arguments': '{"amount": 85, "from_currency": "GBP", "to_currency": "AUD"}'}
+</tool_call><|im_end|>
+<|im_start|>user
+<tool_response>
+{
+  "converted_amount": 176.8,
+  "exchange_rate": 2.08,
+  "from_currency": "GBP",
+  "to_currency": "AUD",
+  "original_amount": 85.0
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<tool_response>
+{
+  "converted_amount": 176.8,
+  "exchange_rate": 2.08,
+  "from_currency": "GBP",
+  "to_currency": "AUD",
+  "original_amount": 85.0
+}
+</tool_response><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+Assistant loss chunk 0: <|im_start|>assistant
+<tool_call>
+{'name': 'currency-converter-mcp-convert_currency', 'arguments': '{"amount": 85, "from_currency": "GBP", "to_currency": "AUD"}'}
+</tool_call><|im_end|>
+Assistant loss chunk 1: <|im_start|>assistant
+<think>
+
+</think>
+
+Based on today's exchange rate, you should transfer **exactly AU$176.80** to cover your £85 textbook purchase.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+HAS ASSISTANT MASK 777
+Input Prompt : <|im_start|>user
+Generate a story about a hardworking scientist who builds a time machine.<|im_end|>
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To determine the validity of the claim that **"people who eat breakfast perform better in school,"** you can design a **controlled experiment** that measures the relationship between breakfast consumption and academic performance. Here's a suggested experiment:
+
+---
+
+### **Experiment Title:**
+**The Impact of Breakfast on Academic Performance in Students**
+
+---
+
+### **Objective:**
+To determine whether eating breakfast is associated with improved academic performance in students.
+
+---
+
+### **Hypothesis:**
+Students who eat breakfast will perform better in school (e.g., higher test scores, better grades, or improved attention and focus) compared to those who skip breakfast.
+
+---
+
+### **Participants:**
+- A sample of students from the same school or grade level (e.g., middle school or high school).
+- Ideally, a **randomized controlled trial** (RCT) where students are randomly assigned to either a **breakfast group** or a **no-breakfast group**.
+
+---
+
+### **Procedure:**
+
+#### **1. Recruitment and Randomization:**
+- Recruit a group of students (e.g., 100 students).
+- Randomly assign them to two groups:
+  - **Group A (Breakfast Group):** Students are given a healthy breakfast (e.g., cereal, toast, fruit, milk).
+  - **Group B (No-Breakfast Group):** Students are instructed to skip breakfast for a set period (e.g., one week).
+
+#### **2. Control Variables:**
+- Ensure both groups are similar in terms of age, gender, academic background, and prior performance.
+- Keep other factors constant (e.g., same school, same schedule, same tests).
+
+#### **3. Data Collection:**
+- **Pre-test:** Administer a standardized academic test (e.g., math or reading comprehension) to both groups before the experiment.
+- **During the experiment:** Monitor and record whether students eat breakfast (Group A) or skip it (Group B).
+- **Post-test:** Administer the same test again after the experimental period (e.g., one week later).
+
+#### **4. Additional Measures (Optional):**
+- Use surveys or questionnaires to assess students’ energy levels, concentration, and mood.
+- Track attendance and participation in class.
+
+---
+
+### **Data Analysis:**
+- Compare the **pre-test and post-test scores** of both groups.
+- Use statistical methods (e.g., t-test, ANOVA) to determine if there is a **significant difference** in academic performance between the two groups.
+- Control for variables like prior academic performance, sleep, and extracurricular activities.
+
+---
+
+### **Ethical Considerations:**
+- Ensure that students are not harmed or deprived of necessary nutrition.
+- Obtain **informed consent** from parents or guardians.
+- Provide a **nutritious alternative** for students who skip breakfast (e.g., a healthy snack) to avoid malnutrition.
+
+---
+
+### **Conclusion:**
+- If the **breakfast group** shows significantly better academic performance, this supports the claim.
+- If no significant difference is found, the claim may not be valid or may require further investigation.
+
+---
+
+### **Limitations:**
+- The experiment may not account for individual differences in metabolism, learning styles, or home environment.
+- Long-term effects of breakfast on academic performance may not be captured in a short-term study.
+
+---
+
+### **Alternative Approach (Observational Study):**
+If a randomized trial is not feasible, you could conduct an **observational study** by:
+- Surveying students about their breakfast habits.
+- Collecting academic records (e.g., grades, test scores).
+- Using statistical analysis to look for a correlation between breakfast consumption and academic performance.
+
+---
+
+This experiment provides a structured way to test the claim and determine whether eating breakfast has a measurable impact on school performance.<|im_end|>
+
+Rotated chunk 0:
+<|im_start|>user
+<reference_data>
+
+</reference_data><|im_end|>
+<|im_start|>assistant
+<think>
+
+</think>
+
+To determine the validity of the claim that **"people who eat breakfast perform better in school,"** you can design a **controlled experiment** that measures the relationship between breakfast consumption and academic performance. Here's a suggested experiment:
+
+---
+
+### **Experiment Title:**
+**The Impact of Breakfast on Academic Performance in Students**
+
+---
+
+### **Objective:**
+To determine whether eating breakfast is associated with improved academic performance in students.
+
+---
+
+### **Hypothesis:**
+Students who eat breakfast will perform better in school (e.g., higher test scores, better grades, or improved attention and focus) compared to those who skip breakfast.
+
+---
+
+### **Participants:**
+- A sample of students from the same school or grade level (e.g., middle school or high school).
+- Ideally, a **randomized controlled trial** (RCT) where students are randomly assigned to either a **breakfast group** or a **no-breakfast group**.
+
+---
+
+### **Procedure:**
+
+#### **1. Recruitment and Randomization:**
+- Recruit a group of students (e.g., 100 students).
+- Randomly assign them to two groups:
+  - **Group A (Breakfast Group):** Students are given a healthy breakfast (e.g., cereal, toast, fruit, milk).
+  - **Group B (No-Breakfast Group):** Students are instructed to skip breakfast for a set period (e.g., one week).
+
+#### **2. Control Variables:**
+- Ensure both groups are similar in terms of age, gender, academic background, and prior performance.
+- Keep other factors constant (e.g., same school, same schedule, same tests).
+
+#### **3. Data Collection:**
+- **Pre-test:** Administer a standardized academic test (e.g., math or reading comprehension) to both groups before the experiment.
+- **During the experiment:** Monitor and record whether students eat breakfast (Group A) or skip it (Group B).
+- **Post-test:** Administer the same test again after the experimental period (e.g., one week later).
+
+#### **4. Additional Measures (Optional):**
+- Use surveys or questionnaires to assess students’ energy levels, concentration, and mood.
+- Track attendance and participation in class.
+
+---
+
+### **Data Analysis:**
+- Compare the **pre-test and post-test scores** of both groups.
+- Use statistical methods (e.g., t-test, ANOVA) to determine if there is a **significant difference** in academic performance between the two groups.
+- Control for variables like prior academic performance, sleep, and extracurricular activities.
+
+---
+
+### **Ethical Considerations:**
+- Ensure that students are not harmed or deprived of necessary nutrition.
+- Obtain **informed consent** from parents or guardians.
+- Provide a **nutritious alternative** for students who skip breakfast (e.g., a healthy snack) to avoid malnutrition.
+
+---
+
+### **Conclusion:**
+- If the **breakfast group** shows significantly better academic performance, this supports the claim.
+- If no significant difference is found, the claim may not be valid or may require further investigation.
+
+---
+
+### **Limitations:**
+- The experiment may not account for individual differences in metabolism, learning styles, or home environment.
+- Long-term effects of breakfast on academic performance may not be captured in a short-term study.
+
+---
+
+### **Alternative Approach (Observational Study):**
+If a randomized trial is not feasible, you could conduct an **observational study** by:
+- Surveying students about their breakfast habits.
+- Collecting academic records (e.g., grades, test scores).
+- Using statistical analysis to look for a correlation between breakfast consumption and academic performance.
+
+---
+
+This experiment provides a structured way to test the claim and determine whether eating breakfast has a measurable impact on school performance.<|im_end|>
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+HAS ASSISTANT MASK 247
+HAS ASSISTANT MASK 36
+HAS ASSISTANT MASK 176
+HAS ASSISTANT MASK 124
+HAS ASSISTANT MASK 241
+HAS ASSISTANT MASK 708
+HAS ASSISTANT MASK 176
+HAS ASSISTANT MASK 1682
+HAS ASSISTANT MASK 560
+HAS ASSISTANT MASK 16
+HAS ASSISTANT MASK 198
+HAS ASSISTANT MASK 352
+HAS ASSISTANT MASK 418
+HAS ASSISTANT MASK 398
+HAS ASSISTANT MASK 1183
+HAS ASSISTANT MASK 246
+HAS ASSISTANT MASK 364
+HAS ASSISTANT MASK 469
+HAS ASSISTANT MASK 751
+HAS ASSISTANT MASK 365
+HAS ASSISTANT MASK 982
+HAS ASSISTANT MASK 106
+  File "/home/wjyeo/IPI_HW/aside/train.py", line 426, in <module>
+    assert config_path != "", "Please provide a config path using --config_path"
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/IPI_HW/aside/train.py", line 329, in main
+    print('Trainer created')
+    ^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2672, in _inner_training_loop
+    tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4009, in training_step
+    loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4099, in compute_loss
+    outputs = model(**inputs)
+              ^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+    ret_val = func(*args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/engine.py", line 2151, in forward
+    loss = self.module(*inputs, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/IPI_HW/aside/model.py", line 510, in forward
+    outputs = super().forward(
+              ^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/utils/generic.py", line 940, in wrapper
+    output = func(self, *args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 480, in forward
+    outputs: BaseModelOutputWithPast = self.model(
+                                       ^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+    outputs = func(self, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 410, in forward
+    hidden_states = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/modeling_layers.py", line 93, in __call__
+    return self._gradient_checkpointing_func(partial(super().__call__, **kwargs), *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_compile.py", line 53, in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/checkpoint.py", line 488, in checkpoint
+    return CheckpointFunction.apply(function, preserve, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/autograd/function.py", line 576, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/checkpoint.py", line 262, in forward
+    outputs = run_function(*args)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 275, in forward
+    hidden_states = self.mlp(hidden_states)
+                    ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+    result = forward_call(*args, **kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 82, in forward
+    down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+                                           ^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+    return inner()
+           ^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1816, in inner
+    args_result = hook(self, args)
+                  ^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/parameter_offload.py", line 298, in _pre_forward_module_hook
+    self.pre_sub_module_forward_function(module)
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/parameter_offload.py", line 473, in pre_sub_module_forward_function
+    param_coordinator.fetch_sub_module(sub_module, forward=True)
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+    ret_val = func(*args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partitioned_param_coordinator.py", line 317, in fetch_sub_module
+    self.__all_gather_params(params_to_fetch, forward)
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+    ret_val = func(*args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partitioned_param_coordinator.py", line 475, in __all_gather_params
+    self.__all_gather_params_(nonquantized_params, forward, quantize=self.zero_quantized_weights)
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partitioned_param_coordinator.py", line 504, in __all_gather_params_
+    handle = param_group[0].all_gather_coalesced(param_group, quantize=quantize)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+    ret_val = func(*args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partition_parameters.py", line 1332, in all_gather_coalesced
+    param_ds_tensor.to(get_accelerator().current_device_name()).to(allgather_dtype),
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
+[rank0]: Traceback (most recent call last):
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/train.py", line 426, in <module>
+[rank0]:     assert config_path != "", "Please provide a config path using --config_path"
+[rank0]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/train.py", line 329, in main
+[rank0]:     print('Trainer created')
+[rank0]:     ^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2328, in train
+[rank0]:     return inner_training_loop(
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 2672, in _inner_training_loop
+[rank0]:     tr_loss_step = self.training_step(model, inputs, num_items_in_batch)
+[rank0]:                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4009, in training_step
+[rank0]:     loss = self.compute_loss(model, inputs, num_items_in_batch=num_items_in_batch)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/trainer.py", line 4099, in compute_loss
+[rank0]:     outputs = model(**inputs)
+[rank0]:               ^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1784, in _call_impl
+[rank0]:     return forward_call(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank0]:     ret_val = func(*args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/engine.py", line 2151, in forward
+[rank0]:     loss = self.module(*inputs, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+[rank0]:     return inner()
+[rank0]:            ^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+[rank0]:     result = forward_call(*args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/IPI_HW/aside/model.py", line 510, in forward
+[rank0]:     outputs = super().forward(
+[rank0]:               ^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/utils/generic.py", line 940, in wrapper
+[rank0]:     output = func(self, *args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 480, in forward
+[rank0]:     outputs: BaseModelOutputWithPast = self.model(
+[rank0]:                                        ^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+[rank0]:     return inner()
+[rank0]:            ^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+[rank0]:     result = forward_call(*args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/utils/generic.py", line 1064, in wrapper
+[rank0]:     outputs = func(self, *args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 410, in forward
+[rank0]:     hidden_states = decoder_layer(
+[rank0]:                     ^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/modeling_layers.py", line 93, in __call__
+[rank0]:     return self._gradient_checkpointing_func(partial(super().__call__, **kwargs), *args)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_compile.py", line 53, in inner
+[rank0]:     return disable_fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/checkpoint.py", line 488, in checkpoint
+[rank0]:     return CheckpointFunction.apply(function, preserve, *args)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/autograd/function.py", line 576, in apply
+[rank0]:     return super().apply(*args, **kwargs)  # type: ignore[misc]
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/checkpoint.py", line 262, in forward
+[rank0]:     outputs = run_function(*args)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+[rank0]:     return inner()
+[rank0]:            ^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+[rank0]:     result = forward_call(*args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/utils/deprecation.py", line 172, in wrapped_func
+[rank0]:     return func(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 275, in forward
+[rank0]:     hidden_states = self.mlp(hidden_states)
+[rank0]:                     ^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+[rank0]:     return inner()
+[rank0]:            ^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1827, in inner
+[rank0]:     result = forward_call(*args, **kwargs)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/transformers/models/qwen3/modeling_qwen3.py", line 82, in forward
+[rank0]:     down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+[rank0]:                                            ^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1773, in _wrapped_call_impl
+[rank0]:     return self._call_impl(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1879, in _call_impl
+[rank0]:     return inner()
+[rank0]:            ^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/nn/modules/module.py", line 1816, in inner
+[rank0]:     args_result = hook(self, args)
+[rank0]:                   ^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/parameter_offload.py", line 298, in _pre_forward_module_hook
+[rank0]:     self.pre_sub_module_forward_function(module)
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/parameter_offload.py", line 473, in pre_sub_module_forward_function
+[rank0]:     param_coordinator.fetch_sub_module(sub_module, forward=True)
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/_dynamo/eval_frame.py", line 929, in _fn
+[rank0]:     return fn(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank0]:     ret_val = func(*args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/torch/utils/_contextlib.py", line 120, in decorate_context
+[rank0]:     return func(*args, **kwargs)
+[rank0]:            ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partitioned_param_coordinator.py", line 317, in fetch_sub_module
+[rank0]:     self.__all_gather_params(params_to_fetch, forward)
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank0]:     ret_val = func(*args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partitioned_param_coordinator.py", line 475, in __all_gather_params
+[rank0]:     self.__all_gather_params_(nonquantized_params, forward, quantize=self.zero_quantized_weights)
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partitioned_param_coordinator.py", line 504, in __all_gather_params_
+[rank0]:     handle = param_group[0].all_gather_coalesced(param_group, quantize=quantize)
+[rank0]:              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/utils/nvtx.py", line 20, in wrapped_fn
+[rank0]:     ret_val = func(*args, **kwargs)
+[rank0]:               ^^^^^^^^^^^^^^^^^^^^^
+[rank0]:   File "/home/wjyeo/anaconda3/envs/ipi_hw/lib/python3.12/site-packages/deepspeed/runtime/zero/partition_parameters.py", line 1332, in all_gather_coalesced
+[rank0]:     param_ds_tensor.to(get_accelerator().current_device_name()).to(allgather_dtype),
+[rank0]:     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[rank0]: KeyboardInterrupt

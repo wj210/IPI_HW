@@ -1,0 +1,87 @@
+#!/bin/bash
+
+## setup the code parameters
+
+export OMP_NUM_THREADS=8
+# The required free memory in MiB
+REQUIRED_MEMORY=120000  # For example, 70 GB
+REQUIRED_GPUS=4   # Number of GPUs needed
+
+# This array will hold the PIDs of the Python sub-scripts
+OCCUPY_SCRIPT_PIDS=()
+USED_GPUS=()
+
+# Define a function to cleanup background processes
+cleanup() {
+    echo "Keyboard interrupt received. Cleaning up..."
+    # Kill the Python sub-scripts
+    for pid in "${OCCUPY_SCRIPT_PIDS[@]}"; do
+        kill $pid
+    done
+    echo "Cleanup done. Exiting."
+    exit
+}
+
+# Trap the SIGINT signal (Ctrl+C) and call the cleanup function
+trap cleanup SIGINT
+
+allocate_gpu_memory() {
+  while true; do
+    # Reset GPU list
+    gpu_id=0
+
+    # Run the command and write the output to a temporary file
+    nvidia-smi \
+    --query-gpu=index,memory.total,memory.used \
+    --format=csv,noheader,nounits > gpu_memory_info.csv
+
+    # Parse CSV rows "idx,total,used"
+    while IFS=, read -r idx total used; do
+      idx=$(echo "$idx" | xargs)
+      total=$(echo "$total" | xargs)
+      used=$(echo "$used" | xargs)
+
+      # Skip already selected (defensive; keep if you reuse loop)
+      if [[ " ${USED_GPUS[*]} " == *" ${idx} "* ]]; then
+        continue
+      fi
+
+      free=$(( total - used ))
+      if (( free >= REQUIRED_MEMORY )); then
+        USED_GPUS+=("$idx")
+      fi
+
+      (( ${#USED_GPUS[@]} >= REQUIRED_GPUS )) && break
+    done < gpu_memory_info.csv
+
+    rm -f gpu_memory_info.csv
+
+
+    # Check if the required number of GPUs is met
+    if [ ${#USED_GPUS[@]} -ge $REQUIRED_GPUS ]; then
+      echo "Found ${#USED_GPUS[@]} GPUs with enough memory: ${USED_GPUS[*]}"
+      # Kill the Python sub-scripts
+      # echo "rest very long..."
+      # sleep 10000000000
+      for pid in "${OCCUPY_SCRIPT_PIDS[@]}"; do
+        kill $pid
+      done
+      OCCUPY_SCRIPT_PIDS=()
+      break  # Break the while loop if the condition is met
+    else
+      echo "Not enough GPUs found, left gpus to find: $((REQUIRED_GPUS - ${#USED_GPUS[@]}))"
+      sleep 20
+    fi
+  done
+  # Set CUDA_VISIBLE_DEVICES to the GPUs found
+  SELECTED_GPUS=("${USED_GPUS[@]:0:$REQUIRED_GPUS}")
+  CUDA_VISIBLE_DEVICES=$(IFS=,; echo "${SELECTED_GPUS[*]}")
+  echo $CUDA_VISIBLE_DEVICES > cuda_visible_devices.txt
+  # export CUDA_VISIBLE_DEVICES=$CUDA_VISIBLE_DEVICES
+}
+
+allocate_gpu_memory
+
+bash ./script/sft.sh
+
+trap cleanup SIGINT
