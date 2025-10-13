@@ -16,11 +16,17 @@ import argparse
 from datasets import load_dataset
 from constants import *
 
-def format_instruction_data(instr,data): # requires the additional input key.
-    return [
-        {'role':'user','content':instr},
-        {'role':'input','content':data}
-    ]
+def format_instruction_data(instr,data,tokenizer): # requires the additional input key.
+    has_input = 'message.role == "input"' in tokenizer.chat_template
+    if has_input:
+        return [
+            {'role':'user','content':instr},
+            {'role':'input','content':data}
+        ]
+    else:
+        return [
+            {'role':'user','content':alpaca_format.format(instruction=instr,input=data)}
+        ]
     
 def avg_results(results):
     return {k:np.mean(v) for k,v in results.items()}
@@ -44,13 +50,10 @@ def main():
     if 'Qwen/' not in model_path:
         model_path = os.path.join(MODEL_DIR,model_path)
     torch_dtype = torch.bfloat16
-    model,tokenizer,is_aside,init_fn = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
+    model,tokenizer,is_aside,init_fn = load_model(model_path,use_vllm=True,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
     print (f'is_aside: {is_aside}')
-    if is_aside:
-        args.use_vllm = False # not yet supported
-    
+
     # setup generate fn for either vllm or HF
-    gen_fn = vllm_generate 
     gen_kwargs = SamplingParams(temperature=0.,max_tokens=1,stop=[tokenizer.eos_token]) 
     
     eval_ds = {}
@@ -101,20 +104,23 @@ def main():
     
     def eval_mcq(dataset,batch_size=-1):
         acc = []
-        batch_size = len(dataset) if batch_size == -1 or args.use_vllm else batch_size # if use vllm, use full batch
+        batch_size = len(dataset)
         for i in tqdm(range(0,len(dataset),batch_size),total = len(dataset)//batch_size):
             batch = dataset[i:i+batch_size]
             answer = [d['answer'] for d in batch]
             instrs = [d['instruction'] for d in batch]
-            inputs = [d['input'] for d in batch]
-            prompts = [tool_prompt_format(format_instruction_data(inst,inp),tools=None,tokenizer=tokenizer,encode=False) for inst,inp in zip(instrs,inputs)]
+            if 'input' in batch[0]:
+                inputs = [d['input'] for d in batch]
+                prompts = [tool_prompt_format(format_instruction_data(inst,inp,tokenizer),tools=None,tokenizer=tokenizer,encode=False) for inst,inp in zip(instrs,inputs)]
+            else:
+                prompts = [tool_prompt_format([{'role':'user','content':inst}],tools=None,tokenizer=tokenizer,encode=False) for inst in instrs]
             
             prompts = [prompt + 'The answer is (' for prompt in prompts] # add this suffix
             
-            if not args.use_vllm:
-                prompts = encode_fn(prompts,tokenizer)
+            # if not args.use_vllm:
+            #     prompts = encode_fn(prompts,tokenizer)
             
-            pred = gen_fn(model,prompts,gen_kwargs,use_tqdm=True)
+            pred = vllm_generate(model,prompts,gen_kwargs,use_tqdm=True)
             acc.extend([p.lower() == a.lower() for p,a in zip(pred,answer)])
         return acc
     
