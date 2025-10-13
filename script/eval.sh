@@ -9,5 +9,8 @@ do
 
   python src/eval_mcq_utility.py \
   --model_path $model_path
-  
+
+  python src/eval_bipia.py \
+  --model_path $model_path
+
 done    

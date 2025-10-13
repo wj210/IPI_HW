@@ -67,7 +67,7 @@ def main():
         eval_ds['reclor'] = reclor_ds
     
     if 'mmlu_pro' in args.tasks:
-        mmlu_ds = load_dataset("TIGER-Lab/MMLU-Pro")
+        mmlu_ds = load_dataset("TIGER-Lab/MMLU-Pro",split = 'test').to_list()
         for d in mmlu_ds:
             d['instruction'] = d.pop('question')
             d['choices'] = d.pop('options')
