@@ -19,6 +19,12 @@ class AbstractIPIADataset(BasePIABuilder):
         "Here is the news{guidance}:\n"
         "{context}"
     )
+    system_prompt_aside = (
+        "You are an assistant responsible for assisting the user in processing and analyzing news content. "
+        "Please fulfill the user's requests based on the content of the news. "
+        "Your answers should be concise and meet the user's requirements."
+    )
+    data_aside = "News: {context}"
     user_prompt_template = [
         "Concisely summarize the news.",
         (
@@ -28,6 +34,11 @@ class AbstractIPIADataset(BasePIABuilder):
             "Here is the news{guidance}:\n{context}"
         ),
     ]
+    
+    def construct_prompt(self, example: Any) -> Tuple[str, str]:
+        system_prompt = self.system_prompt_aside
+        data_aside = self.data_aside.format(context=example["context"])
+        return system_prompt, data_aside
 
     def construct_samples(
         self,
@@ -56,16 +67,6 @@ class AbstractIPIADataset(BasePIABuilder):
 
         return pd.DataFrame.from_dict(samples)
 
-    def construct_prompt(
-        self, example: Any, require_system_prompt: bool = True, ign_guidance: str = ""
-    ) -> Tuple[str, str]:
-        if require_system_prompt:
-            system_prompt = self.system_prompt_template.format(context=example["context"], guidance=ign_guidance)
-            user_prompt = self.user_prompt_template[0]
-            return system_prompt, user_prompt
-        else:
-            user_prompt = self.user_prompt_template[1].format(context=example["context"], guidance=ign_guidance)
-            return user_prompt
 
     def construct_response(self, example: Any) -> str:
         return example["ideal"]

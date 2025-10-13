@@ -2,12 +2,12 @@
 # Licensed under the MIT License.
 
 from collections import defaultdict
-from typing import Any
+from typing import Any, Tuple
 
 import pandas as pd
 
 from .base import BasePIABuilder
-from .utils import insert_end, insert_start, insert_middle
+from .utils import insert_end, insert_middle, insert_start
 
 
 class CodeIPIABuilder(BasePIABuilder):
@@ -18,6 +18,13 @@ class CodeIPIABuilder(BasePIABuilder):
         "Fix the bug based on the guidance provided in the following Stack Overflow answer{guidance}:\n"
         "{context}"
     )
+    system_prompt_aside = (
+        "You are a code assistant responsible for debugging code based on the answers from Stack Overflow. "
+        "The user will provide you with a code snippet that contains a bug. "
+        "Fix the bug based on the guidance provided in the following Stack Overflow answer"
+    )
+    data_aside = "{context}"
+
     user_prompt_template = [
         (
             "I received the following error message when running my code:\n```\n{error}\n```\n\n"
@@ -34,12 +41,21 @@ class CodeIPIABuilder(BasePIABuilder):
         ),
     ]
 
-    def construct_samples(self, insert_fns=[insert_end, insert_start, insert_middle], insert_fn_names=["end", "start", "middle"]) -> pd.DataFrame:
+    def construct_prompt(self, example: Any) -> Tuple[str, str]:
+        system_prompt = self.system_prompt_aside + '\n'+ self.user_prompt_template[0].format(
+            error=example["error"], code=example["code"] # sep out the context to the input
+        )
+        data_aside = self.data_aside.format(context=example["context"])
+        return system_prompt, data_aside
+
+    def construct_samples(
+        self,
+        insert_fns=[insert_end, insert_start, insert_middle],
+        insert_fn_names=["end", "start", "middle"],
+    ) -> pd.DataFrame:
         samples = defaultdict(list)
 
-        for insert_fn_name, insert_fn in zip(
-            insert_fn_names, insert_fns
-        ):
+        for insert_fn_name, insert_fn in zip(insert_fn_names, insert_fns):
             for normal_sample in self.context_samples:
                 context = "\n".join(normal_sample["context"])
                 code = "\n".join(normal_sample["code"])
@@ -62,22 +78,7 @@ class CodeIPIABuilder(BasePIABuilder):
                     samples["position"].append(insert_fn_name)
 
         return pd.DataFrame.from_dict(samples)
-
-    def construct_prompt(self, example: Any, require_system_prompt: bool = True, ign_guidance: str = "") -> Any:
-        if require_system_prompt:
-            system_prompt = self.system_prompt_template.format(
-                context=example["context"], guidance=ign_guidance
-            )
-            user_prompt = self.user_prompt_template[0].format(
-                error=example["error"], code=example["code"]
-            )
-            return system_prompt, user_prompt
-        else:
-            user_prompt = self.user_prompt_template[1].format(
-                context=example["context"], error=example["error"], code=example["code"], guidance=ign_guidance
-            )
-            return user_prompt
-
+    
     def construct_response(self, example: Any):
         ideal = example["ideal"]
 

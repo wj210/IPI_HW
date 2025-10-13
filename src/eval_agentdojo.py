@@ -27,7 +27,7 @@ from agentdojo.task_suite.task_suite import *
 from agentdojo.agent_pipeline.agent_pipeline import DEFENSES, AgentPipeline, PipelineConfig
 from agentdojo.base_tasks import BaseInjectionTask, BaseUserTask
 import argparse
-
+from constants import *
 
 def run_task(agent_pipeline,suite,user_task,injection_task=None,task_injection = {},return_messages=False):
     environment = suite.load_and_inject_default_environment(task_injection)
@@ -81,11 +81,10 @@ def main():
 
     is_api = any([s in args.model_path.lower() for s in ['gpt','deepseek','claude']])
     if not is_api:
-        data_dir = '/mnt/disk1/wjyeo/models'
         torch_dtype = torch.bfloat16
         model_path = args.model_path
         if 'Qwen/' not in model_path.lower():
-            model_path = os.path.join(data_dir, model_path)
+            model_path = os.path.join(MODEL_DIR, model_path)
         model,tokenizer,is_aside,init_fn = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':False})
         
         ## no prompt-based defense
@@ -104,7 +103,7 @@ def main():
                     'tokenizer':tokenizer,
                     'encode_fn': partial(tool_prompt_format,tokenizer=tokenizer,enable_thinking = args.thinking),
                     'additional_encode_fn': additional_encode_fn,
-                    'gen_kwargs': {'max_new_tokens':512,'do_sample':False,'eos_token_id':[tokenizer.eos_token_id]} if not args.use_vllm else SamplingParams(max_tokens=512,temperature=0,stop_token_ids = [tokenizer.eos_token_id]),
+                    'gen_kwargs': SamplingParams(max_tokens=512,temperature=0,stop_token_ids = [tokenizer.eos_token_id]),
                     'is_vllm': args.use_vllm,
                     'tool_role':'input' if 'metasecalign' in model_path.lower() else 'tool'
                 },

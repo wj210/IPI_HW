@@ -10,11 +10,11 @@ from collections import defaultdict
 from utils.utils import *
 from utils.model_utils import load_model
 torch.set_grad_enabled(False)
-from vllm import LLM, SamplingParams
+from vllm import SamplingParams
 from functools import partial
 import argparse
-import copy
 from datasets import load_dataset
+from constants import *
 
 def format_instruction_data(instr,data): # requires the additional input key.
     return [
@@ -40,10 +40,9 @@ def main():
     args = parser.parse_args()
     seed_all()
     
-    model_dir = '/dataset/common/huggingface/model'
     model_path = args.model_path
     if '/' not in model_path:
-        model_path = os.path.join(model_dir,model_path)
+        model_path = os.path.join(MODEL_DIR,model_path)
     torch_dtype = torch.bfloat16
     model,tokenizer,is_aside = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
     print (f'is_aside: {is_aside}')
@@ -51,8 +50,8 @@ def main():
         args.use_vllm = False # not yet supported
     
     # setup generate fn for either vllm or HF
-    gen_fn = vllm_generate if not args.use_vllm else generate_fn
-    gen_kwargs = SamplingParams(temperature=0.,max_tokens=2048,stop=[tokenizer.eos_token]) if args.use_vllm else {'max_new_tokens':2048,'temperature':0.0,'eos_token_id':tokenizer.eos_token_id,'pad_token_id':tokenizer.pad_token_id,'do_sample':False}
+    gen_fn = vllm_generate 
+    gen_kwargs = SamplingParams(temperature=0.,max_tokens=1,stop=[tokenizer.eos_token]) 
     
     eval_ds = {}
     if 'reclor' in args.tasks:
@@ -103,11 +102,6 @@ def main():
     def eval_mcq(dataset,batch_size=-1):
         acc = []
         batch_size = len(dataset) if batch_size == -1 or args.use_vllm else batch_size # if use vllm, use full batch
-        mcq_kwargs = copy.deepcopy(gen_kwargs)
-        if isinstance(mcq_kwargs,dict): # just one token
-            mcq_kwargs['max_new_tokens'] = 1
-        else:
-            mcq_kwargs.max_tokens = 1
         for i in tqdm(range(0,len(dataset),batch_size),total = len(dataset)//batch_size):
             batch = dataset[i:i+batch_size]
             answer = [d['answer'] for d in batch]
@@ -120,7 +114,7 @@ def main():
             if not args.use_vllm:
                 prompts = encode_fn(prompts,tokenizer)
             
-            pred = gen_fn(model,prompts,mcq_kwargs,use_tqdm=True)
+            pred = gen_fn(model,prompts,gen_kwargs,use_tqdm=True)
             acc.extend([p.lower() == a.lower() for p,a in zip(pred,answer)])
         return acc
     

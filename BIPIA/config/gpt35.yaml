@@ -1,5 +1,5 @@
-api_key: "[YOUR API KEY]"
+api_key: "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"
 api_type: "openai"
-model: "[MODEL]"
+model: "gpt-4.1"
 chat: True
-llm_name: "gpt35"
+llm_name: "gpt4"

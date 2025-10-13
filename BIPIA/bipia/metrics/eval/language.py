@@ -1,8 +1,8 @@
 # Copyright (c) Microsoft Corporation.
 # Licensed under the MIT License.
 
-# from langdetect import detect_langs
-# from langdetect.lang_detect_exception import LangDetectException
+from langdetect import detect_langs
+from langdetect.lang_detect_exception import LangDetectException
 
 from accelerate.logging import get_logger
 
