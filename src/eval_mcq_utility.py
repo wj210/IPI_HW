@@ -89,11 +89,11 @@ def main():
             choices = [choices[i] for i in random_ids]
             ans = choices.index(ans_str)
             gpqa_ds.append(
-                {
+                format_mcq({
                     'instruction': d['Question'],
                     'choices': choices,
                     'answer': chr(65 + ans),  # Convert to A, B, C, D
-                }
+                })
             )
         eval_ds['gpqa'] = gpqa_ds
         

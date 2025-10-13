@@ -1,0 +1,17 @@
+{
+    "#Test Case": 1054,
+    "Valid Rate": "98.8",
+    "Valid (DH)": "99.4",
+    "Valid (DS S1)": "99.1",
+    "Valid (DS S2)": "95.9",
+    "ASR-valid (Direct Harm)": "15.0",
+    "ASR-valid (S1)": "22.6",
+    "ASR-valid (S2)": "92.3",
+    "ASR-valid (Data Stealing)": "20.2",
+    "ASR-valid (Total)": "17.7",
+    "ASR-all (Direct Harm)": "14.9",
+    "ASR-all (S1)": "22.4",
+    "ASR-all (S2)": "88.5",
+    "ASR-all (Data Stealing)": "19.9",
+    "ASR-all (Total)": "17.5"
+}

@@ -12,11 +12,5 @@ done
 
 model_path=Qwen3-8B_dpo_Vanilla_MetaSecAlign_lr1e-6_b0.01
 
-python src/eval_sep.py \
---model_path $model_path 
-
 python src/eval_mcq_utility.py \
---model_path $model_path
-
-python src/eval_bipia.py \
 --model_path $model_path
