@@ -7,8 +7,8 @@ export OMP_NUM_THREADS=8
 REQUIRED_MEMORY=79000  # For example, 70 GB
 REQUIRED_GPUS=1   # Number of GPUs needed
 
-p=NH100q
-w=node07
+p=HPCAIq
+w=node14
 c=4 # num cpus
 
 # This array will hold the PIDs of the Python sub-scripts

@@ -44,7 +44,7 @@ def main():
     if 'Qwen/' not in model_path:
         model_path = os.path.join(MODEL_DIR,model_path)
     torch_dtype = torch.bfloat16
-    model,tokenizer,is_aside = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
+    model,tokenizer,is_aside,init_fn = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
     print (f'is_aside: {is_aside}')
     if is_aside:
         args.use_vllm = False # not yet supported

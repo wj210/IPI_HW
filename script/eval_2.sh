@@ -9,8 +9,8 @@ else
   echo "cuda_visible_devices.txt file not found."
 fi
 
-model_path="Qwen3-8B_1e-5_MetaSecAlign_DPO"
+model_path="Qwen3-8B_1e-6_MetaSecAlign_DPO"
 
-python src/eval_sep.py \
+python src/eval_bipia.py \
     --model_path $model_path \
     
