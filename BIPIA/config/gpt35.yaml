@@ -1,5 +1,5 @@
 api_key: [YOUR API KEY]
 api_type: "openai"
-model: "gpt-4.1"
+model: [MODEL NAME]
 chat: True
 llm_name: "gpt4"
