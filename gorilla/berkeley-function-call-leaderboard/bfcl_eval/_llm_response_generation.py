@@ -63,6 +63,12 @@ def get_args():
         default='tool',
         help="Specify the role of the tool being used.",
     )
+    parser.add_argument(
+        "--lora-modules",
+        type=str,
+        default='',
+        help="Specify the LoRA modules to be used.",
+    )
     args = parser.parse_args()
 
     return args
@@ -215,7 +221,6 @@ def generate_results(args, model_name, test_cases_total):
         handler.is_aside = 'aside' in args.local_model_path.lower()
     else:
         handler.is_aside = False
-
     if isinstance(handler, OSSHandler):
         handler: OSSHandler
         is_oss_model = True
@@ -250,6 +255,7 @@ def generate_results(args, model_name, test_cases_total):
                 backend=args.backend,
                 skip_server_setup=args.skip_server_setup,
                 local_model_path=args.local_model_path,
+                lora_modules=args.lora_modules
             )
 
         # ───── dependency bookkeeping ──────────────────────────────

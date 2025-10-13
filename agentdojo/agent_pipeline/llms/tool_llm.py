@@ -11,6 +11,7 @@ import torch
 from agentdojo.agent_pipeline.base_pipeline_element import BasePipelineElement
 from agentdojo.functions_runtime import EmptyEnv, Env, Function, FunctionCall, FunctionsRuntime
 from agentdojo.types import ChatAssistantMessage, ChatMessage, get_text_content_as_str, text_content_block_from_string
+import ast
 
 class InvalidModelOutputError(Exception): ...
 
@@ -30,15 +31,44 @@ def format_tools(tools):
         functions.append(tool_dict)
     return functions
 
+def try_json_loads(value): # THE JSON tool call labels are messy.
+    """Try to parse value as JSON, otherwise return as-is."""
+    if isinstance(value, str):
+        try:
+            parsed = json.loads(value)
+            # Recursively process the parsed result as well
+            return recursively_fix(parsed)
+        except (json.JSONDecodeError, TypeError):
+            return value
+    return value
+
+def recursively_fix(obj):
+    """Recursively decode nested JSON strings inside dicts/lists."""
+    if isinstance(obj, dict):
+        return {k: recursively_fix(try_json_loads(v)) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [recursively_fix(try_json_loads(x)) for x in obj]
+    else:
+        return try_json_loads(obj)
+
+def fix_tool_response(tool_response):
+    tool_response = ast.literal_eval(tool_response)
+    tool_response = recursively_fix(tool_response)
+    return json.dumps(tool_response, ensure_ascii=False)
+
 def parse_tool_output(completion:str):
     default_message = ChatAssistantMessage(
         role="assistant", content=[text_content_block_from_string(completion.strip())], tool_calls=[]
     )
-    match = re.search(r"<tool_call>\s*(.*?)\s*</tool_call>", completion, re.DOTALL)
-    if not match:
+    match =  re.findall(r"<tool_call>\s*(.*?)\s*</tool_call>", completion, re.DOTALL)
+    if not len(match):
         return default_message
-    
-    json_dict = match.group(1).strip()
+    json_dict = match[0].strip() # we by default already only take the first tool call
+    completion = f'<tool_call>\n{json_dict}\n</tool_call>' # ensure the completion is reflected as well.
+    try:
+        json_dict = fix_tool_response(json_dict) # try to fix first
+    except Exception as e:
+        pass
     try:
         json_dict = json.loads(json_dict)
         function_name = json_dict.get("name")
@@ -61,9 +91,8 @@ class LocalToolLLM(BasePipelineElement):
         self.encode_fn = encode_fn # if ASIDE and not vllm
         self.additional_encode_fn = additional_encode_fn
         self.tool_role = tool_role # allow custom tool role name (metasecalign uses a separate input role name)
-    
+
     def generate_fn(self, encoded, eos_token_id = [],max_new_tokens: int = 512,do_sample=False) -> str:
-        encoded = self.additional_encode_fn(encoded)
         output_ids = self.model.generate(
             **encoded.to(self.model.device),
             max_new_tokens=max_new_tokens,
@@ -78,14 +107,9 @@ class LocalToolLLM(BasePipelineElement):
         return text
 
     def vllm_generate(self,texts):
-        if not isinstance(texts,list):
+        if isinstance(texts,str):
             texts = [texts]
-        if self.embed_fn is not None:
-            embeds = self.embed_fn(texts,encode=True)
-            assert all([isinstance(t,list) for t in embeds]) # if embedding ,need to pass in list of int
-            out = self.model.generate([{'prompt_embeds':t} for t in embeds],sampling_params = self.gen_kwargs,use_tqdm = False)
-        else:
-            out = self.model.generate(texts, sampling_params = self.gen_kwargs,use_tqdm = False)
+        out = self.model.generate(texts, sampling_params = self.gen_kwargs,use_tqdm = False)
         return [o.outputs[0].text for o in out]
     
     def query(
@@ -118,7 +142,7 @@ class LocalToolLLM(BasePipelineElement):
                 content = content
             messages_.append({"role": role, "content": content})
         
-        encoded_msg = self.encode_fn(messages_,functions,encode= not self.is_vllm)
+        encoded_msg =  self.additional_encode_fn(self.encode_fn(messages_,functions,encode= not self.is_vllm))
         try:
             if not self.is_vllm:
                 completion = self.generate_fn(encoded_msg,**self.gen_kwargs)[0]

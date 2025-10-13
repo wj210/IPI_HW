@@ -18,11 +18,8 @@ from utils.model_utils import load_model
 torch.set_grad_enabled(False)
 import pickle
 from functools import partial
-home_dir = "/export/home2/weijie210/StruQ"
-cache_dir = f'{home_dir}/cache'
-os.makedirs(cache_dir,exist_ok=True)
 seed_all()
-from vllm import LLM, SamplingParams
+from vllm import SamplingParams
 
 from agentdojo.attacks.attack_registry import ATTACKS, load_attack
 from agentdojo.task_suite.load_suites import get_suite, get_suites
@@ -84,12 +81,12 @@ def main():
 
     is_api = any([s in args.model_path.lower() for s in ['gpt','deepseek','claude']])
     if not is_api:
-        data_dir = '/dataset/common/huggingface/model'
+        data_dir = '/mnt/disk1/wjyeo/models'
         torch_dtype = torch.bfloat16
         model_path = args.model_path
         if 'Qwen/' not in model_path.lower():
             model_path = os.path.join(data_dir, model_path)
-        model,tokenizer,is_aside = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':False})
+        model,tokenizer,is_aside,init_fn = load_model(model_path,use_vllm=args.use_vllm,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':False})
         
         ## no prompt-based defense
         defense = None

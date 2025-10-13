@@ -585,3 +585,5 @@ Deleting older checkpoint [/mnt/disk1/wjyeo/models/Qwen3-8B_sft_ISE_ToolAndAlpac
 {'loss': 0.096, 'grad_norm': 1.8265379667282104, 'learning_rate': 4.049249973666468e-06, 'epoch': 1.16}
 {'loss': 0.0931, 'grad_norm': 2.314143657684326, 'learning_rate': 4.004356365469213e-06, 'epoch': 1.16}
 {'loss': 0.0904, 'grad_norm': 1.6213080883026123, 'learning_rate': 3.959546184166148e-06, 'epoch': 1.17}
+{'loss': 0.0938, 'grad_norm': 1.6572301387786865, 'learning_rate': 3.914823184488502e-06, 'epoch': 1.17}
+{'loss': 0.094, 'grad_norm': 2.1310882568359375, 'learning_rate': 3.870191113862397e-06, 'epoch': 1.18}

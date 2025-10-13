@@ -1,0 +1,11 @@
+__pycache__/
+.vscode/
+.ipynb_checkpoints/
+
+*.egg-info/
+build/
+
+diff.sh
+config/my_gpt35.yaml
+
+output/

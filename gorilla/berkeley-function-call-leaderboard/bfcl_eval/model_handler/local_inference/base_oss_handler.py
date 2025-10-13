@@ -77,45 +77,7 @@ class OSSHandler(BaseHandler, EnforceOverrides):
     def decode_execute(self, result, has_tool_call_tag):
         return default_decode_execute_prompting(result, has_tool_call_tag)
     
-    @final
-    def spin_up_local_vllm(
-        self,
-        num_gpus: int,
-        gpu_memory_utilization: float,
-        local_model_path: Optional[str],
-    ):
-        from transformers import AutoConfig, AutoTokenizer
-        if local_model_path is not None:
-            load_path = local_model_path
-        else:
-            load_path = self.model_name_huggingface
-        self.tokenizer = AutoTokenizer.from_pretrained(load_path)
-
-        config = AutoConfig.from_pretrained(load_path)
-
-        if hasattr(config, "max_position_embeddings"):
-            self.max_context_length = config.max_position_embeddings
-        elif self.tokenizer.model_max_length is not None:
-            self.max_context_length = self.tokenizer.model_max_length
-        
-        self.local_llm = LLM( # call the local_llm
-            load_path,
-            tensor_parallel_size=num_gpus,
-            gpu_memory_utilization=gpu_memory_utilization,
-            dtype=torch.bfloat16,
-            enable_prompt_embeds=True
-        )
-        
-        if self.is_aside: # load the hf model and rotation
-            hf_model = AutoModelForCausalLM.from_pretrained(load_path,dtype = torch.bfloat16,low_cpu_mem_usage=True,trust_remote_code=True).eval().to('cuda')
-            # get hidden dim
-            hidden_size = hf_model.config.hidden_size
-            rotation_alpha = 1.57079633
-            rotation_matrix = generate_isoclinic_rotation_matrix(
-                hidden_size, rotation_alpha, 'cuda', torch.bfloat16
-            ).detach()
-            self.emb_svc = RotatingEmbeddingService(hf_model = hf_model,rotation_matrix = rotation_matrix,pad_id = self.tokenizer.pad_token_id,max_batch=32,wait_ms=3)
-
+    
     @final
     def spin_up_local_server(
         self,
@@ -124,6 +86,7 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         backend: str,
         skip_server_setup: bool,
         local_model_path: Optional[str],
+        lora_modules: str = '',
     ):
         """
         Spin up a local server for the model.
@@ -172,6 +135,20 @@ class OSSHandler(BaseHandler, EnforceOverrides):
                     "Model does not have a max_position_embeddings attribute or tokenizer.model_max_length attribute. Please set the max_context_length attribute in the corresponding model handler."
                 )
         print(f"Max context length: {self.max_context_length}")
+        vllm_args = [
+                                "vllm",
+                                "serve",
+                                str(self.model_path_or_id),
+                                "--port",
+                                str(self.local_server_port),
+                                "--dtype",
+                                str(self.dtype),
+                                "--tensor-parallel-size",
+                                str(num_gpus),
+                                "--gpu-memory-utilization",
+                                str(gpu_memory_utilization),
+                                "--trust-remote-code",
+                            ]
 
         self._server_process = process = None
         self._stdout_thread = stdout_thread = None
@@ -189,52 +166,26 @@ class OSSHandler(BaseHandler, EnforceOverrides):
                 hidden_size, rotation_alpha, 'cuda', torch.bfloat16
             ).detach()
             self.emb_svc = RotatingEmbeddingService(embed_layer = embed_layer,rotation_matrix = rotation_matrix,pad_id = self.tokenizer.pad_token_id,max_batch=8,wait_ms=3)
+            vllm_args.append('--enable-prompt-embeds')
+        
+        if lora_modules != '': # enable lora as well.
+            vllm_args.extend([
+        "--enable-lora",
+        f"--lora-modules=sql-lora={lora_modules}",
+        "--max-lora-rank=64"
+    ])
         
         self._stop_event = threading.Event()
         try:
             if not skip_server_setup:
                 if backend == "vllm":
-                    if not self.is_aside:
-                        process = subprocess.Popen(
-                            [
-                                "vllm",
-                                "serve",
-                                str(self.model_path_or_id),
-                                "--port",
-                                str(self.local_server_port),
-                                "--dtype",
-                                str(self.dtype),
-                                "--tensor-parallel-size",
-                                str(num_gpus),
-                                "--gpu-memory-utilization",
-                                str(gpu_memory_utilization),
-                                "--trust-remote-code",
-                            ],
-                            stdout=subprocess.PIPE,  # Capture stdout
-                            stderr=subprocess.PIPE,  # Capture stderr
-                            text=True,  # To get the output as text instead of bytes
-                        )
-                    else:
-                         process = subprocess.Popen(
-                            [
-                                "vllm",
-                                "serve",
-                                str(self.model_path_or_id),
-                                "--port",
-                                str(self.local_server_port),
-                                "--dtype",
-                                str(self.dtype),
-                                "--tensor-parallel-size",
-                                str(num_gpus),
-                                "--gpu-memory-utilization",
-                                str(gpu_memory_utilization),
-                                "--trust-remote-code",
-                                "--enable-prompt-embeds",
-                            ],
-                            stdout=subprocess.PIPE,  # Capture stdout
-                            stderr=subprocess.PIPE,  # Capture stderr
-                            text=True,  # To get the output as text instead of bytes
-                        )
+                    process = subprocess.Popen(
+                        vllm_args,
+                        stdout=subprocess.PIPE,  # Capture stdout
+                        stderr=subprocess.PIPE,  # Capture stderr
+                        text=True,  # To get the output as text instead of bytes
+                    )
+
                 elif backend == "sglang":
 
                     process = subprocess.Popen(
@@ -386,6 +337,7 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         if start_tokens[-1] not in curr_input_str: # no tool/input, skip the rotation
             return mask 
         tool_ids = -1 # note down where is the tool/input start
+        
         for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
             i = 0
             while i <= len(input_ids) - len(curr_start_ids):
@@ -395,7 +347,8 @@ class OSSHandler(BaseHandler, EnforceOverrides):
                     while j <= len(input_ids) - len(curr_end_ids):
                         if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
                             if torch.equal(curr_start_ids, start_ids[0]): # mark when a complete tool span is found
-                                tool_ids = deepcopy(j+len(curr_end_ids))
+                                if tool_ids == -1:
+                                    tool_ids = deepcopy(j+len(curr_end_ids))
                                 mask[i:j+len(curr_end_ids)] = 1
                             elif torch.equal(curr_start_ids, start_ids[-1]) and i > tool_ids: # if we are only looking for assistant span, then look after the tool span
                                 mask[i:j+len(curr_end_ids)] = 1

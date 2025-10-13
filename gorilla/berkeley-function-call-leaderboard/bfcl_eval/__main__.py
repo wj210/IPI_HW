@@ -153,6 +153,11 @@ def generate(
         "--tool-role",
         help="Specify the role of the tool being used.",
     ),
+    lora_modules: str = typer.Option(
+        '',
+        "--lora-modules",
+        help="Specify the LoRA modules to be used.",
+    ),
 ):
     """
     Generate the LLM response for one or more models on a test-category (same as openfunctions_evaluation.py).
@@ -174,6 +179,7 @@ def generate(
         allow_overwrite=allow_overwrite,
         run_ids=run_ids,
         tool_role=tool_role,
+        lora_modules=lora_modules,
     )
     load_dotenv(dotenv_path=DOTENV_PATH, verbose=True, override=True)  # Load the .env file
     generation_main(args)

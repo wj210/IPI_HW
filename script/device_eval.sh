@@ -4,8 +4,8 @@
 
 export OMP_NUM_THREADS=8
 # The required free memory in MiB
-REQUIRED_MEMORY=79000  # For example, 70 GB
-REQUIRED_GPUS=1   # Number of GPUs needed
+REQUIRED_MEMORY=120000  # For example, 120 GB
+REQUIRED_GPUS=4   # Number of GPUs needed
 
 p=NH100q
 w=node07
@@ -92,18 +92,3 @@ srun -p $p -w $w -c $c --verbose --job-name=self_learning --gpus=$num_gpu --pty 
 # srun -p $p -w $w -c $c --verbose --job-name=self_learning --gpus=$num_gpu bash script/run_2.sh
 
 trap cleanup SIGINT
-
-# Check for success.txt
-if [ ! -f success.txt ]; then
-    echo "Error in main script. Occupying all GPUs indefinitely."
-    while true; do
-      for gpu_id in "${USED_GPUS[@]}"; do
-          srun -p $p -w $w --gpus=1 python mem.py --device_no $gpu_id --memory $REQUIRED_MEMORY --device_no $gpu_id &
-          OCCUPY_SCRIPT_PIDS+=($!)
-      done
-      sleep 100000000
-    done
-fi
-
-
-

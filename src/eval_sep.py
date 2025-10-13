@@ -28,12 +28,12 @@ def main():
     args = parser.parse_args()
     seed_all()
     
-    model_dir = '/dataset/common/huggingface/model'
+    model_dir = '/mnt/disk1/wjyeo/models'
     model_path = args.model_path
-    if '/' not in model_path:
+    if 'Qwen/' not in model_path:
         model_path = os.path.join(model_dir,model_path)
     torch_dtype = torch.bfloat16
-    model,tokenizer,is_aside = load_model(model_path,use_vllm=True,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
+    model,tokenizer,is_aside,init_fn = load_model(model_path,use_vllm=True,dtype=torch_dtype,vllm_kwargs = {'gpu_memory_utilization':0.8,'enable_chunked_prefill':True})
     print (f'is_aside: {is_aside}')
     
     # setup generate fn for either vllm or HF
@@ -41,7 +41,7 @@ def main():
     gen_kwargs = SamplingParams(temperature=0.,max_tokens=2048,stop=[tokenizer.eos_token]) if not is_aside else {'max_new_tokens':2048,'temperature':0.0,'eos_token_id':tokenizer.eos_token_id,'pad_token_id':tokenizer.pad_token_id,'do_sample':False}
     
     ## SEP dataset
-    data_dir = 'aside/data' # change it here
+    data_dir = '/mnt/disk1/wjyeo/data' # change it here
     with open(os.path.join(data_dir,'SEP_dataset.json'),'r') as f:
         sep_ds = json.load(f)
     print (f'Load {len(sep_ds)} samples from {data_dir}')
