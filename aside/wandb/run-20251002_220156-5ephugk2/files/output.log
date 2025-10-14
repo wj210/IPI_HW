@@ -1,6 +1,0 @@
-wandb: Detected [huggingface_hub.inference, openai] in use.
-wandb: Use W&B Weave for improved LLM call tracing. Install Weave with `pip install weave` then add `import weave` to the top of your script.
-wandb: For more information, check out the docs at: https://weave-docs.wandb.ai/
-  6%|▌         | 9/146 [03:23<49:39, 21.75s/it]  
-[2025-10-02 22:02:23,608] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
-[2025-10-02 22:03:35,290] [WARNING] [stage3.py:2171:step] 1 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time

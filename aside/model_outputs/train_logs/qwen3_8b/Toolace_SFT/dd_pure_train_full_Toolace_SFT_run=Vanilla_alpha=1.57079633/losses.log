@@ -1,3 +1,0 @@
-2025-09-30 17:49:15,278 - WARNING - Gradient accumulation steps mismatch: GradientAccumulationPlugin has 1, DeepSpeed config has 2. Using DeepSpeed's value.
-2025-09-30 17:52:17,884 - INFO - Step 10: Train Loss = 0.6717
-2025-09-30 17:54:46,261 - INFO - Step 20: Train Loss = 0.2996

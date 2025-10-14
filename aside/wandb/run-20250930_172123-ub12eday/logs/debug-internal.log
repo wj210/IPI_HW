@@ -1,6 +1,0 @@
-{"time":"2025-09-30T17:21:24.664160135+08:00","level":"INFO","msg":"stream: starting","core version":"0.22.0"}
-{"time":"2025-09-30T17:21:25.058726854+08:00","level":"INFO","msg":"stream: created new stream","id":"ub12eday"}
-{"time":"2025-09-30T17:21:25.058801925+08:00","level":"INFO","msg":"stream: started","id":"ub12eday"}
-{"time":"2025-09-30T17:21:25.058833225+08:00","level":"INFO","msg":"writer: started","stream_id":"ub12eday"}
-{"time":"2025-09-30T17:21:25.058870505+08:00","level":"INFO","msg":"sender: started","stream_id":"ub12eday"}
-{"time":"2025-09-30T17:21:25.058870125+08:00","level":"INFO","msg":"handler: started","stream_id":"ub12eday"}
