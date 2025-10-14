@@ -9,7 +9,7 @@ else
   echo "cuda_visible_devices.txt file not found."
 fi
 
-output_dir="/dataset/common/huggingface/model" # SET YOUR SAVED PATH HERE
+output_dir="/mnt/disk1/wjyeo/models" # SET YOUR SAVED PATH HERE
 export WANDB_API_KEY="4d0cfb6b964e4092b544eaa50ffa07ae36cc5249" # SET YOUR WANDB API KEY HERE
 export WANDB_PROJECT="ToolAlpaca_ASIDE_ISE_DPO" # SET YOUR WANDB PROJECT NAME HERE
 

@@ -12,12 +12,12 @@ aside/__pycache__
 __pycache__
 cache_notebooks
 model_outputs
-results
 bipia.py
 cuda_visible_devices.txt
 mem.py
 ds_key.txt
 aside/script/device.sh
+aside/script/device_2.sh
 aside/script/sft_2.sh
 aside/configs/config_qwen3_8b_metasecalign_sft.json
 aside/configs/config_qwen3_8b_SFTv70_Aug.json

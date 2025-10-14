@@ -1,0 +1,1 @@
+{"id_naive": 0.44, "id_ignore": 0.3, "id_escape_separation": 0.41, "id_completion_real": 0.33, "ood_naive": 0.44, "ood_ignore": 0.22, "ood_escape_separation": 0.34, "ood_completion_real": 0.1}
