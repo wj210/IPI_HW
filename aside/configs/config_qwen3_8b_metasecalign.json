@@ -1,55 +1,18 @@
 {
-    "desc": "Qwen rotating embedding, alpaca shuffled",
     "train_dataset_path": "./data/train_data/metasecalign_train.json",
     "eval_dataset_path": "./data/train_data/metasecalign_val.json",
-    "eval_input_path": "n/a, set in code",
-    "prompt_templates_path": "./data/prompt_templates.json",
-    "output_base_path": "./model_outputs/",
     "train_logs_path": "./model_outputs/train_logs/",
-    "training_version": "MetaSecAlign_DPO",
     "tokenizer_path": "Qwen/Qwen3-8B",
-    "assistant_token": ["<|im_start|>assistant","<|im_end|>"],
-    "tool_token": ["\n<|im_start|>user\n<reference_data>","</reference_data><|im_end|>\n"],
-    "user_token": ["<|im_start|>user","<|im_end|>"],
-    "models": {
-        "single_emb": {
-            "pure_models": [
-                {
-                    "name": "dd_pure",
-                    "desc": "Qwen3 8B base model",
-                    "checkpoint_to_load_from": null,
-                    "checkpoint_to_load_to": "./models/Qwen3-8B/single",
-                    "chat_template_path": null,
-                    "instruct_model_path": "Qwen/Qwen3-8B",
-                    "data_model_path": "Qwen/Qwen3-8B"
-                }
-            ]
-        },
-        "ise": {
-            "pure_models": [
-                {
-                    "name": "ise",
-                    "desc": "Qwen3 8B base model",
-                    "checkpoint_to_load_from": null,
-                    "checkpoint_to_load_to": "./models/Qwen3-8B/ise",
-                    "chat_template_path": null,
-                    "instruct_model_path": "Qwen/Qwen3-8B",
-                    "data_model_path": "Qwen/Qwen3-8B"
-                }
-            ]
-        },
-        "forward_rot": {
-            "pure_models": [
-                {
-                    "name": "forward_rot",
-                    "desc": "Qwen3 8B base model",
-                    "checkpoint_to_load_from": null,
-                    "checkpoint_to_load_to": "./models/Qwen3-8B/forward_rot",
-                    "chat_template_path": null,
-                    "instruct_model_path": "Qwen/Qwen3-8B",
-                    "data_model_path": "Qwen/Qwen3-8B"
-                }
-            ]
-        }
-    }
+    "assistant_token": [
+        "<|im_start|>assistant",
+        "<|im_end|>"
+    ],
+    "tool_token": [
+        "\n<|im_start|>user\n<reference_data>",
+        "</reference_data><|im_end|>\n"
+    ],
+    "user_token": [
+        "<|im_start|>user",
+        "<|im_end|>"
+    ]
 }
