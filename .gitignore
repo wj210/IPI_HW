@@ -19,3 +19,10 @@ mem.py
 ds_key.txt
 aside/script/device.sh
 aside/script/sft_2.sh
+aside/configs/config_qwen3_8b_metasecalign_sft.json
+aside/configs/config_qwen3_8b_SFTv70_Aug.json
+aside/configs/config_qwen3_8b_SFTv70_S.json
+aside/configs/config_qwen3_8b_SFTv70_StruQ.json
+aside/configs/config_qwen3_8b_SFTv70_Tool_dpo.json
+aside/configs/config_qwen3_8b_Toolace_SFT.json
+aside/configs/config_qwen3_8b_Alpaca_SFT.json
