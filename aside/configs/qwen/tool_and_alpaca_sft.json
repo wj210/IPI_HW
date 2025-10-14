@@ -1,6 +1,6 @@
 {
-    "train_dataset_path": [["/mnt/disk1/wjyeo/data/alpaca_aside_train.json", "input"],["/mnt/disk1/wjyeo/data/toucan_aside_train.json", "tool"]],
-    "eval_dataset_path": [["/mnt/disk1/wjyeo/data/alpaca_aside_val.json","input"],["/mnt/disk1/wjyeo/data/toucan_aside_val.json","tool"]],
+    "train_dataset_path": [["alpaca_aside_train.json", "input"],["toucan_aside_train.json", "tool"]],
+    "eval_dataset_path": [["alpaca_aside_val.json","input"],["toucan_aside_val.json","tool"]],
     "train_logs_path": "./model_outputs/train_logs/",
     "model_path": "/mnt/disk1/xulin/models/Qwen3-8B",
     "assistant_token": ["<|im_start|>assistant","<|im_end|>"],

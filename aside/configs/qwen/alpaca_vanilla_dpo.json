@@ -1,6 +1,6 @@
 {
-    "train_dataset_path": [["/mnt/disk1/wjyeo/data/metasecalign_train.json", "input"]],
-    "eval_dataset_path": [["/mnt/disk1/wjyeo/data/metasecalign_val.json","input"]],
+    "train_dataset_path": [["metasecalign_train.json", "input"]],
+    "eval_dataset_path": [["metasecalign_val.json","input"]],
     "train_logs_path": "./model_outputs/train_logs/",
     "model_path": "/mnt/disk1/xulin/models/Qwen3-8B",
     "assistant_token": ["<|im_start|>assistant","<|im_end|>"],

@@ -177,6 +177,20 @@ def multiturn_aside_encode(encoded,tokenizer,start_tokens,end_tokens,until_last_
         return mask,spans
     return mask
 
+
+def assign_segment_ids(texts,tokenizer,start_token,end_token,embed_fn=None):
+    if isinstance(texts[0],str):
+        encoded = encode_fn(texts,tokenizer) # turn to input_ids
+    else:
+        encoded = texts
+    segment_ids = multiturn_aside_encode(encoded,tokenizer,start_tokens = start_token,end_tokens = end_token,until_last_token = "\n<|im_start|>assistant")
+    encoded['segment_ids'] = segment_ids
+    input_lens = [len(tokenizer.encode(x)) for x in texts] # to unpad later
+    
+    if embed_fn is not None:
+        encoded = embed_fn(encoded,input_lens)
+    return encoded
+
 def aside_encode_start(encoded,tokenizer,start_token,key = 'segment_ids'): # given a start token, mark everything from that onwards as 1.
     device = encoded['input_ids'].device
     start_ids = torch.tensor(tokenizer.encode(start_token,add_special_tokens=False)).to(device)

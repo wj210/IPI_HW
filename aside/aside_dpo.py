@@ -4,7 +4,7 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 from typing import Union
-
+import torch.distributed as dist
 
 def apply_dpo_chat_template(example,tokenizer):
     prompt = tokenizer.apply_chat_template(example["prompt"], tools=example.get('tools',None), tokenize=False, add_generation_prompt=True,enable_thinking=False)
@@ -29,39 +29,49 @@ def segment_start(input_ids,tokenizer,start_token): # given a start token, mark 
                 i += 1
     return mask
 
-def multiturn_aside_encode(encoded,tokenizer,start_tokens,end_tokens,until_last_token=None,return_spans=False):
+def multiturn_aside_encode(all_input_ids,tokenizer,start_tokens,end_tokens,until_last_token=None,return_spans=False):
     """
-    we have a list of start and end_tokens, all of these should be rotated. This is to account for the uncontrollable turn order in agentic tool use, such as tool -> assistant or tool -> user
+    we have a list of start and end_tokens, all of these should be rotated. This is to account for the uncontrollable turn order in agentic tool use, such as tool -> assistant or tool s-> user
     For agentic tool use or samples with data field, we ONLY mark the assistant span if it is after the tool span, the reason as to why assistant span is marked is due to the way ASIDE is trained, where the model is trained to generate the assistant response given the rotated tool span; w/o rotating assistant span, the model degenerates.
     """
     starting_tokens = deepcopy(start_tokens)
-    ending_tokens = deepcopy(ending_tokens)
+    ending_tokens = deepcopy(end_tokens)
     if len(starting_tokens) > 1:
         assert any([tool_t in starting_tokens[-1] for tool_t in ['tool_response','reference_data']]),f'Last start and end token should point to the input/tool.' # ensure last is tool or input
-        tool_token = starting_tokens[-1]
-        starting_tokens = starting_tokens[::-1] # reverse the order, so that we first look for the last start token, which should be the tool/input
-        ending_tokens = ending_tokens[::-1]
+        tool_token = starting_tokens[1:]
     else: # only assistant
-        tool_token = None
+        tool_token = []
         starting_tokens = starting_tokens
         ending_tokens = ending_tokens
-    device = encoded['input_ids'].device
+    device = all_input_ids
     start_ids = [torch.tensor(tokenizer.encode(start_token,add_special_tokens=False)).to(device) for start_token in starting_tokens]
     end_ids = [torch.tensor(tokenizer.encode(end_token,add_special_tokens=False)).to(device) for end_token in ending_tokens]
     until_last_ids = torch.tensor(tokenizer.encode(until_last_token,add_special_tokens=False)).to(device) if until_last_token is not None else None
+    tool_start_ids = start_ids[1:] if len(start_ids) > 1 else []
+    tool_end_ids = end_ids[1:] if len(end_ids) > 1 else []
     
     assert len(start_tokens) == len(end_tokens) != 0, "start_tokens and end_tokens must be provided and of same length"
     # assert until_last_token is not None, "until_last_token must be provided, this is the start token that is allowed to be unclosed - should be the assistant token."
 
-    mask = torch.zeros_like(encoded['input_ids'])
+    mask = torch.zeros_like(all_input_ids)
     spans = [] # also return spans
-    for jj, input_ids in enumerate(encoded['input_ids']):
+    for jj, input_ids in enumerate(all_input_ids):
         curr_span = []
         curr_input_str = tokenizer.decode(input_ids)
-        if tool_token and tool_token not in curr_input_str: # if we are rotating tool and not the current sample dont have, theres nothing to rotate
-            continue # no tool/input, skip the rotation
+        if len(tool_token):
+            if not any(t in curr_input_str for t in tool_token):  # if we are rotating tool and not the current sample dont have, theres nothing to rotate
+                continue # no tool/input, skip the rotation
+            else:
+                curr_present_tool_token_pos = [tool_id for tool_id,t in enumerate(tool_token) if t in curr_input_str][0] # for mix dataset, we will have diff tool token.
+                # set the tool at the first position, assistant at the second position
+                sample_start_ids = [tool_start_ids[curr_present_tool_token_pos]] + [start_ids[0]]  
+                sample_end_ids = [tool_end_ids[curr_present_tool_token_pos]] + [end_ids[0]] 
+        else:
+            sample_start_ids = start_ids
+            sample_end_ids = end_ids
+
         tool_ids = -1 # note down where is the tool/input start
-        for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
+        for curr_start_ids,curr_end_ids in zip(sample_start_ids,sample_end_ids):
             i = 0
             while i <= len(input_ids) - len(curr_start_ids):
                 if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids): # find the start of the current start token
@@ -69,12 +79,12 @@ def multiturn_aside_encode(encoded,tokenizer,start_tokens,end_tokens,until_last_
                     found = False
                     while j <= len(input_ids) - len(curr_end_ids): # look for the end token
                         if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
-                            if torch.equal(curr_start_ids, start_ids[0]): # mark when a complete tool span is found or if there is only one start token (eg assistant only)
+                            if torch.equal(curr_start_ids, sample_start_ids[0]): # mark when a complete tool span is found or if there is only one start token (eg assistant only)
                                 if tool_ids == -1: # might have multiple tools, only mark the first one found
                                     tool_ids = deepcopy(i+len(curr_start_ids))
                                 mask[jj,i:j+len(curr_end_ids)] = 1
                                 curr_span.append((i,j+len(curr_end_ids)))
-                            elif len(starting_tokens) > 1 and torch.equal(curr_start_ids, start_ids[-1]) and i > tool_ids: # if includes both assistant and tool, only mark the assistant if it is after the tool
+                            elif len(starting_tokens) > 1 and torch.equal(curr_start_ids, sample_start_ids[-1]) and i > tool_ids: # if includes both assistant and tool, only mark the assistant if it is after the tool
                                 mask[jj,i:j+len(curr_end_ids)] = 1
                                 curr_span.append((i,j+len(curr_end_ids)))
                             i = j + len(curr_end_ids)
@@ -99,7 +109,6 @@ def multiturn_aside_encode(encoded,tokenizer,start_tokens,end_tokens,until_last_
 class DPOTrainerWithSegments(DPOTrainer):
     def __init__(self, *args, start_tokens,end_tokens,start_from = None,**kwargs):
         super().__init__(*args, **kwargs)
-        self.start,self.end = start_tokens,end_tokens
         self.start_tokens = start_tokens
         self.end_tokens = end_tokens
         self.printed = False
@@ -214,8 +223,9 @@ class DPOTrainerWithSegments(DPOTrainer):
                 for kk,seg in enumerate(segment_ids[0].tolist()):
                     if seg == 1:
                         to_print.append(input_ids[0,kk].item())
-                print (f'FULL PROMPT: {self.processing_class.decode(input_ids[0].tolist())}')
-                print (f'SEGMENTED: {self.processing_class.decode(to_print)}')
+                if dist.get_rank() == 0:
+                    print (f'FULL PROMPT: {self.processing_class.decode(input_ids[0].tolist())}')
+                    print (f'SEGMENTED: {self.processing_class.decode(to_print)}')
                 self.printed = True
             
             outputs = model(input_ids=input_ids, attention_mask=attention_mask,segment_ids = segment_ids, **model_kwargs)

@@ -3,6 +3,7 @@ import json
 import torch
 import sys
 sys.path.append(os.path.abspath("..")) 
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from typing import Any, Dict, List
 
 from datasets import load_dataset
@@ -25,6 +26,7 @@ import torch.distributed as dist
 from torch.nn.utils.rnn import pad_sequence
 from aside_dpo import DPOTrainerWithSegments,apply_dpo_chat_template
 from data_utils import *
+from constants import *
 
 from deepspeed.utils.zero_to_fp32 import convert_zero_checkpoint_to_fp32_state_dict
 
@@ -162,8 +164,8 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
         train_path, train_type = train_info
         eval_path, eval_type = eval_info
         all_train_types.append(train_type)
-        train_data = json.load(open(train_path))
-        eval_data = json.load(open(eval_path))
+        train_data = json.load(open(os.path.join(DATA_DIR,train_path)))
+        eval_data = json.load(open(os.path.join(DATA_DIR,eval_path)))
         if hparams['num_data'] > 0:
             if isinstance(train_data, HFDataset):
                 train_data = train_data.select(range(hparams['num_data']))
@@ -278,7 +280,7 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
     if hparams['mode'] == 'dpo':
         training_args['max_length'] = hparams['max_length']
         training_args['beta'] = hparams['beta']
-        training_args['dataset_num_proc'] = 32
+        training_args['dataset_num_proc'] = 64
         training_args = DPOConfig(**training_args)
         handler.model.config.use_cache = False # important when gradient checkpointing is used
         ref_model.config.use_cache = False
@@ -314,9 +316,13 @@ def main(config_path: str, emb_type: str,hparams: Dict[str, Any]):
         }
         if handler.embedding_type in ['ise','forward_rot']: #TODO need to edit to enable tool or input tokens
             dpo_trainer_class = DPOTrainerWithSegments # or can just change to from a token onwards
-            assistant_token,tool_token = config['assistant_token'],config['tool_token']
+            assistant_token,tool_token,data_input_token = config['assistant_token'],config['tool_token'],config.get('input_token',None)
+            
             dpo_args['start_tokens'] = [assistant_token[0],tool_token[0]]
             dpo_args['end_tokens'] = [assistant_token[1],tool_token[1]]
+            if data_input_token is not None:
+                dpo_args['start_tokens'].append(data_input_token[0])
+                dpo_args['end_tokens'].append(data_input_token[1])
             if all_train_types == ['input']: # if only alpaca 
                 dpo_args['start_from'] = tool_token[0]
         else:
