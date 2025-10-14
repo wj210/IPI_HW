@@ -4,8 +4,8 @@
 
 export OMP_NUM_THREADS=8
 # The required free memory in MiB
-REQUIRED_MEMORY=120000  # For example, 120 GB
-REQUIRED_GPUS=4   # Number of GPUs needed
+REQUIRED_MEMORY=79000  # For example, 120 GB
+REQUIRED_GPUS=3   # Number of GPUs needed
 
 p=NH100q
 w=node07
@@ -67,8 +67,8 @@ allocate_gpu_memory() {
     if [ ${#USED_GPUS[@]} -ge $REQUIRED_GPUS ]; then
       echo "Found ${#USED_GPUS[@]} GPUs with enough memory: ${USED_GPUS[*]}"
       # Kill the Python sub-scripts
-      # echo "rest very long..."
-      # sleep 10000000000
+      echo "rest very long..."
+      sleep 10000000000
       for pid in "${OCCUPY_SCRIPT_PIDS[@]}"; do
         kill $pid
       done

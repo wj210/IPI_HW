@@ -5,10 +5,10 @@
 export OMP_NUM_THREADS=8
 # The required free memory in MiB
 REQUIRED_MEMORY=79000  # For example, 70 GB
-REQUIRED_GPUS=1   # Number of GPUs needed
+REQUIRED_GPUS=4   # Number of GPUs needed
 
-p=HPCAIq
-w=node14
+p=NH100q
+w=node07
 c=8 # num cpus
 
 

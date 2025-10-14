@@ -11,6 +11,14 @@ DEFAULT_VLLM_KWARGS = {
     'enable_chunked_prefill': False,
 }
 
+model_name_map = {
+    'Qwen/Qwen3-8B': 'qwen3-8b',
+    'Qwen/Qwen3-14B': 'qwen3-14b',
+    'Qwen/Qwen3-32B': 'qwen3-32b',
+    'meta-llama/Llama-3.1-8B-Instruct': 'llama3.1-8b',
+    'meta-llama/Llama-3.1-70B-Instruct': 'llama3.1-70b',
+}
+
 def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',max_ctx_len = 32768,vllm_kwargs={},pass_handler=False):
     """
     Loads a LLM either using Huggingface or vLLM based on the parameters.
@@ -87,6 +95,10 @@ def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',ma
         tokenizer.pad_token_id = tokenizer.eos_token_id
     model.tokenizer = tokenizer # for convenience
     model.use_vllm = use_vllm
+    if model_path in model_name_map:
+        model.m_name = model_name_map[model_path]
+    else:
+        model.m_name = model_path.split('/')[-1].lower()
     if pass_handler and is_aside:
         return model,tokenizer,is_aside,init_fn,handler
     else:
