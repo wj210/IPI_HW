@@ -1,5 +1,85 @@
 import threading, queue, time
 import torch
+from concurrent.futures import Future
+from threading import Lock
+import threading
+from transformers import AutoTokenizer
+
+_tls = threading.local()
+
+def get_tokenizer(MODEL_ID):
+    tok = getattr(_tls, "tok", None)
+    if tok is None:
+        tok = AutoTokenizer.from_pretrained(MODEL_ID, use_fast=True)
+        _tls.tok = tok
+    tok.padding_side = "right"
+    return tok
+
+class AsyncEmbedder:
+    def __init__(self, embedding_layer, tokenizer_path, rotation_matrix, aside_encode_fn,device="cuda", max_batch_wait_ms=2, max_batch_size=100):
+        self.E = embedding_layer  # nn.Embedding
+        self.R = rotation_matrix.to(embedding_layer.weight.device)
+        self.q = queue.Queue()
+        self.max_batch_wait_ms = max_batch_wait_ms
+        self.max_batch_size = max_batch_size
+        self.aside_encode_fn = aside_encode_fn
+        self._stop = False
+        self.worker = threading.Thread(target=self._loop, daemon=True)
+        self.worker.start()
+        self.tokenizer_path = tokenizer_path    
+
+    def stop(self):
+        self._stop = True
+        self.q.put(None)
+        self.worker.join()
+
+    def submit(self, text):
+        """mask_args: dict with start_tokens, end_tokens, until_last_token..."""
+        fut = Future()
+        self.q.put((text, fut))
+        return fut
+
+    @torch.inference_mode()
+    def _loop(self):
+        while not self._stop:
+            pack = self.q.get()
+            if pack is None:
+                break
+            batch = [pack]
+            t0 = time.time()
+            # small wait to accumulate
+            while (time.time() - t0) * 1000 < self.max_batch_wait_ms and len(batch) < self.max_batch_size:
+                try:
+                    nxt = self.q.get_nowait()
+                    if nxt is None:  # shutdown
+                        self.q.put(None)
+                        break
+                    batch.append(nxt)
+                except queue.Empty:
+                    time.sleep(0.0005)
+
+            # tokenize + pad on CPU
+            texts = [b[0] for b in batch]
+            tokenizer = get_tokenizer(self.tokenizer_path)
+            tok = tokenizer(texts, return_tensors="pt", add_special_tokens=False, padding='longest')
+            seg_ids = self.aside_encode_fn(tok.input_ids)
+
+            # to GPU
+            device = self.R.device
+            ids_cuda = tok.input_ids.to(device, non_blocking=True)
+            mask_cuda = seg_ids.to(device, non_blocking=True) == 1
+
+            # embeddings + rotation (branchless, out-of-place)
+            E = self.E(ids_cuda)               # [B, T, d], bf16
+            E_out = E.clone()
+            E_out[mask_cuda] = torch.matmul(E_out[mask_cuda], self.R)  # [B, T, d]
+            # split back to individual (trim to each original length)
+            lengths = [len(tokenizer(text, add_special_tokens=False)["input_ids"]) for text in texts]
+            offset = 0
+            for (text, fut), L in zip(batch, lengths):
+                fut.set_result(E_out[offset:offset+1, :L, :].contiguous())
+                offset += 1
+
 
 def generate_isoclinic_rotation_matrix(dim, alpha, device=None, dtype=None):
     """
@@ -136,3 +216,4 @@ class RotatingEmbeddingService:
         self._stop.set()
         self._q.put(None)
         self._thr.join()
+

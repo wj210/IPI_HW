@@ -5,7 +5,7 @@ import json
 from tqdm import tqdm
 
 
-model_dirs = ["Qwen3-8B_sft_ASIDE_ToolAndAlpaca","Qwen3-8B_sft_ISE_ToolAndAlpaca","Qwen3-8B_dpo_Vanilla_MetaSecAlign_lr1e-6_b0.01"]
+model_dirs = ["Qwen3-8B_sft_ASIDE_ToolAndAlpaca_LARGE"]
 
 for model_dir in model_dirs:
     model_dir = os.path.join("/mnt/disk1/wjyeo/models",model_dir)

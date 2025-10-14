@@ -38,17 +38,20 @@ def load_model(model_path,use_vllm=False,dtype=torch.bfloat16,device = 'cuda',ma
                 hidden_size, handler.model.global_rotation_alpha,embedding_model.weight.device,dtype
             ).detach()
 
-            def init_embed_fn(encoded,embedding_layer,rotation_matrix): # encoded should be a list of dict where each dict holds input_ids and segment_ids
-                input_ids = [e['input_ids'] for e in encoded]
-                segment_ids = [e['segment_ids'] for e in encoded]
+            def init_embed_fn(encoded,input_lens,embedding_layer,rotation_matrix):
+                input_ids = encoded['input_ids']
+                segment_ids = encoded['segment_ids']
                 device = embedding_layer.weight.device
                 rotation_matrix = rotation_matrix.to(device)
 
-                embeds = [embedding_layer(iids.to(device)).squeeze(0) for iids in input_ids]
-                masks = [(seg_ids == 1).squeeze(0) for seg_ids in segment_ids]
-                for embed,mask in zip(embeds,masks):
-                    embed[mask] = torch.matmul(embed[mask],rotation_matrix)
-                return [{'prompt_embeds':e} for e in embeds]
+                embeds = embedding_layer(input_ids.to(device)) # [B,T,D]
+                masks = (segment_ids.to(device)==1) # [B,T]
+                embed_out = embeds.clone()
+                embed_out[masks] = torch.matmul(embeds[masks],rotation_matrix)
+                unpadded_embed = []
+                for e,l in zip(embed_out,input_lens):
+                    unpadded_embed.append(e[:l].cpu().float())
+                return [{'prompt_embeds':e} for e in unpadded_embed]
 
             init_fn = partial(init_embed_fn,embedding_layer=embedding_model,rotation_matrix=rotation_matrix)
         else: # ise

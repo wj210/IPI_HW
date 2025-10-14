@@ -19,7 +19,7 @@ from bfcl_eval.utils import contain_multi_turn_interaction
 from openai import OpenAI
 from overrides import EnforceOverrides, final, override
 from vllm import LLM, SamplingParams
-from bfcl_eval.model_handler.local_inference.emb_service import RotatingEmbeddingService,generate_isoclinic_rotation_matrix
+from bfcl_eval.model_handler.local_inference.emb_service import RotatingEmbeddingService,generate_isoclinic_rotation_matrix,AsyncEmbedder
 from transformers import AutoModelForCausalLM
 import io
 import base64
@@ -161,11 +161,11 @@ class OSSHandler(BaseHandler, EnforceOverrides):
             embed_layer = hf_model.get_input_embeddings().to('cuda')
             # get hidden dim
             hidden_size = hf_model.config.hidden_size
-            rotation_alpha = 1.57079633
+            rotation_alpha = hf_model.config.rotation_alpha
             rotation_matrix = generate_isoclinic_rotation_matrix(
                 hidden_size, rotation_alpha, 'cuda', torch.bfloat16
             ).detach()
-            self.emb_svc = RotatingEmbeddingService(embed_layer = embed_layer,rotation_matrix = rotation_matrix,pad_id = self.tokenizer.pad_token_id,max_batch=8,wait_ms=3)
+            self.emb_svc = AsyncEmbedder(embed_layer,self.model_path_or_id,rotation_matrix = rotation_matrix,aside_encode_fn=self.multiturn_aside_encode,max_batch_size=100)
             vllm_args.append('--enable-prompt-embeds')
         
         if lora_modules != '': # enable lora as well.
@@ -309,8 +309,8 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         raise NotImplementedError(
             "OSS Models should implement their own prompt formatting."
         )
-        
-    def multiturn_aside_encode(self,input_ids):
+
+    def multiturn_aside_encode(self,all_input_ids):
         """
         we have a list of start and end_tokens, all of these should be rotated. This is to account for the uncontrollable turn order in agentic tool use, such as tool -> assistant or tool -> user
         """
@@ -320,7 +320,7 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         until_last_token = self.start_tokens[0]
         
         assert any([tool_t in start_tokens[-1] for tool_t in ['tool_response','reference_data']]),f'Last start and end token should point to the input/tool.' # ensure last is tool or input
-        device = input_ids.device
+        device = all_input_ids.device
         start_ids = [torch.tensor(self.tokenizer.encode(start_token,add_special_tokens=False)).to(device) for start_token in start_tokens]
         end_ids = [torch.tensor(self.tokenizer.encode(end_token,add_special_tokens=False)).to(device) for end_token in end_tokens]
         until_last_ids = torch.tensor(self.tokenizer.encode(until_last_token,add_special_tokens=False)).to(device) if until_last_token is not None else None
@@ -332,39 +332,36 @@ class OSSHandler(BaseHandler, EnforceOverrides):
         assert len(start_tokens) == len(end_tokens) != 0, "start_tokens and end_tokens must be provided and of same length"
         # assert until_last_token is not None, "until_last_token must be provided, this is the start token that is allowed to be unclosed - should be the assistant token."
 
-        mask = torch.zeros_like(input_ids)
-        curr_input_str = self.tokenizer.decode(input_ids)
-        if start_tokens[-1] not in curr_input_str: # no tool/input, skip the rotation
-            return mask 
-        tool_ids = -1 # note down where is the tool/input start
-        
-        for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
-            i = 0
-            while i <= len(input_ids) - len(curr_start_ids):
-                if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids):
-                    j = i + len(curr_start_ids)
-                    found = False
-                    while j <= len(input_ids) - len(curr_end_ids):
-                        if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
-                            if torch.equal(curr_start_ids, start_ids[0]): # mark when a complete tool span is found
-                                if tool_ids == -1:
-                                    tool_ids = deepcopy(j+len(curr_end_ids))
-                                mask[i:j+len(curr_end_ids)] = 1
-                            elif torch.equal(curr_start_ids, start_ids[-1]) and i > tool_ids: # if we are only looking for assistant span, then look after the tool span
-                                mask[i:j+len(curr_end_ids)] = 1
-                            i = j + len(curr_end_ids)
-                            found = True
-                            break
-                        j += 1
-                    if not found:
-                        if until_last_ids is not None and torch.equal(input_ids[i:i+len(until_last_ids)], until_last_ids):
-                            # allow to be unclosed, mark until end of input
-                            mask[i:len(input_ids)] = 1
-                            break
-                        else:
-                            i += len(curr_start_ids)
-                else:
-                    i += 1
+        mask = torch.zeros_like(all_input_ids)
+        for jj, input_ids in enumerate(all_input_ids):
+            tool_ids = -1 # note down where is the tool/input start
+            for curr_start_ids,curr_end_ids in zip(start_ids,end_ids):
+                i = 0
+                while i <= len(input_ids) - len(curr_start_ids):
+                    if torch.equal(input_ids[i:i+len(curr_start_ids)], curr_start_ids): # find the start of the current start token
+                        j = i + len(curr_start_ids)
+                        found = False
+                        while j <= len(input_ids) - len(curr_end_ids): # look for the end token
+                            if torch.equal(input_ids[j:j+len(curr_end_ids)], curr_end_ids):
+                                if torch.equal(curr_start_ids, start_ids[0]): # mark when a complete tool span is found or if there is only one start token (eg assistant only)
+                                    if tool_ids == -1: # might have multiple tools, only mark the first one found
+                                        tool_ids = deepcopy(i+len(curr_start_ids))
+                                    mask[jj,i:j+len(curr_end_ids)] = 1
+                                elif torch.equal(curr_start_ids, start_ids[-1]) and i > tool_ids: # if includes both assistant and tool, only mark the assistant if it is after the tool
+                                    mask[jj,i:j+len(curr_end_ids)] = 1
+                                i = j + len(curr_end_ids)
+                                found = True
+                                break
+                            j += 1
+                        if not found:
+                            if until_last_ids is not None and torch.equal(input_ids[i:i+len(until_last_ids)], until_last_ids):
+                                # allow to be unclosed, mark until end of input
+                                mask[jj,i:len(input_ids)] = 1
+                                break
+                            else:
+                                i += len(curr_start_ids)
+                    else:
+                        i += 1
         return mask
 
     @override
@@ -406,10 +403,12 @@ class OSSHandler(BaseHandler, EnforceOverrides):
 
         start_time = time.time()
         if self.is_aside: # local_llm, need to rotate the embeddings first!
-            input_ids = self.tokenizer(formatted_prompt, return_tensors="pt").input_ids.cuda(non_blocking=True).squeeze(0)
-            segment_ids = self.multiturn_aside_encode(input_ids)
-            embeddings = self.emb_svc.get(input_ids=input_ids,segment_ids=segment_ids)
-            extra_body["prompt_embeds"] = to_base64_tensor_cpu(embeddings)
+            fut = self.emb_svc.submit(formatted_prompt)
+            prompt_embeds = fut.result()
+            # input_ids = self.tokenizer(formatted_prompt, return_tensors="pt").input_ids.cuda(non_blocking=True).squeeze(0)
+            # segment_ids = self.multiturn_aside_encode(input_ids)
+            # embeddings = self.emb_svc.get(input_ids=input_ids,segment_ids=segment_ids)
+            extra_body["prompt_embeds"] = to_base64_tensor_cpu(prompt_embeds)
             api_response = self.client.completions.create(
                     model=self.model_path_or_id,
                     temperature=self.temperature,
